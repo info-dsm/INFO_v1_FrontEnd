@@ -1,10 +1,14 @@
 /* eslint-disable no-restricted-globals */
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "./style/theme";
+import Header from "./components/common/header";
+import Footer from "./components/common/footer";
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
+      <Header />
+      <Footer />
     </ThemeProvider>
   );
 }
