@@ -1,13 +1,17 @@
 /* eslint-disable no-restricted-globals */
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "./style/theme";
-import Header from "./components/common/Header/index";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Header />
+      <GlobalStyle />
     </ThemeProvider>
   );
 }
-
 export default App;
+const GlobalStyle = createGlobalStyle`
+  user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+`;

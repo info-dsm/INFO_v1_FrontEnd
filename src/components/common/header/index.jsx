@@ -15,9 +15,9 @@ const Header = () => {
       <HeaderImg src={HeaderImage} alt="헤더이미지입니다." />
       <LogoImg src={LogoImage} alt="로고이미지입니다." />
       <MenuProps>
-        {menu.map((user) => (
+        {menu.map((nav) => (
           <>
-            <Menu>{user.menu}</Menu>
+            <Menu>{nav.menu}</Menu>
           </>
         ))}
       </MenuProps>
