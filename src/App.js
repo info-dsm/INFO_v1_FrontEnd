@@ -3,11 +3,13 @@ import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "./style/theme";
 import Header from "./components/common/header";
 import Footer from "./components/common/footer";
+import RequsetResistration from  "./components/pages/companyPage/requestResistration";
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Header />
+      <RequsetResistration/>
       <Footer />
     </ThemeProvider>
   );
