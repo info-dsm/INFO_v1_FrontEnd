@@ -1,9 +1,14 @@
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../../../redux/store/modal";
+import { useSelector } from "react-redux";
 const RequstResistration = () => {
+  const modal = useSelector((state) => state.modal.state);
+  const dispatch = useDispatch();
   return (
     <Table>
       <Title>채용직무</Title>
-      <Button>선택</Button>
+      <Button onClick={() => dispatch(openModal(true))}>선택</Button>
     </Table>
   );
 };
