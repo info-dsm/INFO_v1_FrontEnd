@@ -17,8 +17,8 @@ const SelectModal = () => {
 export default SelectModal;
 const Box = styled.div`
   height: 2818px;
-  width: calc(1136px - 360px);
-  top: 400px;
+  width: 1136px;
+  top: 609px;
   position: absolute;
   left: 0px;
   right: 0px;
@@ -46,7 +46,7 @@ const ExitButton = styled.div`
 `;
 const Head = styled.div`
   border-radius: 20px;
-  width: calc(1136px - 360px);
+  width: 1136px;
   height: 176px;
   background: linear-gradient(
     180deg,
@@ -58,7 +58,7 @@ const Table = styled.div`
   position: absolute;
   border-radius: 20px;
   top: 120px;
-  width: calc(1136px - 360px);
+  width: 1136px;
   height: 2698px;
   background-color: ${(props) => props.theme.colors.white};
 `;
