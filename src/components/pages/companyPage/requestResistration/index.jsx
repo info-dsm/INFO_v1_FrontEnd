@@ -1,15 +1,19 @@
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { openModal } from "../../../../redux/store/modal";
+import { stateModal } from "../../../../redux/store/modal";
 import { useSelector } from "react-redux";
+import SelectModal from "./modal";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state);
   const dispatch = useDispatch();
   return (
-    <Table>
-      <Title>채용직무</Title>
-      <Button onClick={() => dispatch(openModal(true))}>선택</Button>
-    </Table>
+    <>
+      <Table>
+        <Title>채용직무</Title>
+        <Button onClick={() => dispatch(stateModal(true))}>선택</Button>
+      </Table>
+      {modal ? <SelectModal /> : <></>}
+    </>
   );
 };
 export default RequstResistration;
@@ -36,4 +40,20 @@ const Title = styled.div`
 
   color: ${(props) => props.theme.colors.black};
 `;
-const Button = styled.button``;
+const Button = styled.button`
+  position: relative;
+  width: 100px;
+  height: 40px;
+  left: 183px;
+  top: 80px;
+  font-family: "NanumGothic";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+  border: none;
+  color: ${(props) => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.blue};
+  border-radius: 100px;
+  cursor: pointer;
+`;

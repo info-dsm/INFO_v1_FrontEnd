@@ -9,4 +9,5 @@ const modal = createSlice({
     },
   },
 });
+export const { stateModal } = modal.actions;
 export default modal.reducer;
