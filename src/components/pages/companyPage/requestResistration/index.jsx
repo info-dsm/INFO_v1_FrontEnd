@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { stateModal } from "../../../../redux/store/modal";
 import { useSelector } from "react-redux";
 import SelectModal from "./modal";
+import { data } from "./data";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state);
   const dispatch = useDispatch();
