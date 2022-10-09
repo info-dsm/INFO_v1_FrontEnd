@@ -9,7 +9,7 @@ export const theme = {
     mediumBlue: "#7243FF",
     purple: "#AB91F8",
     navy: "#7243FF",
-    mediumSlateBlue: "#A90F8",
+    mediumSlateBlue: "#AA90F8",
     plum: "#B59CFF",
   },
 };
