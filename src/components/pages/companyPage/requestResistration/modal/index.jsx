@@ -5,6 +5,8 @@ import { bundle, mainData } from "../data";
 import { useState } from "react";
 const SelectModal = () => {
   const dispatch = useDispatch();
+  const [inputState, setInputState] = useState(false);
+  const [list, setList] = useState(mainData);
   return (
     <>
       <Box>
@@ -21,10 +23,45 @@ const SelectModal = () => {
             ))}
           </BundleUl>
           <MainUl>
-            {mainData.map((user) => (
+            {list.map((user) => (
               <>
-                <MainLi width={300} height={user.subtitle.length * 70 + 50}>
-                  <MainTitleProps></MainTitleProps>
+                <MainLi>
+                  <SubListUl>
+                    <SubList
+                      width={300}
+                      height={user.subtitle.length * 70 + 50}
+                    >
+                      <MainTitleProps>{user.title}</MainTitleProps>
+                    </SubList>
+                    <SubList
+                      width={616}
+                      height={user.subtitle.length * 70 + 50}
+                    >
+                      <SubUl>
+                        {user.subtitle.map((asdf) => (
+                          <SubLi>
+                            <Label>
+                              <LabelButton>{asdf}</LabelButton>
+                              <InputButton>
+                                <input
+                                  type="radio"
+                                  name="jingeon"
+                                  value={asdf}
+                                ></input>
+                              </InputButton>
+                            </Label>
+                          </SubLi>
+                        ))}
+                        <SubLi>
+                          <PlusButton>+</PlusButton>
+                        </SubLi>
+                      </SubUl>
+                    </SubList>
+                    <SubList
+                      width={196}
+                      height={user.subtitle.length * 70 + 50}
+                    ></SubList>
+                  </SubListUl>
                 </MainLi>
               </>
             ))}
@@ -35,6 +72,14 @@ const SelectModal = () => {
   );
 };
 export default SelectModal;
+const Ul = styled.ul`
+  position: absolute;
+  left: 0px;
+  right: 0;
+  margin: 0 auto;
+  width: 936px;
+  padding: 0;
+`;
 const Box = styled.div`
   height: 2818px;
   width: 1136px;
@@ -78,7 +123,7 @@ const Table = styled.div`
   border-radius: 20px;
   top: 120px;
   width: 1136px;
-  height: 2698px;
+  height: 2800px;
   background-color: ${(props) => props.theme.colors.white};
 `;
 const Title = styled.h1`
@@ -93,25 +138,48 @@ const Title = styled.h1`
   font-size: 32px;
   color: ${(props) => props.theme.colors.white};
 `;
-const BundleUl = styled.ul`
-  position: absolute;
-  left: 0px;
-  right: 0;
-  margin: 0 auto;
-  width: 936px;
+const BundleUl = styled(Ul)`
   display: flex;
   justify-content: space-between;
-  padding: 0;
+  height: 80px;
   top: 80px;
 `;
 const BundleLi = styled.li`
   list-style: none;
   width: ${(props) => props.width}px;
 `;
+const LabelButton = styled.button`
+  border-radius: 20px;
+  height: 100%;
+  border: none;
+  width: 400px;
+  background-color: ${(props) => props.theme.colors.mediumGray};
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: ${(props) => props.theme.colors.black};
+  position: relative;
+  left: -10px;
+  margin-right: 20px;
+`;
 const Label = styled.label``;
 const CheckBox = styled.input``;
-const SubUl = styled.ul``;
-const SubLi = styled.li``;
+const SubUl = styled.ul`
+  position: relative;
+  background-color: blue;
+  margin: 0px;
+  height: 100%;
+  left: -20px;
+  width: 100%;
+`;
+const SubLi = styled.li`
+  list-style: none;
+  margin-bottom: 20px;
+  height: 50px;
+
+  width: 100%;
+`;
 const MainTitle = styled.button`
   margin: 0;
   width: 100%;
@@ -125,23 +193,57 @@ const MainTitle = styled.button`
   line-height: 32px;
   border: none;
 `;
-const MainUl = styled.ul`
-  position: absolute;
-  left: 0px;
-  right: 0;
-  margin: 0 auto;
-  width: 936px;
-  justify-content: space-between;
-  padding: 0;
-  top: 80px;
+const MainUl = styled(Ul)`
+  top: 180px;
+  height: auto;
+  overflow: hidden;
+  background-color: red;
 `;
-const MainLi = styled.li`
-  list-style: none;
-  width: ${(props) => props.width}px;
+const MainLi = styled(BundleLi)`
+  height: auto;
+  overflow: hidden;
+  margin-bottom: 20px;
+`;
+const SubList = styled(BundleLi)`
   height: ${(props) => props.height}px;
 `;
 const MainTitleProps = styled.button`
+  border: none;
+  border-radius: 20px;
   height: 100%;
   width: 100%;
   background-color: ${(props) => props.theme.colors.mediumGray};
+  font-family: "NanumGothic";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 32px;
+
+  color: ${(props) => props.theme.colors.blue};
+`;
+const SubListUl = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  width: 1136px;
+  height: auto;
+  padding: 0;
+`;
+const PlusButton = styled.button`
+  background: ${(props) => props.theme.colors.semiWhite};
+  border: 2px solid ${(props) => props.theme.colors.mediumGray};
+  border-radius: 20px;
+  width: 400px;
+  height: 100%;
+  position: relative;
+  left: -10px;
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: ${(props) => props.theme.colors.black};
+  margin-right: 20px;
+`;
+const InputButton = styled.button`
+  width: 196px;
+  height: 50px;
 `;

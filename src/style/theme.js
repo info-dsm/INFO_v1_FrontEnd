@@ -12,5 +12,6 @@ export const theme = {
     mediumSlateBlue: "#AA90F8",
     plum: "#B59CFF",
     mediumGray: "#f0f0f0",
+    semiWhite: "#f9f9f9",
   },
 };
