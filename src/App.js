@@ -9,6 +9,8 @@ import RequsetResistration from "./components/pages/companyPage/requestResistrat
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <Footer />
       <Provider store={store}>
         <GlobalStyle />
         <Header />
@@ -20,8 +22,15 @@ function App() {
 }
 export default App;
 const GlobalStyle = createGlobalStyle`
-  user-select:none;
+  body,html {
+    user-select:none;
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;
+  }
+
+  * {
+    outline: none;
+    box-sizing: border-box;
+  }
 `;
