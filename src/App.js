@@ -9,13 +9,10 @@ import RequsetResistration from "./components/pages/companyPage/requestResistrat
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Footer />
       <Provider store={store}>
         <GlobalStyle />
-        <Header />
-        <RequsetResistration />
         <Footer />
+        <RequsetResistration />
       </Provider>
     </ThemeProvider>
   );
