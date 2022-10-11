@@ -2,15 +2,25 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { stateModal } from "../../../../../redux/store/modal";
 import { bundle, mainData } from "../data";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 const SelectModal = () => {
   const dispatch = useDispatch();
   const [inputState, setInputState] = useState(false);
   const [list, setList] = useState(mainData);
   const BlurEvent = useCallback((e) => {
+    const ad = { title: e.target.value, subtitle: [] };
+    setList((list) => [...list, ad]);
     setInputState(false);
-    setList(...list, { title: e.target.value });
   }, []);
+  // const BlurSubEvent = useCallback((e, i) => {
+  //   setList(list[i].subtitle.push(e.target.value));
+  //   setState((state) => (state[i].bool = false));
+  // }, []);
+
+  // for (let i = 1; i < list.length; i++) {
+  //   setState((state) => state.push(qwe));
+  // }
+
   return (
     <>
       <Box>
@@ -27,7 +37,7 @@ const SelectModal = () => {
             ))}
           </BundleUl>
           <MainUl>
-            {list.map((user) => (
+            {list.map((user, i) => (
               <>
                 <MainLi>
                   <SubListUl>
@@ -57,7 +67,22 @@ const SelectModal = () => {
                           </SubLi>
                         ))}
                         <SubLi>
-                          <PlusButton width={400}>+</PlusButton>
+                          {/* {state[i].bool ? (
+                            <InputText
+                              width={400}
+                              type="text"
+                              onBlur={(e) => BlurSubEvent(e, i)}
+                            ></InputText>
+                          ) : ( */}
+                          <PlusButton
+                            width={400}
+                            // onClick={() => {
+                            //   useState((state[i].bool = true));
+                            // }}
+                          >
+                            +
+                          </PlusButton>
+                          {/* )} */}
                         </SubLi>
                       </SubUl>
                     </SubList>
@@ -73,11 +98,13 @@ const SelectModal = () => {
               <SubListUl>
                 <SubLi>
                   {inputState ? (
-                    <InputText
-                      width={300}
-                      type="text"
-                      onBlur={(e) => BlurEvent(e)}
-                    ></InputText>
+                    <>
+                      <InputText
+                        width={300}
+                        type="text"
+                        onBlur={(e) => BlurEvent(e)}
+                      ></InputText>
+                    </>
                   ) : (
                     <PlusButton
                       width={300}
@@ -249,7 +276,7 @@ const MainTitleProps = styled.button`
   height: 100%;
   width: 100%;
   background-color: ${(props) => props.theme.colors.mediumGray};
-  font-family: "NanumGothic";
+  font-family: "NanumGothic", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -292,8 +319,9 @@ const InputText = styled.input`
   height: 50px;
   background-color: ${(props) => props.theme.colors.semiWhite};
   border: 2px solid ${(props) => props.theme.colors.mediumGray};
-  color: ${(props) => props.theme.colors.black};
-  :focus {
-    border: 2px solid ${(props) => props.theme.colors.mediumGray};
-  }
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  color: ${(props) => props.theme.colors.blue};
 `;
