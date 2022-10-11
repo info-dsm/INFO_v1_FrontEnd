@@ -2,11 +2,15 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { stateModal } from "../../../../../redux/store/modal";
 import { bundle, mainData } from "../data";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 const SelectModal = () => {
   const dispatch = useDispatch();
   const [inputState, setInputState] = useState(false);
   const [list, setList] = useState(mainData);
+  const BlurEvent = useCallback((e) => {
+    setInputState(false);
+    setList(...list, { title: e.target.value });
+  }, []);
   return (
     <>
       <Box>
@@ -43,17 +47,17 @@ const SelectModal = () => {
                             <Label>
                               <LabelButton>{asdf}</LabelButton>
                               <InputButton>
-                                <input
+                                <Radio
                                   type="radio"
                                   name="jingeon"
                                   value={asdf}
-                                ></input>
+                                ></Radio>
                               </InputButton>
                             </Label>
                           </SubLi>
                         ))}
                         <SubLi>
-                          <PlusButton>+</PlusButton>
+                          <PlusButton width={400}>+</PlusButton>
                         </SubLi>
                       </SubUl>
                     </SubList>
@@ -65,6 +69,28 @@ const SelectModal = () => {
                 </MainLi>
               </>
             ))}
+            <MainLi>
+              <SubListUl>
+                <SubLi>
+                  {inputState ? (
+                    <InputText
+                      width={300}
+                      type="text"
+                      onBlur={(e) => BlurEvent(e)}
+                    ></InputText>
+                  ) : (
+                    <PlusButton
+                      width={300}
+                      onClick={() => {
+                        setInputState(true);
+                      }}
+                    >
+                      +
+                    </PlusButton>
+                  )}
+                </SubLi>
+              </SubListUl>
+            </MainLi>
           </MainUl>
         </Table>
       </Box>
@@ -149,6 +175,7 @@ const BundleLi = styled.li`
   width: ${(props) => props.width}px;
 `;
 const LabelButton = styled.button`
+  top: -5px;
   border-radius: 20px;
   height: 100%;
   border: none;
@@ -164,7 +191,16 @@ const LabelButton = styled.button`
   margin-right: 20px;
 `;
 const Label = styled.label``;
-const CheckBox = styled.input``;
+const Radio = styled.input`
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background-color: ${(props) => props.theme.colors.white};
+  :checked {
+    border: 5px solid ${(props) => props.theme.colors.white};
+    background-color: ${(props) => props.theme.colors.blue};
+  }
+`;
 const SubUl = styled.ul`
   position: relative;
   background-color: blue;
@@ -232,7 +268,7 @@ const PlusButton = styled.button`
   background: ${(props) => props.theme.colors.semiWhite};
   border: 2px solid ${(props) => props.theme.colors.mediumGray};
   border-radius: 20px;
-  width: 400px;
+  width: ${(props) => props.width}px;
   height: 100%;
   position: relative;
   left: -10px;
@@ -244,6 +280,20 @@ const PlusButton = styled.button`
   margin-right: 20px;
 `;
 const InputButton = styled.button`
+  border: none;
+  background: #f0f0f0;
+  border-radius: 20px;
   width: 196px;
   height: 50px;
+`;
+const InputText = styled.input`
+  width: ${(props) => props.width}px;
+  border-radius: 20px;
+  height: 50px;
+  background-color: ${(props) => props.theme.colors.semiWhite};
+  border: 2px solid ${(props) => props.theme.colors.mediumGray};
+  color: ${(props) => props.theme.colors.black};
+  :focus {
+    border: 2px solid ${(props) => props.theme.colors.mediumGray};
+  }
 `;
