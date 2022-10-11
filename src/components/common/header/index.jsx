@@ -65,6 +65,10 @@ const Nav = styled.div`
 `;
 const Title = styled.div`
   margin-top: 67px;
+<<<<<<< HEAD
+=======
+  margin-left: 100px;
+>>>>>>> 5dc4a27ab67f37b264eb78c90b1e8cffd8341836
   color: #fff;
   h1 {
     margin: 0;
