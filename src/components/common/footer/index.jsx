@@ -32,7 +32,7 @@ const LogoImg = styled.img`
   top: 50px;
 `;
 const Table = styled.div`
-  position: absolute;
+  position: relative;
   bottom: 0px;
   width: 100%;
   height: 300px;
