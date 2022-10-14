@@ -11,8 +11,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <GlobalStyle />
-        <Footer />
         <RequsetResistration />
+        <Footer />
       </Provider>
     </ThemeProvider>
   );

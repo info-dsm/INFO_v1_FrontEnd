@@ -4,11 +4,13 @@ import { stateModal } from "../../../../redux/store/modal";
 import { useSelector } from "react-redux";
 import SelectModal from "./modal";
 import { TitleData } from "./data";
+import Header from "../../../common/header";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state);
   const dispatch = useDispatch();
   return (
     <>
+      <Header title="모집의뢰 등록" description="모집공고를 등록해보세요" />
       <Table>
         <Title>채용직무</Title>
         <Button onClick={() => dispatch(stateModal(true))}>선택</Button>
@@ -90,10 +92,11 @@ const LiSubTitle = styled.li`
   background-color: yellow;
   color: ${(props) => props.theme.colors.blue};
   font-family: "NanumGothic", sans-serif;
-  letter-spacing: -2px;
+  letter-spacing: -4.2px;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
   line-height: 24px;
   text-align: left;
+  outline: invert;
 `;
