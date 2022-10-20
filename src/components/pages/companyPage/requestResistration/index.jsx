@@ -28,7 +28,10 @@ const RequstResistration = () => {
   const AddWelfare = () => {
     console.log(WelfareRef.current.value);
     console.log(list);
-    if (list.indexOf(WelfareRef.current.value) === -1) {
+    if (
+      list.indexOf(WelfareRef.current.value) === -1 &&
+      WelfareRef.current.value !== ""
+    ) {
       setList([...list, WelfareRef.current.value]);
     }
   };

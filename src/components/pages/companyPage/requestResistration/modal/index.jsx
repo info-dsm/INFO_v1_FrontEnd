@@ -261,6 +261,7 @@ const SelectModal = () => {
                   ) : (
                     <s.PlusButton
                       width={300}
+                      left={0}
                       onClick={() => {
                         setInputState(true);
                       }}

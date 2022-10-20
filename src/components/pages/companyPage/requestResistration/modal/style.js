@@ -185,7 +185,7 @@ export const PlusButton = styled.button`
   font-weight: 700;
   font-size: 24px;
   color: ${(props) => props.theme.colors.black};
-  margin-left: -10px;
+  margin-left: ${(props) => props.left}px;
 `;
 export const InputButton = styled.button`
   top: -50px;
