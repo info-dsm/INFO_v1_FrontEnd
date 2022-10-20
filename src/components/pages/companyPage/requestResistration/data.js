@@ -1,6 +1,6 @@
 export const TitleData = [
-  { data: "대분류", data1: "소분류", margin: 145, width: 68 },
-  { data: "채용인원", data1: "상세직무", margin: 100, width: 91 },
+  { data: "대분류", data1: "소분류", margin: 140, width: 72 },
+  { data: "채용인원", data1: "상세직무", margin: 95, width: 96 },
 ];
 export const bundle = [
   { title: "대분류", width: 300 },
@@ -19,4 +19,30 @@ export const mainData = [
     title: "응용프로그래밍",
     subtitle: ["윈도우프로그래밍", "시스템프로그래밍"],
   },
+];
+export const langData = [
+  { lang: "C" },
+  { lang: "javascript" },
+  { lang: "typescript" },
+  { lang: "html" },
+];
+export const skillData = [
+  { skill: "react" },
+  { skill: "next" },
+  { skill: "vue" },
+  { skill: "spring" },
+  { skill: "springboot" },
+];
+export const mealData = ["조식제공", "중식제공", "석식제공"];
+export const supportData = [
+  "기숙사 지원",
+  "자기개발비",
+  "장비지원",
+  "청년내일채움",
+  "병특신청",
+];
+export const workData = [
+  { clock: "출근시간", si: "시" },
+  { clock: "퇴근시간", si: "시" },
+  { clock: "근무시간 (주)", si: "시간" },
 ];

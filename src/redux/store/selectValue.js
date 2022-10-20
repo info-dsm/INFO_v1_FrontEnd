@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  value: {
-    main: "",
-    sub: "",
-    num: 0,
-    duty: "",
-    lang: [],
-    stack: [],
-  },
+  value: [
+    {
+      main: "",
+      sub: "",
+      num: "",
+      duty: "",
+      lang: [],
+      stack: [],
+    },
+  ],
 };
 const selectValue = createSlice({
   name: "stack",

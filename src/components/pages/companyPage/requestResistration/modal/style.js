@@ -30,7 +30,6 @@ export const ExitButton = styled.div`
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
-
   color: ${(props) => props.theme.colors.white};
   :hover {
     color: ${(props) => props.theme.colors.gray};
@@ -93,6 +92,10 @@ export const LabelButton = styled.button`
   position: relative;
   left: -10px;
   margin-right: 20px;
+  overflow: hidden;
+  :hover {
+    overflow: visible;
+  }
 `;
 export const Label = styled.label``;
 export const Radio = styled.input`
@@ -139,8 +142,7 @@ export const MainUl = styled(Ul)`
   top: 180px;
   height: auto;
   overflow: hidden;
-  /* background-color: ${(props) => props.theme.colors.white}; */
-  background-color: red;
+  background-color: ${(props) => props.theme.colors.white};
 `;
 export const MainLi = styled(BundleLi)`
   height: auto;
@@ -178,13 +180,12 @@ export const PlusButton = styled.button`
   width: ${(props) => props.width}px;
   height: 100%;
   position: relative;
-  left: ${(props) => props.left};
   font-family: "NanumGothic", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
   color: ${(props) => props.theme.colors.black};
-  margin-right: 20px;
+  margin-left: -10px;
 `;
 export const InputButton = styled.button`
   top: -50px;
@@ -200,6 +201,8 @@ export const Input = styled.input`
   width: ${(props) => props.width}px;
   border-radius: 20px;
   height: 50px;
+  padding-left: 24px;
+  padding-right: 24px;
   background-color: ${(props) => props.theme.colors.semiWhite};
   border: 2px solid ${(props) => props.theme.colors.mediumGray};
   font-family: "NanumGothic", sans-serif;
@@ -210,17 +213,157 @@ export const Input = styled.input`
 export const InputText = styled(Input)`
   font-size: 32px;
   color: ${(props) => props.theme.colors.blue};
+  padding-left: 24px;
+  padding-right: 24px;
 `;
 export const InputSubText = styled(Input)`
   left: -10px;
   font-size: 24px;
   color: ${(props) => props.theme.colors.black};
+  padding-left: 24px;
+  padding-right: 24px;
 `;
 export const TableProps = styled.div`
   background-color: ${(props) => props.theme.colors.white};
+  width: 936px;
+  height: auto;
+`;
+export const TableTwo = styled.div`
+  background-color: ${(props) => props.theme.colors.white};
   margin-top: 110px;
   position: relative;
-  width: 936px;
-  height: 1180px;
+  left: -100px;
+  padding: 0px 100px;
+  width: 1136px;
+  height: auto;
+  border-radius: 20px;
 `;
-export const LangInputProps = styled.div``;
+export const InputProps = styled.input`
+  width: ${(props) => props.width}px;
+  height: 50px;
+  background-color: ${(props) => props.theme.colors.mediumGray};
+  border-radius: 20px;
+  font-size: 24px;
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  color: ${(props) => props.theme.colors.black};
+  text-align: center;
+  border: none;
+`;
+export const TextAreaProps = styled.input`
+  width: 936px;
+  height: 50px;
+  color: ${(props) => props.theme.colors.black};
+  font-size: 24px;
+  background-color: ${(props) => props.theme.colors.mediumGray};
+  border-radius: 20px;
+  border: none;
+  padding-left: 24px;
+  padding-right: 24px;
+`;
+export const LowUl = styled.ul`
+  height: 100%;
+  width: 100%;
+`;
+export const LowLi = styled.li`
+  position: relative;
+  list-style: none;
+  margin-left: -40px;
+  font-family: "NanumGothic", sans-serif;
+  margin-bottom: ${(props) => props.bottom}px;
+`;
+export const HTitle = styled.text`
+  color: ${(props) => props.theme.colors.blue};
+  font-size: 32px;
+  font-weight: 700;
+`;
+export const SubText = styled.text`
+  color: ${(props) => props.theme.colors.black};
+  font-size: 24px;
+  font-weight: 700;
+`;
+export const DataList = styled.datalist``;
+export const Option = styled.option``;
+export const InputUl = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  width: 1036px;
+  align-content: space-between;
+`;
+export const InputLi = styled.li`
+  position: relative;
+  margin-right: 60px;
+  list-style: none;
+  margin-left: -40px;
+  height: 60px;
+`;
+export const PropsText = styled.text`
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 24px;
+`;
+export const Delelte = styled.div`
+  width: 270px;
+  height: 50px;
+  background-color: ${(props) => props.theme.colors.mediumGray};
+  border-radius: 20px;
+`;
+export const InputPropss = styled(InputProps)`
+  background-color: ${(props) => props.theme.colors.semiWhite};
+`;
+export const DeleteButton = styled.button`
+  cursor: pointer;
+  position: relative;
+  top: -3px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.colors.white};
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 0px;
+  color: ${(props) => props.theme.colors.black};
+  border: none;
+  margin-left: 20px;
+  margin-bottom: 10px;
+`;
+export const PlusBtn = styled.div`
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.colors.mediumGray};
+  margin-top: 5px;
+  cursor: pointer;
+  :after {
+    content: "+";
+    margin-left: 12px;
+    margin-top: 50px;
+    font-family: "NanumGothic", sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    font-style: normal;
+    color: ${(props) => props.theme.colors.blcak};
+  }
+`;
+export const SubmitButton = styled.button`
+  width: 200px;
+  height: 50px;
+  background-color: ${(props) => props.theme.colors.blue};
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: ${(props) => props.theme.colors.white};
+  border: none;
+  border-radius: 50px;
+  align-items: center;
+  margin-left: 388px;
+  margin-bottom: 60px;
+  cursor: pointer;
+`;
