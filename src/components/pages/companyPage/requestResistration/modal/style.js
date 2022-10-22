@@ -283,8 +283,39 @@ export const SubText = styled.text`
   font-size: 24px;
   font-weight: 700;
 `;
-export const DataList = styled.datalist``;
-export const Option = styled.option``;
+export const DataList = styled.ul`
+  position: relative;
+  background-color: red;
+  border-radius: 0px 0px 20px 20px;
+  width: 200px;
+  background-color: red;
+  height: 150px;
+  list-style-type: none;
+  visibility: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-top: -3.5px;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
+  li {
+    position: relative;
+    padding: 10px;
+    width: 200px;
+    background-color: white;
+    padding: 6px 0px 12px 16px;
+    height: 35px;
+    color: #000;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.lightGray};
+    margin-left: -40px;
+  }
+
+  li:hover {
+    background-color: red;
+  }
+`;
+
 export const InputUl = styled.ul`
   display: flex;
   flex-wrap: wrap;
@@ -311,13 +342,11 @@ export const Delelte = styled.div`
   background-color: ${(props) => props.theme.colors.mediumGray};
   border-radius: 20px;
 `;
-export const InputPropss = styled(InputProps)`
-  background-color: ${(props) => props.theme.colors.semiWhite};
-`;
 export const DeleteButton = styled.button`
   cursor: pointer;
   position: relative;
-  top: -3px;
+  top: -190px;
+  left: 200px;
   width: 30px;
   height: 30px;
   border-radius: 50%;

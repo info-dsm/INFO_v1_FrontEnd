@@ -21,10 +21,10 @@ export const mainData = [
   },
 ];
 export const langData = [
-  { lang: "C" },
-  { lang: "javascript" },
-  { lang: "typescript" },
-  { lang: "html" },
+  { skill: "C" },
+  { skill: "javascript" },
+  { skill: "typescript" },
+  { skill: "html" },
 ];
 export const skillData = [
   { skill: "react" },

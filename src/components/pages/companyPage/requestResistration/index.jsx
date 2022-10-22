@@ -63,8 +63,12 @@ const RequstResistration = () => {
   );
   const AddFileProps = useCallback(
     (e) => {
-      const ad = [...file, e.target.files];
-      setFile(ad);
+      if (e.target.files[0].size > 1048576) {
+        window.alert("파일용량이 너무 큽니다.");
+      } else {
+        const ad = [...file, e.target.files];
+        setFile(ad);
+      }
       console.log(file);
     },
     [file]

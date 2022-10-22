@@ -646,10 +646,11 @@ export const BoxPropsLi = styled.li`
   left: -10px;
   padding: 10px;
   height: auto;
-  border: 2px solid ${(props) => props.theme.colors.mediumPurple};
+  border: 1px solid ${(props) => props.theme.colors.mediumPurple};
   list-style: none;
   border-radius: 20px;
   margin-top: 20px;
+  box-shadow: ${(props) => props.theme.colors.mediumPurple} 0px 0px 10px 5px;
 `;
 export const BoxPropsUl = styled.ul`
   position: relative;

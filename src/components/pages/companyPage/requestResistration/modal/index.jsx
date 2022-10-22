@@ -4,6 +4,7 @@ import { bundle, mainData, langData, skillData } from "../data";
 import { useState, useCallback, useEffect, useRef } from "react";
 import * as s from "./style";
 import { value } from "../../../../../redux/store/selectValue";
+import AutoComplete from "../../autocomplete";
 const SelectModal = () => {
   const dispatch = useDispatch();
   const ArrStateCountData = useSelector((count) => count.count.count);
@@ -105,7 +106,6 @@ const SelectModal = () => {
     [radio]
   );
   const Submit = () => {
-    console.log(InputRef.current.length);
     let arr1 = [];
     let arr2 = [];
     for (let i = 0; i < InputRef.current.length; i++) {
@@ -113,15 +113,11 @@ const SelectModal = () => {
         arr1.push(InputRef.current[i].value);
       }
     }
-    console.log(arr1);
     for (let i = 0; i < SkillRef.current.length; i++) {
       if (SkillRef.current[i].value !== "") {
         arr2.push(SkillRef.current[i].value);
       }
     }
-    console.log(arr1);
-    console.log(radio.id);
-    console.log(radio.value);
     if (radio.id === "") {
       window.alert("버튼을 체크해주세요");
     } else if (NumRef.current.value === "" || NumRef.current.value === "0") {
@@ -304,24 +300,17 @@ const SelectModal = () => {
                     {arr.map((user, i) => (
                       <s.InputLi>
                         <s.Delelte>
-                          <s.InputPropss
-                            type="text"
-                            list={1}
-                            width={200}
+                          <AutoComplete
+                            Data={langData}
                             ref={(el) => (InputRef.current[i] = el)}
-                          ></s.InputPropss>
-
+                          ></AutoComplete>
                           <s.DeleteButton onClick={() => DeleteLang(i)}>
                             X
                           </s.DeleteButton>
                         </s.Delelte>
                       </s.InputLi>
                     ))}
-                    <s.DataList id={1}>
-                      {langData.map((user) => (
-                        <s.Option value={user.lang}>{user.lang}</s.Option>
-                      ))}
-                    </s.DataList>
+
                     <s.InputLi>
                       <s.PlusBtn onClick={() => AddLangText(1)}></s.PlusBtn>
                     </s.InputLi>
@@ -335,24 +324,17 @@ const SelectModal = () => {
                     {skill.map((user, i) => (
                       <s.InputLi>
                         <s.Delelte>
-                          <s.InputPropss
-                            type="text"
-                            list={2}
-                            width={200}
+                          <AutoComplete
+                            Data={skillData}
                             ref={(el) => (SkillRef.current[i] = el)}
-                          ></s.InputPropss>
-
+                          ></AutoComplete>
                           <s.DeleteButton onClick={() => DeleteSkill(i)}>
                             X
                           </s.DeleteButton>
                         </s.Delelte>
                       </s.InputLi>
                     ))}
-                    <s.DataList id={2}>
-                      {skillData.map((user) => (
-                        <s.Option value={user.skill}>{user.skill}</s.Option>
-                      ))}
-                    </s.DataList>
+
                     <s.InputLi>
                       <s.PlusBtn onClick={() => AddSkillText(1)}></s.PlusBtn>
                     </s.InputLi>
