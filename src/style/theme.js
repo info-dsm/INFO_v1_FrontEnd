@@ -14,5 +14,6 @@ export const theme = {
     mediumGray: "#f0f0f0",
     semiWhite: "#f9f9f9",
     mediumPurple: "#F3EEFF",
+    lightGray: "#BDBDBD",
   },
 };
