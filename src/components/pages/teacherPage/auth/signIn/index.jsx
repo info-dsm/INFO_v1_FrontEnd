@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "../../../../common/header";
 
-const StudentSignIn = () => {
+const TeacherSignIn = () => {
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -10,7 +10,6 @@ const StudentSignIn = () => {
 
   const changeInput = (e, props) => {
     setState({ ...state, [props]: e.target.value });
-    console.log(state);
   };
 
   return (
@@ -20,7 +19,7 @@ const StudentSignIn = () => {
         description={"이메일과 비밀번호만 입력됩니다."}
       />
       <MainDiv>
-        <h2>학생 로그인</h2>
+        <h2>선생님 로그인</h2>
         <InputDiv>
           <span>이메일</span>
           <span>인증번호 전송{">"}</span>
@@ -34,8 +33,8 @@ const StudentSignIn = () => {
           <span>비밀번호</span>
           <input
             value={state.password}
-            type="password"
             onChange={(e) => changeInput(e, "password")}
+            type="password"
             placeholder="비밀번호를 입력해주세요.."
           />
         </InputDiv>
@@ -45,7 +44,7 @@ const StudentSignIn = () => {
   );
 };
 
-export default StudentSignIn;
+export default TeacherSignIn;
 
 const MainDiv = styled.div`
   width: 99vw;
@@ -99,6 +98,6 @@ const SubmitBtn = styled.button`
   border: none;
   color: #fff;
   font-size: 20px;
-  font-weight: 700;
   cursor: pointer;
+  font-weight: 700;
 `;
