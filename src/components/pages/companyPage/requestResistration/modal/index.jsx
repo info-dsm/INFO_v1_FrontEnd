@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { stateModal } from "../../../../../redux/store/modal";
-import { bundle, mainData, langData, skillData } from "../data";
+import {
+  bundle,
+  mainData,
+  langData,
+  skillData,
+} from "../../../../../export/data";
 import { useState, useCallback, useEffect, useRef } from "react";
 import * as s from "./style";
 import { value } from "../../../../../redux/store/selectValue";
@@ -68,6 +73,10 @@ const SelectModal = () => {
       const ad = arr.filter((e, i) => {
         return i !== index;
       });
+      // for (let i = index; i < arr.length - 1; i++) {
+      //   InputRef.current[i].value = InputRef.current[i + 1].value;
+      //   console.log(InputRef.current[i].value);
+      // }
       console.log(ad);
       setArr(ad);
     },
@@ -157,7 +166,6 @@ const SelectModal = () => {
           return el;
         }
       });
-      console.log(ad);
       dispatch(value(ad));
       dispatch(stateModal(false));
     }

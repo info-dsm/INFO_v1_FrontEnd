@@ -3,10 +3,10 @@ import { stateModal } from "../../../../redux/store/modal";
 import { stateCount } from "../../../../redux/store/count";
 import { useSelector } from "react-redux";
 import SelectModal from "./modal";
-import { TitleData } from "./data";
+import { TitleData } from "../../../../export/data";
 import Header from "../../../common/header";
 import { useState, useCallback, useRef } from "react";
-import { mealData, supportData, workData } from "./data";
+import { mealData, supportData, workData } from "../../../../export/data";
 import { value } from "../../../../redux/store/selectValue";
 import * as s from "./style";
 const RequstResistration = () => {
