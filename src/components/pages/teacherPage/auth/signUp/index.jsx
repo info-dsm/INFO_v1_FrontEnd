@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../../../common/header";
 import checkImg from "../../../../../images/checked.png";
+import { useEffect, useState } from "react";
 
-const StudentSignUp = () => {
+const TeacherSignUp = () => {
   const data = [
     {
       title: "이메일",
@@ -24,10 +24,10 @@ const StudentSignUp = () => {
       key: "name",
     },
     {
-      title: "학번",
-      additionalElm: "학번 중복 확인",
-      placeholder: "학번을 입력해주세요..",
-      key: "studentKey",
+      title: "선생님 인증번호",
+      additionalElm: "",
+      placeholder: "인증번호를 입력해주세요..",
+      key: "teacherCheckCode",
     },
     {
       title: "비밀번호",
@@ -41,21 +41,14 @@ const StudentSignUp = () => {
       placeholder: "비밀번호를 입력해주세요..",
       key: "",
     },
-    {
-      title: "깃허브 주소",
-      additionalElm: "",
-      placeholder: "깃허브 주소를 입력해주세요..",
-      key: "githubLink",
-    },
   ];
 
   const [state, setState] = useState({
-    studentKey: "",
     email: "",
     emailCheckCode: "",
     password: "",
+    teacherCheckCode: "",
     name: "",
-    githubLink: "",
   });
 
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -63,14 +56,11 @@ const StudentSignUp = () => {
   const [success, setSuccess] = useState({
     checkSuccess: false,
     passwordSuccess: false,
-    studentKeySuccess: false,
   });
 
   function changeInput(e, props) {
     if (props.length) setState({ ...state, [props]: e.target.value });
     else setPasswordCheck(e.target.value);
-
-    console.log(state);
   }
 
   useEffect(() => {
@@ -85,22 +75,13 @@ const StudentSignUp = () => {
         title={"아직 회원이 아니신가요?"}
         description={"간단한 이메일 인증으로 쉽게 가입해보세요."}
       />
-      <AdminDiv>
-        <h2>선생님이신가요?</h2>
-        <a>관리자 회원가입 {">"}</a>
-      </AdminDiv>
       <MainDiv>
-        <h2>학생 회원가입</h2>
+        <h2>선생님 회원가입</h2>
         {data.map((elm, i) => (
           <InputDiv style={{ marginBottom: `${20 + (i % 2) * 40}px` }}>
             <div>
               <span>{elm.title}</span>
               {elm.key === "emailCheckCode" && success.checkSuccess ? (
-                <Success src={checkImg} alt="" />
-              ) : (
-                <></>
-              )}
-              {elm.key === "studentKey" && success.studentKeySuccess ? (
                 <Success src={checkImg} alt="" />
               ) : (
                 <></>
@@ -127,23 +108,7 @@ const StudentSignUp = () => {
   );
 };
 
-export default StudentSignUp;
-
-const AdminDiv = styled.div`
-  margin-top: 69px;
-  margin-left: 384px;
-  h2 {
-    margin: 0;
-    margin-bottom: 10px;
-    font-weight: 700;
-    font-size: 20px;
-  }
-  a {
-    font-size: 16px;
-    color: #4000ff;
-    font-weight: 400;
-  }
-`;
+export default TeacherSignUp;
 
 const MainDiv = styled.div`
   width: 99vw;
