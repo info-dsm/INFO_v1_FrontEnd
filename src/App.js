@@ -4,14 +4,22 @@ import { theme } from "./style/theme";
 import Footer from "./components/common/footer";
 import { Provider } from "react-redux";
 import { store } from "./redux";
+import RequsetResistration from "./components/pages/companyPage/requestResistration";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <GlobalStyle />
-        <Footer />
-      </Provider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <GlobalStyle />
+          <RequsetResistration />
+          <Footer />
+        </Provider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 export default App;
@@ -21,7 +29,6 @@ const GlobalStyle = createGlobalStyle`
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
-    overflow-x: hidden;
   }
 
   * {
