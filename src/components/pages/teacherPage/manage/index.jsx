@@ -1,16 +1,15 @@
 import { useDispatch } from "react-redux";
-import { stateModal } from "../../../../redux/store/modal";
-import { stateCount } from "../../../../redux/store/count";
+import { stateModalManage } from "../../../../redux/store/modal";
 import { useSelector } from "react-redux";
-import SelectModal from "./modal";
 import { TitleData } from "../../../../export/data";
 import Header from "../../../common/header";
 import { useState, useCallback, useRef } from "react";
 import { mealData, supportData, workData } from "../../../../export/data";
-import { value } from "../../../../redux/store/selectValue";
 import * as s from "./style";
-const RequstResistration = () => {
-  const modal = useSelector((state) => state.modal.state.modalrequest);
+import ModalManage from "./modal";
+const RequstManage = () => {
+  const modal = useSelector((state) => state.modal.state.modalmanage);
+  const count = useSelector((count) => count.count.count.manageCount);
   const Data = useSelector((stack) => stack.selectValue.value);
   const [state, setState] = useState([1]);
   const [list, setList] = useState(supportData);
@@ -85,87 +84,53 @@ const RequstResistration = () => {
     },
     [file]
   );
-  const RemoveBigTitle = (index) => {
-    console.log(Data);
-    // eslint-disable-next-line array-callback-return
-    const ad = Data.filter((el, i) => {
-      if (i !== index) {
-        return el;
-      }
-    });
-    dispatch(value(ad));
+  const ShowModal = () => {
+    dispatch(stateModalManage(true));
   };
   return (
     <>
-      <Header title="모집의뢰 관리" description="회사 정보를 볼 수 있습니다." />
+      <Header title="모집의뢰 등록" description="모집공고를 등록해보세요" />
       <s.Table>
         <s.Title>채용직무</s.Title>
-
+        <s.Button onClick={() => ShowModal()}>선택</s.Button>
         <s.BoxPropsUl>
-          {Data.map((el, i) => (
-            <>
-              <s.BoxPropsLi>
-                <s.UlSubTitle>
-                  {TitleData.map((user) => (
-                    <>
-                      <s.LiSubTitle width={user.width} margin={user.margin}>
-                        {user.data}
-                      </s.LiSubTitle>
-                      <s.LiSubTitle width={user.width} margin={user.margin}>
-                        {user.data1}
-                      </s.LiSubTitle>
-                    </>
-                  ))}
-                </s.UlSubTitle>
-                <s.UlContent>
-                  <s.LiContent width={212}>{el.main}</s.LiContent>
-                  <s.LiContent width={167}>{el.sub}</s.LiContent>
-                  <s.LiContent width={191}>{el.num}</s.LiContent>
-                  <s.LiContent width={566}>{el.duty}</s.LiContent>
-                </s.UlContent>
-                <s.SubTitle>필요언어</s.SubTitle>
-                <s.EssentialUl>
-                  {el.lang.map((user) => (
-                    <s.EssentialLi>
-                      <s.ButtonProps>{user}</s.ButtonProps>
-                    </s.EssentialLi>
-                  ))}
-                </s.EssentialUl>
-                <s.SubTitle>기타기술</s.SubTitle>
-                <s.EssentialUl>
-                  {el.stack.map((user) => (
-                    <s.EssentialLi>
-                      <s.ButtonProps>{user}</s.ButtonProps>
-                    </s.EssentialLi>
-                  ))}
-                </s.EssentialUl>
-                <s.Button
-                  onClick={() => {
-                    dispatch(stateModal(true));
-                    dispatch(stateCount(i));
-                  }}
-                >
-                  수정
-                </s.Button>
-                <s.DelButton
-                  onClick={() => {
-                    RemoveBigTitle(i);
-                  }}
-                >
-                  삭제
-                </s.DelButton>
-              </s.BoxPropsLi>
-            </>
-          ))}
+          <s.BoxPropsLi>
+            <s.UlSubTitle>
+              {TitleData.map((user) => (
+                <>
+                  <s.LiSubTitle width={user.width} margin={user.margin}>
+                    {user.data}
+                  </s.LiSubTitle>
+                  <s.LiSubTitle width={user.width} margin={user.margin}>
+                    {user.data1}
+                  </s.LiSubTitle>
+                </>
+              ))}
+            </s.UlSubTitle>
+            <s.UlContent>
+              <s.LiContent width={212}>{Data[count].main}</s.LiContent>
+              <s.LiContent width={167}>{Data[count].sub}</s.LiContent>
+              <s.LiContent width={191}>{Data[count].num}</s.LiContent>
+              <s.LiContent width={566}>{Data[count].duty}</s.LiContent>
+            </s.UlContent>
+            <s.SubTitle>필요언어</s.SubTitle>
+            <s.EssentialUl>
+              {Data[count].lang.map((user) => (
+                <s.EssentialLi>
+                  <s.ButtonProps>{user}</s.ButtonProps>
+                </s.EssentialLi>
+              ))}
+            </s.EssentialUl>
+            <s.SubTitle>기타기술</s.SubTitle>
+            <s.EssentialUl>
+              {Data[count].stack.map((user) => (
+                <s.EssentialLi>
+                  <s.ButtonProps>{user}</s.ButtonProps>
+                </s.EssentialLi>
+              ))}
+            </s.EssentialUl>
+          </s.BoxPropsLi>
         </s.BoxPropsUl>
-        <s.PlusButtonT
-          onClick={() => {
-            dispatch(stateModal(true));
-            dispatch(stateCount(Data.length));
-          }}
-        >
-          +
-        </s.PlusButtonT>
         <s.Ring top={50} />
         <s.Tables>
           <s.Titlet>지원자격</s.Titlet>
@@ -515,8 +480,8 @@ const RequstResistration = () => {
         <s.SubmitButton>모집의뢰 등록</s.SubmitButton>
       </s.Table>
       <s.TableTwo></s.TableTwo>
-      {modal ? <SelectModal /> : <></>}
+      {modal ? <ModalManage Data={Data} /> : <></>}
     </>
   );
 };
-export default RequstResistration;
+export default RequstManage;

@@ -9,10 +9,10 @@ import {
 import { useState, useCallback, useEffect, useRef } from "react";
 import * as s from "./style";
 import { value } from "../../../../../redux/store/selectValue";
-import AutoComplete from "../../autocomplete";
+import AutoComplete from "../../../../common/autocomplete";
 const SelectModal = () => {
   const dispatch = useDispatch();
-  const ArrStateCountData = useSelector((count) => count.count.count);
+  const ArrStateCountData = useSelector((count) => count.count.count.count);
   const ArrStateData = useSelector((stack) => stack.selectValue.value);
   const [list, setList] = useState(mainData);
   const [inputState, setInputState] = useState(false);
