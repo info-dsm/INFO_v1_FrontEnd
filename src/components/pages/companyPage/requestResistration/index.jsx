@@ -12,19 +12,13 @@ import * as s from "./style";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
   const Data = useSelector((stack) => stack.selectValue.value);
-  const [state, setState] = useState([1]);
   const [list, setList] = useState(supportData);
   const [admission, setAdmission] = useState([1]);
   const [file, setFile] = useState([]);
   const MoneyRef = useRef([]);
-  const QualifiRef = useRef([]);
   const WelfareRef = useRef();
   const dispatch = useDispatch();
-  const AddPropsFunc = useCallback(() => {
-    if (QualifiRef.current[state.length - 1].value !== "") {
-      setState([...state, 1]);
-    }
-  }, [state]);
+  console.log({ Data });
   const AddWelfare = () => {
     console.log(WelfareRef.current.value);
     console.log(list);
@@ -35,17 +29,6 @@ const RequstResistration = () => {
       setList([...list, WelfareRef.current.value]);
     }
   };
-  const DeleteFunc = useCallback(
-    (index) => {
-      if (index !== 0) {
-        const ad = state.filter((e, i) => {
-          return i !== index;
-        });
-        setState(ad);
-      }
-    },
-    [state]
-  );
   const AddAdmision = useCallback(() => {
     setAdmission([...admission, 1]);
   }, [admission]);
@@ -63,12 +46,8 @@ const RequstResistration = () => {
   );
   const AddFileProps = useCallback(
     (e) => {
-      if (e.target.files[0].size > 1048576) {
-        window.alert("파일용량이 너무 큽니다.");
-      } else {
-        const ad = [...file, e.target.files];
-        setFile(ad);
-      }
+      const ad = [...file, ...e.target.files];
+      setFile(ad);
       console.log(file);
     },
     [file]
@@ -95,6 +74,7 @@ const RequstResistration = () => {
     });
     dispatch(value(ad));
   };
+  const submit = () => {};
   return (
     <>
       <Header title="모집의뢰 관리" description="회사 정보를 볼 수 있습니다." />
@@ -131,9 +111,27 @@ const RequstResistration = () => {
                     </s.EssentialLi>
                   ))}
                 </s.EssentialUl>
-                <s.SubTitle>기타기술</s.SubTitle>
+                <s.GradeUl>
+                  <li>
+                    <s.SubTitle>기타기술</s.SubTitle>
+                  </li>
+                  <li>
+                    <s.GradesUl>
+                      <s.AsdfProps>성적(커트라인)</s.AsdfProps>
+                      <s.GradesLi>상위 {el.grade}%이내</s.GradesLi>
+                    </s.GradesUl>
+                  </li>
+                </s.GradeUl>
                 <s.EssentialUl>
                   {el.stack.map((user) => (
+                    <s.EssentialLi>
+                      <s.ButtonProps>{user}</s.ButtonProps>
+                    </s.EssentialLi>
+                  ))}
+                </s.EssentialUl>
+                <s.SubTitle>국가자격증</s.SubTitle>
+                <s.EssentialUl>
+                  {el.cert.map((user) => (
                     <s.EssentialLi>
                       <s.ButtonProps>{user}</s.ButtonProps>
                     </s.EssentialLi>
@@ -167,67 +165,6 @@ const RequstResistration = () => {
           +
         </s.PlusButtonT>
         <s.Ring top={50} />
-        <s.Tables>
-          <s.Titlet>지원자격</s.Titlet>
-          <s.Subdd>필수사항</s.Subdd>
-          <s.UlProps>
-            <s.LiProps>
-              <s.CheckInput
-                type="checkbox"
-                value="국가자격증"
-                left={-40}
-              ></s.CheckInput>
-            </s.LiProps>
-            <s.LiProps>
-              <s.CheckText>국가자격증</s.CheckText>
-            </s.LiProps>
-            <s.LiProps>
-              <s.UlQualifi>
-                {state.map((user, i) => (
-                  <s.LiQulifi>
-                    <s.MinusButton onClick={() => DeleteFunc(i)}>
-                      x
-                    </s.MinusButton>
-                    <s.InputQualifi
-                      type="text"
-                      ref={(el) => (QualifiRef.current[i] = el)}
-                    ></s.InputQualifi>
-                  </s.LiQulifi>
-                ))}
-              </s.UlQualifi>
-            </s.LiProps>
-            <s.LiProps>
-              <s.PlusButton onClick={() => AddPropsFunc()} left={40} top={0}>
-                +
-              </s.PlusButton>
-            </s.LiProps>
-            <s.LiProps>
-              <s.CheckInput
-                type="checkbox"
-                vlaue="성적"
-                left={60}
-              ></s.CheckInput>
-            </s.LiProps>
-            <s.LiProps>
-              <s.Achive>성적</s.Achive>
-            </s.LiProps>
-            <s.LiProps>
-              <s.AchiveInput
-                type="text"
-                onInput={(e) => {
-                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                  if (e.target.value > 99) {
-                    e.target.value = 99;
-                  }
-                }}
-              ></s.AchiveInput>
-            </s.LiProps>
-            <s.LiProps>
-              <s.QweText>% 이내</s.QweText>
-            </s.LiProps>
-          </s.UlProps>
-        </s.Tables>
-        <s.Ring top={77 + state.length * 50 - 50} />
         <s.Titlet>급여</s.Titlet>
         <s.UlMoney>
           <s.LiMoney>
@@ -404,7 +341,7 @@ const RequstResistration = () => {
             <s.ClockText>시작일</s.ClockText>
           </s.LiProps>
           <s.LiProps>
-            <s.InputQualifi type="text"></s.InputQualifi>
+            <s.InputQualifi type="date"></s.InputQualifi>
           </s.LiProps>
           <s.LiProps>
             <s.TenWon width={10} left={20}>
@@ -415,7 +352,7 @@ const RequstResistration = () => {
             <s.ClockText>종료일</s.ClockText>
           </s.LiProps>
           <s.LiProps>
-            <s.InputQualifi type="text"></s.InputQualifi>
+            <s.InputQualifi type="date"></s.InputQualifi>
           </s.LiProps>
         </s.DailyUl>
         <s.Ring top={50} />
@@ -450,6 +387,7 @@ const RequstResistration = () => {
             <s.FileHidden
               type="file"
               id="file"
+              multiple="multiple"
               onChange={(e) => AddFileProps(e)}
             ></s.FileHidden>
           </s.LiProps>
@@ -458,7 +396,7 @@ const RequstResistration = () => {
               <s.LiProps>
                 <s.UlTable>
                   <s.LiProps>
-                    <s.FileTextDiv>{files[0].name}</s.FileTextDiv>
+                    <s.FileTextDiv>{files.name}</s.FileTextDiv>
                   </s.LiProps>
                   <s.LiProps>
                     <s.RemoveBtn onClick={() => RemoveFileProps(i)}>
@@ -512,7 +450,7 @@ const RequstResistration = () => {
           </s.LiProps>
         </s.UlDirectProps>
         <s.Ring top={50} />
-        <s.SubmitButton>모집의뢰 등록</s.SubmitButton>
+        <s.SubmitButton onClick={() => submit()}>모집의뢰 등록</s.SubmitButton>
       </s.Table>
       <s.TableTwo></s.TableTwo>
       {modal ? <SelectModal /> : <></>}

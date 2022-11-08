@@ -18,9 +18,14 @@ const SelectModal = () => {
   const [inputState, setInputState] = useState(false);
   const [arr, setArr] = useState([1]);
   const [skill, setSkill] = useState([1]);
+  const [cert, setCert] = useState([1]);
   const [radio, setRadio] = useState({ id: "", value: "" });
+  const [certState, setCertState] = useState(false);
+  const [gradeState, setGradeState] = useState(false);
+  const [achive, setAchive] = useState(0);
   const InputRef = useRef([]);
   const SkillRef = useRef([]);
+  const CertRef = useRef([]);
   const TextRef = useRef();
   const NumRef = useRef();
   useEffect(() => {
@@ -73,10 +78,6 @@ const SelectModal = () => {
       const ad = arr.filter((e, i) => {
         return i !== index;
       });
-      // for (let i = index; i < arr.length - 1; i++) {
-      //   InputRef.current[i].value = InputRef.current[i + 1].value;
-      //   console.log(InputRef.current[i].value);
-      // }
       console.log(ad);
       setArr(ad);
     },
@@ -93,6 +94,18 @@ const SelectModal = () => {
       setSkill(ad);
     },
     [skill]
+  );
+  const AddCertText = useCallback(() => {
+    setCert([...cert, 1]);
+  }, [cert]);
+  const DeleteCert = useCallback(
+    (index) => {
+      const ad = cert.filter((e, i) => {
+        return i !== index;
+      });
+      setCert(ad);
+    },
+    [cert]
   );
   const InputStateProps = useCallback((index) => {
     setList((list) =>
@@ -117,6 +130,9 @@ const SelectModal = () => {
   const Submit = () => {
     let arr1 = [];
     let arr2 = [];
+    let arr3 = [];
+    console.log(achive);
+    console.log(CertRef.current);
     for (let i = 0; i < InputRef.current.length; i++) {
       if (InputRef.current[i].value !== "") {
         arr1.push(InputRef.current[i].value);
@@ -127,6 +143,12 @@ const SelectModal = () => {
         arr2.push(SkillRef.current[i].value);
       }
     }
+    for (let i = 0; i < CertRef.current.length; i++) {
+      if (CertRef.current[i].value !== "") {
+        arr3.push(CertRef.current[i].value);
+      }
+    }
+    console.log(arr3);
     if (radio.id === "") {
       window.alert("버튼을 체크해주세요");
     } else if (NumRef.current.value === "" || NumRef.current.value === "0") {
@@ -143,8 +165,10 @@ const SelectModal = () => {
         sub: radio.value,
         num: NumRef.current.value + "명",
         duty: TextRef.current.value,
+        grade: achive,
         lang: arr1,
         stack: arr2,
+        cert: arr3,
       };
       dispatch(value([...ArrStateData, props]));
       dispatch(stateModal(false));
@@ -154,8 +178,10 @@ const SelectModal = () => {
         sub: radio.value,
         num: NumRef.current.value + "명",
         duty: TextRef.current.value,
+        grade: achive,
         lang: arr1,
         stack: arr2,
+        cert: arr3,
       };
       const ad = ArrStateData.map((el, i) => {
         if (i === ArrStateCountData) {
@@ -327,7 +353,7 @@ const SelectModal = () => {
                 <s.LowLi bottom={40}>
                   <s.HTitle>기타기술</s.HTitle>
                 </s.LowLi>
-                <s.LowLi bottom={225}>
+                <s.LowLi bottom={190}>
                   <s.InputUl>
                     {skill.map((user, i) => (
                       <s.InputLi>
@@ -345,6 +371,73 @@ const SelectModal = () => {
 
                     <s.InputLi>
                       <s.PlusBtn onClick={() => AddSkillText(1)}></s.PlusBtn>
+                    </s.InputLi>
+                  </s.InputUl>
+                </s.LowLi>
+                <s.LowLi bottom={40}>
+                  <s.HTitle>지원자격</s.HTitle>
+                </s.LowLi>
+                <s.LowLi bottom={20}>
+                  <s.UlProps>
+                    <s.LiProps>
+                      <s.CheckInput
+                        type="checkbox"
+                        vlaue="성적"
+                        onChange={() => setGradeState(!gradeState)}
+                      ></s.CheckInput>
+                    </s.LiProps>
+                    <s.LiProps>
+                      <s.Achive>성적</s.Achive>
+                    </s.LiProps>
+                    <s.LiProps>
+                      <s.AchiveInput
+                        type="text"
+                        onInput={(e) => {
+                          e.target.value = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          if (e.target.value > 99) {
+                            e.target.value = parseInt(e.target.value / 10);
+                          }
+                          setAchive(e.target.value);
+                          console.log(achive);
+                        }}
+                      ></s.AchiveInput>
+                    </s.LiProps>
+                    <s.LiProps>
+                      <s.QweText>% 이내</s.QweText>
+                    </s.LiProps>
+                  </s.UlProps>
+                </s.LowLi>
+                <s.LowLi bottom={225}>
+                  <s.InputUl>
+                    <s.InputLi>
+                      <s.CheckInput
+                        type="checkbox"
+                        vlaue="성적"
+                        onChange={() => setCertState(!certState)}
+                      ></s.CheckInput>
+                    </s.InputLi>
+                    <s.InputLi>
+                      <s.CheckText>국가자격증</s.CheckText>
+                    </s.InputLi>
+                    {cert.map((user, i) => (
+                      <s.InputLi>
+                        <s.Delelte>
+                          <AutoComplete
+                            Data={skillData}
+                            ref={(el) => (CertRef.current[i] = el)}
+                          ></AutoComplete>
+                          <s.DeleteButton onClick={() => DeleteCert(i)}>
+                            X
+                          </s.DeleteButton>
+                        </s.Delelte>
+                      </s.InputLi>
+                    ))}
+
+                    <s.InputLi>
+                      <s.PlusBtn onClick={() => AddCertText(1)}></s.PlusBtn>
                     </s.InputLi>
                   </s.InputUl>
                 </s.LowLi>

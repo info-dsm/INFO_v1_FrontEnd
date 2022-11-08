@@ -52,6 +52,7 @@ export const DelButton = styled.button`
   height: 40px;
   margin-left: 480px;
   margin-top: 38px;
+  margin-bottom: 20px;
   font-family: "NanumGothic", sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -104,7 +105,7 @@ export const LiContent = styled.li`
 `;
 export const SubTitle = styled.div`
   position: relative;
-  width: 96px;
+  width: 120px;
   height: 28px;
   margin-top: 60px;
   font-family: "NanumGothic", sans-serif;
@@ -267,48 +268,6 @@ export const PlusButtonT = styled.button`
   border: none;
   padding-bottom: 5px;
   padding-left: 8px;
-`;
-export const Achive = styled.div`
-  width: 51px;
-  height: 28px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 24px;
-  margin-left: 20px;
-  margin-top: 7px;
-  color: ${(props) => props.theme.colors.black};
-`;
-export const AchiveInput = styled.input`
-  margin-left: 20px;
-  width: 80px;
-  height: 40px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 24px;
-  background-color: ${(props) => props.theme.colors.mediumGray};
-  color: ${(props) => props.theme.colors.black};
-  border-radius: 20px;
-  border: none;
-  margin-right: 20px;
-  padding-left: 24px;
-  padding-right: 24px;
-  text-align: center;
-`;
-export const QweText = styled.div`
-  position: relative;
-  width: 84px;
-  height: 28px;
-  margin-top: 7px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 24px;
-  color: ${(props) => props.theme.colors.black};
 `;
 export const MinusButton = styled.button`
   position: absolute;
@@ -564,8 +523,9 @@ export const RemoveBtn = styled.button`
   color: ${(props) => props.theme.colors.white};
   border: none;
   border-radius: 50%;
-  padding-bottom: 6px;
-  padding-right: 6.5px;
+  padding-bottom: 5px;
+  padding-right: 6px;
+  cursor: pointer;
 `;
 
 export const FileTextDiv = styled.div`
@@ -658,4 +618,27 @@ export const BoxPropsUl = styled.ul`
   width: 1156px;
   height: auto;
   margin-top: 50px;
+`;
+export const AsdfProps = styled.li`
+  font: 700 normal 24px "NanumGothic", sans-serif;
+  color: ${(props) => props.theme.colors.blue};
+`;
+export const GradeUl = styled.ul`
+  position: relative;
+  width: 1136px;
+  display: flex;
+  list-style-type: none;
+  left: -40px;
+`;
+export const GradesUl = styled.ul`
+  position: relative;
+  width: 210px;
+  height: 56px;
+  top: 50px;
+  left: 410px;
+  list-style-type: none;
+`;
+export const GradesLi = styled.li`
+  font: 400 normal 20px "NanumGothic";
+  color: ${(props) => props.theme.colors.black};
 `;

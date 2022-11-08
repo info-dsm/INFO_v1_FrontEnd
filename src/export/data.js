@@ -46,3 +46,16 @@ export const workData = [
   { clock: "퇴근시간", si: "시" },
   { clock: "근무시간 (주)", si: "시간" },
 ];
+export const interviewData = [
+  { skill: "서류전형", request: "DOCUMENT" },
+  { skill: "인적성 테스트", request: "PERSONALITY_TEST" },
+  { skill: "코딩 테스트", request: "CODING_TEST" },
+  { skill: "라이브 코딩", request: "LIVE_CODING" },
+  { skill: "AI 면접", request: "AI_INTERVIEW" },
+  { skill: "과제 제출", request: "ASSIGNMENT_REPORT" },
+  { skill: "기술 면접", request: "TECHNOLOGY_INTERVIEW" },
+  { skill: "컬쳐 면접", request: "CULTURE_INTERVIEW" },
+  { skill: "임원 면접", request: "DIRECTOR_INTERVIEW" },
+  { skill: "최종 면접", request: "FINAL_INTERVIEW" },
+  { skill: "신체 검사", request: "PHYSICAL_TEST" },
+];

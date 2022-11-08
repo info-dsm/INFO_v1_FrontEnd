@@ -6,8 +6,10 @@ const initialState = {
       sub: "",
       num: "",
       duty: "",
+      grade: 0,
       lang: [],
       stack: [],
+      cert: [],
     },
   ],
 };
