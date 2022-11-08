@@ -1,15 +1,31 @@
+import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "../../../../common/header";
 
 const CompanySignIn = () => {
   const [state, setState] = useState({
-    email: "",
+    companyNumber: "",
     password: "",
   });
 
   const changeInput = (e, props) => {
     setState({ ...state, [props]: e.target.value });
+  };
+
+  const onLogin = () => {
+    console.log(state);
+    axios({
+      url: "https://info-dsm.cf/api/info/v1" + "/company/login",
+      method: "POST",
+      body: state,
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -23,11 +39,10 @@ const CompanySignIn = () => {
       <MainDiv>
         <h2>사업자 로그인</h2>
         <InputDiv>
-          <span>이메일</span>
-          <span>인증번호 전송{">"}</span>
+          <span>사업자 번호</span>
           <input
-            value={state.email}
-            onChange={(e) => changeInput(e, "email")}
+            value={state.companyNumber}
+            onChange={(e) => changeInput(e, "companyNumber")}
             placeholder="이메일을 입력해주세요.."
           />
         </InputDiv>
@@ -37,9 +52,10 @@ const CompanySignIn = () => {
             value={state.password}
             onChange={(e) => changeInput(e, "password")}
             placeholder="비밀번호를 입력해주세요.."
+            type={"password"}
           />
         </InputDiv>
-        <SubmitBtn>로그인</SubmitBtn>
+        <SubmitBtn onClick={() => onLogin()}>로그인</SubmitBtn>
       </MainDiv>
     </>
   );
@@ -100,4 +116,5 @@ const SubmitBtn = styled.button`
   color: #fff;
   font-size: 20px;
   font-weight: 700;
+  cursor: pointer;
 `;

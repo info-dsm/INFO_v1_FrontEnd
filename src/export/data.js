@@ -46,3 +46,4 @@ export const workData = [
   { clock: "퇴근시간", si: "시" },
   { clock: "근무시간 (주)", si: "시간" },
 ];
+export const BASE_URL = "https://info-dsm.cf/api/info/v1";
