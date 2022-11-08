@@ -396,3 +396,81 @@ export const SubmitButton = styled.button`
   margin-bottom: 60px;
   cursor: pointer;
 `;
+export const CheckInput = styled.input`
+  margin-top: 5px;
+  cursor: pointer;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background-color: ${(props) => props.theme.colors.mediumGray};
+  :checked {
+    border: 5px solid ${(props) => props.theme.colors.mediumGray};
+    background-color: ${(props) => props.theme.colors.blue};
+  }
+`;
+export const CheckText = styled.div`
+  position: relative;
+  margin-top: 7px;
+  width: 120px;
+  height: 24px;
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  color: ${(props) => props.theme.colors.black};
+`;
+export const UlProps = styled.ul`
+  position: relative;
+  width: 1136px;
+  height: 40px;
+  left: -40px;
+  display: flex;
+`;
+export const LiProps = styled.li`
+  position: relative;
+  list-style: none;
+  height: 100%;
+`;
+export const Achive = styled.div`
+  width: 51px;
+  height: 28px;
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  margin-left: 20px;
+  margin-top: 7px;
+  color: ${(props) => props.theme.colors.black};
+`;
+export const AchiveInput = styled.input`
+  margin-left: 20px;
+  width: 80px;
+  height: 40px;
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 24px;
+  background-color: ${(props) => props.theme.colors.mediumGray};
+  color: ${(props) => props.theme.colors.black};
+  border-radius: 20px;
+  border: none;
+  margin-right: 20px;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-align: center;
+`;
+export const QweText = styled.div`
+  position: relative;
+  width: 84px;
+  height: 28px;
+  margin-top: 7px;
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  color: ${(props) => props.theme.colors.black};
+`;

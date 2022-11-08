@@ -1,24 +1,29 @@
 import { useDispatch } from "react-redux";
-import { stateModal } from "../../../../redux/store/modal";
-import { stateCount } from "../../../../redux/store/count";
+import { stateModalManage } from "../../../../redux/store/modal";
 import { useSelector } from "react-redux";
-import SelectModal from "./modal";
 import { TitleData } from "../../../../export/data";
 import Header from "../../../common/header";
 import { useState, useCallback, useRef } from "react";
 import { mealData, supportData, workData } from "../../../../export/data";
-import { value } from "../../../../redux/store/selectValue";
 import * as s from "./style";
-const RequstResistration = () => {
-  const modal = useSelector((state) => state.modal.state.modalrequest);
+import ModalManage from "./modal";
+const RequstManage = () => {
+  const modal = useSelector((state) => state.modal.state.modalmanage);
+  const count = useSelector((count) => count.count.count.manageCount);
   const Data = useSelector((stack) => stack.selectValue.value);
+  const [state, setState] = useState([1]);
   const [list, setList] = useState(supportData);
   const [admission, setAdmission] = useState([1]);
   const [file, setFile] = useState([]);
   const MoneyRef = useRef([]);
+  const QualifiRef = useRef([]);
   const WelfareRef = useRef();
   const dispatch = useDispatch();
-  console.log({ Data });
+  const AddPropsFunc = useCallback(() => {
+    if (QualifiRef.current[state.length - 1].value !== "") {
+      setState([...state, 1]);
+    }
+  }, [state]);
   const AddWelfare = () => {
     console.log(WelfareRef.current.value);
     console.log(list);
@@ -29,6 +34,17 @@ const RequstResistration = () => {
       setList([...list, WelfareRef.current.value]);
     }
   };
+  const DeleteFunc = useCallback(
+    (index) => {
+      if (index !== 0) {
+        const ad = state.filter((e, i) => {
+          return i !== index;
+        });
+        setState(ad);
+      }
+    },
+    [state]
+  );
   const AddAdmision = useCallback(() => {
     setAdmission([...admission, 1]);
   }, [admission]);
@@ -46,8 +62,12 @@ const RequstResistration = () => {
   );
   const AddFileProps = useCallback(
     (e) => {
-      const ad = [...file, ...e.target.files];
-      setFile(ad);
+      if (e.target.files[0].size > 1048576) {
+        window.alert("파일용량이 너무 큽니다.");
+      } else {
+        const ad = [...file, e.target.files];
+        setFile(ad);
+      }
       console.log(file);
     },
     [file]
@@ -64,107 +84,115 @@ const RequstResistration = () => {
     },
     [file]
   );
-  const RemoveBigTitle = (index) => {
-    console.log(Data);
-    // eslint-disable-next-line array-callback-return
-    const ad = Data.filter((el, i) => {
-      if (i !== index) {
-        return el;
-      }
-    });
-    dispatch(value(ad));
+  const ShowModal = () => {
+    dispatch(stateModalManage(true));
   };
-  const submit = () => {};
   return (
     <>
-      <Header title="모집의뢰 관리" description="회사 정보를 볼 수 있습니다." />
+      <Header title="모집의뢰 등록" description="모집공고를 등록해보세요" />
       <s.Table>
         <s.Title>채용직무</s.Title>
-
+        <s.Button onClick={() => ShowModal()}>선택</s.Button>
         <s.BoxPropsUl>
-          {Data.map((el, i) => (
-            <>
-              <s.BoxPropsLi>
-                <s.UlSubTitle>
-                  {TitleData.map((user) => (
-                    <>
-                      <s.LiSubTitle width={user.width} margin={user.margin}>
-                        {user.data}
-                      </s.LiSubTitle>
-                      <s.LiSubTitle width={user.width} margin={user.margin}>
-                        {user.data1}
-                      </s.LiSubTitle>
-                    </>
-                  ))}
-                </s.UlSubTitle>
-                <s.UlContent>
-                  <s.LiContent width={212}>{el.main}</s.LiContent>
-                  <s.LiContent width={167}>{el.sub}</s.LiContent>
-                  <s.LiContent width={191}>{el.num}</s.LiContent>
-                  <s.LiContent width={566}>{el.duty}</s.LiContent>
-                </s.UlContent>
-                <s.SubTitle>필요언어</s.SubTitle>
-                <s.EssentialUl>
-                  {el.lang.map((user) => (
-                    <s.EssentialLi>
-                      <s.ButtonProps>{user}</s.ButtonProps>
-                    </s.EssentialLi>
-                  ))}
-                </s.EssentialUl>
-                <s.GradeUl>
-                  <li>
-                    <s.SubTitle>기타기술</s.SubTitle>
-                  </li>
-                  <li>
-                    <s.GradesUl>
-                      <s.AsdfProps>성적(커트라인)</s.AsdfProps>
-                      <s.GradesLi>상위 {el.grade}%이내</s.GradesLi>
-                    </s.GradesUl>
-                  </li>
-                </s.GradeUl>
-                <s.EssentialUl>
-                  {el.stack.map((user) => (
-                    <s.EssentialLi>
-                      <s.ButtonProps>{user}</s.ButtonProps>
-                    </s.EssentialLi>
-                  ))}
-                </s.EssentialUl>
-                <s.SubTitle>국가자격증</s.SubTitle>
-                <s.EssentialUl>
-                  {el.cert.map((user) => (
-                    <s.EssentialLi>
-                      <s.ButtonProps>{user}</s.ButtonProps>
-                    </s.EssentialLi>
-                  ))}
-                </s.EssentialUl>
-                <s.Button
-                  onClick={() => {
-                    dispatch(stateModal(true));
-                    dispatch(stateCount(i));
-                  }}
-                >
-                  수정
-                </s.Button>
-                <s.DelButton
-                  onClick={() => {
-                    RemoveBigTitle(i);
-                  }}
-                >
-                  삭제
-                </s.DelButton>
-              </s.BoxPropsLi>
-            </>
-          ))}
+          <s.BoxPropsLi>
+            <s.UlSubTitle>
+              {TitleData.map((user) => (
+                <>
+                  <s.LiSubTitle width={user.width} margin={user.margin}>
+                    {user.data}
+                  </s.LiSubTitle>
+                  <s.LiSubTitle width={user.width} margin={user.margin}>
+                    {user.data1}
+                  </s.LiSubTitle>
+                </>
+              ))}
+            </s.UlSubTitle>
+            <s.UlContent>
+              <s.LiContent width={212}>{Data[count].main}</s.LiContent>
+              <s.LiContent width={167}>{Data[count].sub}</s.LiContent>
+              <s.LiContent width={191}>{Data[count].num}</s.LiContent>
+              <s.LiContent width={566}>{Data[count].duty}</s.LiContent>
+            </s.UlContent>
+            <s.SubTitle>필요언어</s.SubTitle>
+            <s.EssentialUl>
+              {Data[count].lang.map((user) => (
+                <s.EssentialLi>
+                  <s.ButtonProps>{user}</s.ButtonProps>
+                </s.EssentialLi>
+              ))}
+            </s.EssentialUl>
+            <s.SubTitle>기타기술</s.SubTitle>
+            <s.EssentialUl>
+              {Data[count].stack.map((user) => (
+                <s.EssentialLi>
+                  <s.ButtonProps>{user}</s.ButtonProps>
+                </s.EssentialLi>
+              ))}
+            </s.EssentialUl>
+          </s.BoxPropsLi>
         </s.BoxPropsUl>
-        <s.PlusButtonT
-          onClick={() => {
-            dispatch(stateModal(true));
-            dispatch(stateCount(Data.length));
-          }}
-        >
-          +
-        </s.PlusButtonT>
         <s.Ring top={50} />
+        <s.Tables>
+          <s.Titlet>지원자격</s.Titlet>
+          <s.Subdd>필수사항</s.Subdd>
+          <s.UlProps>
+            <s.LiProps>
+              <s.CheckInput
+                type="checkbox"
+                value="국가자격증"
+                left={-40}
+              ></s.CheckInput>
+            </s.LiProps>
+            <s.LiProps>
+              <s.CheckText>국가자격증</s.CheckText>
+            </s.LiProps>
+            <s.LiProps>
+              <s.UlQualifi>
+                {state.map((user, i) => (
+                  <s.LiQulifi>
+                    <s.MinusButton onClick={() => DeleteFunc(i)}>
+                      x
+                    </s.MinusButton>
+                    <s.InputQualifi
+                      type="text"
+                      ref={(el) => (QualifiRef.current[i] = el)}
+                    ></s.InputQualifi>
+                  </s.LiQulifi>
+                ))}
+              </s.UlQualifi>
+            </s.LiProps>
+            <s.LiProps>
+              <s.PlusButton onClick={() => AddPropsFunc()} left={40} top={0}>
+                +
+              </s.PlusButton>
+            </s.LiProps>
+            <s.LiProps>
+              <s.CheckInput
+                type="checkbox"
+                vlaue="성적"
+                left={60}
+              ></s.CheckInput>
+            </s.LiProps>
+            <s.LiProps>
+              <s.Achive>성적</s.Achive>
+            </s.LiProps>
+            <s.LiProps>
+              <s.AchiveInput
+                type="text"
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  if (e.target.value > 99) {
+                    e.target.value = 99;
+                  }
+                }}
+              ></s.AchiveInput>
+            </s.LiProps>
+            <s.LiProps>
+              <s.QweText>% 이내</s.QweText>
+            </s.LiProps>
+          </s.UlProps>
+        </s.Tables>
+        <s.Ring top={77 + state.length * 50 - 50} />
         <s.Titlet>급여</s.Titlet>
         <s.UlMoney>
           <s.LiMoney>
@@ -341,7 +369,7 @@ const RequstResistration = () => {
             <s.ClockText>시작일</s.ClockText>
           </s.LiProps>
           <s.LiProps>
-            <s.InputQualifi type="date"></s.InputQualifi>
+            <s.InputQualifi type="text"></s.InputQualifi>
           </s.LiProps>
           <s.LiProps>
             <s.TenWon width={10} left={20}>
@@ -352,7 +380,7 @@ const RequstResistration = () => {
             <s.ClockText>종료일</s.ClockText>
           </s.LiProps>
           <s.LiProps>
-            <s.InputQualifi type="date"></s.InputQualifi>
+            <s.InputQualifi type="text"></s.InputQualifi>
           </s.LiProps>
         </s.DailyUl>
         <s.Ring top={50} />
@@ -387,7 +415,6 @@ const RequstResistration = () => {
             <s.FileHidden
               type="file"
               id="file"
-              multiple="multiple"
               onChange={(e) => AddFileProps(e)}
             ></s.FileHidden>
           </s.LiProps>
@@ -396,7 +423,7 @@ const RequstResistration = () => {
               <s.LiProps>
                 <s.UlTable>
                   <s.LiProps>
-                    <s.FileTextDiv>{files.name}</s.FileTextDiv>
+                    <s.FileTextDiv>{files[0].name}</s.FileTextDiv>
                   </s.LiProps>
                   <s.LiProps>
                     <s.RemoveBtn onClick={() => RemoveFileProps(i)}>
@@ -450,11 +477,11 @@ const RequstResistration = () => {
           </s.LiProps>
         </s.UlDirectProps>
         <s.Ring top={50} />
-        <s.SubmitButton onClick={() => submit()}>모집의뢰 등록</s.SubmitButton>
+        <s.SubmitButton>모집의뢰 등록</s.SubmitButton>
       </s.Table>
       <s.TableTwo></s.TableTwo>
-      {modal ? <SelectModal /> : <></>}
+      {modal ? <ModalManage Data={Data} /> : <></>}
     </>
   );
 };
-export default RequstResistration;
+export default RequstManage;

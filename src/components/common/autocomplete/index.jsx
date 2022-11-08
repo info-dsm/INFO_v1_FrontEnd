@@ -85,12 +85,13 @@ const DataList = styled.div`
   border-radius: 0px 0px 20px 20px;
   visibility: ${(props) => (props.state ? "visible" : "hidden")};
   ul {
-    width: 200px;
+    width: 195px;
     height: 127px;
     list-style-type: none;
 
     overflow-y: scroll;
     scroll-padding-top: 20px;
+    scroll-snap-points-y: none;
     &::-webkit-scrollbar {
       width: 5px;
     }
@@ -98,6 +99,7 @@ const DataList = styled.div`
       width: 5px;
       height: 127px;
       border-radius: 20px;
+
       background-color: ${(props) => props.theme.colors.mediumGray};
     }
 
