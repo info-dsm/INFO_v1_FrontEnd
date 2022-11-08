@@ -10,7 +10,7 @@ import { BASE_URL, skillData } from "../../../../../export/data";
 const CompanySignUp = () => {
   const [skill, setSkill] = useState([1]);
   const SkillRef = useRef([]);
-  const [formData, setFormData] = useState(new FormData());
+  const formData = new FormData();
   const [showFile, setShowFile] = useState({
     businessRegisteredCertificate: [],
     companyIntroductionFile: [],
@@ -177,15 +177,14 @@ const CompanySignUp = () => {
       businessAreaList: SkillRef.current.map((item) => item.value),
       introduction: introduction,
       password: password,
-      leading: leading,
+      isLeading: leading,
+      passwordHint: passwordHint,
     };
 
     let len = 1;
     for (let i in Object.values(showFile)) {
       len *= Object.values(showFile)[i].length;
     }
-
-    console.log(body);
 
     if (
       success.checkSuccess &&
@@ -201,31 +200,32 @@ const CompanySignUp = () => {
         data: formData,
         params: {
           emailCheckCode: emailCheckCode,
-          passwordHint: passwordHint,
         },
       })
         .then((res) => {
           console.log(res);
         })
         .catch((err) => {
-          console.log(formData.get("companyIntroductionFile"));
-          console.log(formData.get("businessRegisteredCertificate"));
-          console.log(formData.get("companyPhotoList"));
-          console.log(formData.get("companyLogo"));
-          console.log(formData.get("request"));
           console.log(err);
         });
-    } else {
-      console.log("내용을 전부 기재해주세요");
     }
+    console.log(formData.get("companyIntroductionFile"));
+    console.log(formData.get("businessRegisteredCertificate"));
+    console.log(formData.get("companyPhotoList"));
+    console.log(formData.get("companyLogo"));
+    console.log(formData.get("request"));
   };
 
   const settingFormData = (props, body) => {
     if (body.constructor === File) {
-      formData.append(props, body);
+      if (props === "companyPhotoList") {
+        formData.append(props, body);
+      } else {
+        formData.set(props, body);
+      }
     }
     if (body.constructor === Object) {
-      formData.append(
+      formData.set(
         props,
         new Blob([JSON.stringify(body)], {
           type: "application/json",
@@ -398,9 +398,6 @@ const CompanySignUp = () => {
                       <>
                         <UlTable>
                           <FileTextDiv>{files}</FileTextDiv>
-                          <LiProps>
-                            <RemoveBtn>x</RemoveBtn>
-                          </LiProps>
                         </UlTable>
                       </>
                     ))}
