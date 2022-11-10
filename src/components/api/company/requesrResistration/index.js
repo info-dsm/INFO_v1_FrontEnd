@@ -73,3 +73,15 @@ export const postNotice = (arr, ad) => {
     data: formData,
   });
 };
+export const getMyList = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useQuery(["MyCompanyList"], async () => {
+    const { data } = await axios.get(BaseUrl + "/notice/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(data);
+    return data;
+  });
+};

@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import RequstResistration from "./components/pages/companyPage/requestResistration";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import RecruitmentList from "./components/pages/companyPage/recruitmentList";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -18,6 +19,7 @@ function App() {
           <BrowserRouter>
             <GlobalStyle />
             <Routes>
+              <Route path="/company/list" element={<RecruitmentList />} />
               <Route
                 path="/company/list/write"
                 element={<RequstResistration />}
