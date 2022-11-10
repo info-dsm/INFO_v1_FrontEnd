@@ -6,16 +6,32 @@ import SelectModal from "./modal";
 import { TitleData } from "../../../../export/data";
 import Header from "../../../common/header";
 import { useState, useCallback, useRef } from "react";
-import { mealData, supportData, workData } from "../../../../export/data";
+import {
+  mealData,
+  supportData,
+  workData,
+  interviewData,
+} from "../../../../export/data";
+import SelectComplete from "../../../common/select";
 import { value } from "../../../../redux/store/selectValue";
 import * as s from "./style";
+import { postNotice } from "../../../api/company/requesrResistration";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
-  const Data = useSelector((stack) => stack.selectValue.value);
+  const Data = useSelector((stack) => stack.selectValue.recruitmentRequest);
   const [list, setList] = useState(supportData);
   const [admission, setAdmission] = useState([1]);
   const [file, setFile] = useState([]);
+  const [locate, setLocate] = useState({ set: 0, text: "" });
+  const [mealState, setMealState] = useState(0);
+  const [state, setState] = useState(false);
+  const [special, setSpecial] = useState("");
+  const [dateState, setDateState] = useState({ startDate: "", endDate: "" });
+  const BokRef = useRef([]);
+  const MealRef = useRef([]);
   const MoneyRef = useRef([]);
+  const InputRef = useRef([]);
+  const WorkRef = useRef([]);
   const WelfareRef = useRef();
   const dispatch = useDispatch();
   console.log({ Data });
@@ -74,7 +90,79 @@ const RequstResistration = () => {
     });
     dispatch(value(ad));
   };
-  const submit = () => {};
+  const submit = () => {
+    console.log(MealRef.current[0].checked);
+    console.log(BokRef.current[0].checked);
+    console.log(BokRef.current[0].value);
+    let arr = [];
+    console.log(InputRef.current[0].id);
+    for (let i = 0; i < InputRef.current.length; i++) {
+      console.log(InputRef.current[i].id);
+      const find = (e) => {
+        // console.log(e.skill);
+        if (e.skill === InputRef.current[i].id) {
+          return true;
+        }
+      };
+      arr.push(interviewData[interviewData.findIndex(find)].request);
+    }
+    const ad = {
+      recruitmentRequestList: Data,
+      workTime: {
+        untilCommuteStartTime: WorkRef.current[0].value,
+        untilCommuteEndTime: WorkRef.current[1].value,
+        workTimeForWeek: WorkRef.current[2].value,
+      },
+      pay: {
+        fieldTrainingPayPerMonth: MoneyRef.current[0].value,
+        fullTimeEmploymentPay: {
+          yearPayStart: MoneyRef.current[1].value,
+          yearPayEnd: MoneyRef.current[2].value,
+          bonus: MoneyRef.current[3].value,
+        },
+      },
+      mealSupport: {
+        mealSupportPay: mealState,
+        breakfast: MealRef.current[0].checked,
+        lunch: MealRef.current[1].checked,
+        dinner: MealRef.current[2].checked,
+      },
+      welfare: {
+        dormitorySupport: BokRef.current[0].checked,
+        selfDevelopmentPay: BokRef.current[1].checked,
+        equipmentSupport: BokRef.current[2].checked,
+        youthTomorrowChaeumDeduction: BokRef.current[3].checked,
+        alternativeMilitaryPlan: BokRef.current[4].checked,
+      },
+      noticeOpenPeriod: {
+        startDate: dateState.startDate,
+        endDate: dateState.endDate,
+      },
+      interviewProcessList: arr,
+      otherFeatures: special,
+    };
+    let as = {};
+    if (locate.set === 2) {
+      as = {
+        ...ad,
+        workPlace: {
+          isSameWithCompanyAddress: true,
+          otherPlace: locate.text,
+        },
+        isPersonalContact: state,
+      };
+    } else {
+      as = {
+        ...ad,
+        workPlace: {
+          isSameWithCompanyAddress: false,
+        },
+        isPersonalContact: state,
+      };
+    }
+    console.log(as);
+    postNotice(file, as);
+  };
   return (
     <>
       <Header title="모집의뢰 관리" description="회사 정보를 볼 수 있습니다." />
@@ -98,14 +186,18 @@ const RequstResistration = () => {
                   ))}
                 </s.UlSubTitle>
                 <s.UlContent>
-                  <s.LiContent width={212}>{el.main}</s.LiContent>
-                  <s.LiContent width={167}>{el.sub}</s.LiContent>
-                  <s.LiContent width={191}>{el.num}</s.LiContent>
-                  <s.LiContent width={566}>{el.duty}</s.LiContent>
+                  <s.LiContent width={212}>{el.bigClassification}</s.LiContent>
+                  <s.LiContent width={167}>
+                    {el.smallClassification}
+                  </s.LiContent>
+                  <s.LiContent width={191}>{el.numberOfEmployee}명</s.LiContent>
+                  <s.LiContent width={566}>
+                    {el.detailBusinessDescription}
+                  </s.LiContent>
                 </s.UlContent>
                 <s.SubTitle>필요언어</s.SubTitle>
                 <s.EssentialUl>
-                  {el.lang.map((user) => (
+                  {el.languageList.map((user) => (
                     <s.EssentialLi>
                       <s.ButtonProps>{user}</s.ButtonProps>
                     </s.EssentialLi>
@@ -118,12 +210,12 @@ const RequstResistration = () => {
                   <li>
                     <s.GradesUl>
                       <s.AsdfProps>성적(커트라인)</s.AsdfProps>
-                      <s.GradesLi>상위 {el.grade}%이내</s.GradesLi>
+                      <s.GradesLi>상위 {el.gradeCutLine}%이내</s.GradesLi>
                     </s.GradesUl>
                   </li>
                 </s.GradeUl>
                 <s.EssentialUl>
-                  {el.stack.map((user) => (
+                  {el.technologyList.map((user) => (
                     <s.EssentialLi>
                       <s.ButtonProps>{user}</s.ButtonProps>
                     </s.EssentialLi>
@@ -131,7 +223,7 @@ const RequstResistration = () => {
                 </s.EssentialUl>
                 <s.SubTitle>국가자격증</s.SubTitle>
                 <s.EssentialUl>
-                  {el.cert.map((user) => (
+                  {el.needCertificateList.map((user) => (
                     <s.EssentialLi>
                       <s.ButtonProps>{user}</s.ButtonProps>
                     </s.EssentialLi>
@@ -178,6 +270,7 @@ const RequstResistration = () => {
                   onInput={(e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
                   }}
+                  ref={(el) => (MoneyRef.current[0] = el)}
                 ></s.InputMoney>
               </s.LiProps>
               <s.LiProps>
@@ -194,7 +287,7 @@ const RequstResistration = () => {
               </s.LiProps>
               <s.LiProps>
                 <s.InputMoney
-                  ref={(el) => (MoneyRef.current[0] = el)}
+                  ref={(el) => (MoneyRef.current[1] = el)}
                   type="text"
                   onInput={(e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
@@ -208,7 +301,7 @@ const RequstResistration = () => {
               </s.LiProps>
               <s.LiProps>
                 <s.InputMoney
-                  ref={(el) => (MoneyRef.current[1] = el)}
+                  ref={(el) => (MoneyRef.current[2] = el)}
                   type="text"
                   onInput={(e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
@@ -230,6 +323,7 @@ const RequstResistration = () => {
               <s.LiProps>
                 <s.InputMoney
                   type="text"
+                  ref={(el) => (MoneyRef.current[3] = el)}
                   onInput={(e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
                   }}
@@ -257,6 +351,7 @@ const RequstResistration = () => {
               type="text"
               onInput={(e) => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                setMealState(e.target.value);
               }}
             ></s.InputMoney>
           </s.LiProps>
@@ -265,13 +360,14 @@ const RequstResistration = () => {
               원(월)
             </s.TenWon>
           </s.LiProps>
-          {mealData.map((user) => (
+          {mealData.map((user, i) => (
             <>
               <s.CheckInput
                 type="checkbox"
                 value={user}
                 left={60}
-              ></s.CheckInput>
+                ref={(el) => (MealRef.current[i] = el)}
+              />
               <s.TenWon width={101} left={20}>
                 {user}
               </s.TenWon>
@@ -280,13 +376,14 @@ const RequstResistration = () => {
         </s.UlProps>
         <s.Subdd>복리후생</s.Subdd>
         <s.UlLineBreak>
-          {list.map((user) => (
+          {list.map((user, i) => (
             <>
               <s.LiProps>
                 <s.CheckInput
                   type="checkbox"
                   value={user}
                   left={60}
+                  ref={(el) => (BokRef.current[i] = el)}
                 ></s.CheckInput>
               </s.LiProps>
               <s.LiProps>
@@ -311,7 +408,7 @@ const RequstResistration = () => {
         <s.Ring top={50} />
         <s.Titlet>출•퇴근시간</s.Titlet>
         <s.UlWork>
-          {workData.map((user) => (
+          {workData.map((user, i) => (
             <>
               <s.UlProps>
                 <s.LiProps>
@@ -323,6 +420,7 @@ const RequstResistration = () => {
                     onInput={(e) => {
                       e.target.value = e.target.value.replace(/[^0-9]/g, "");
                     }}
+                    ref={(el) => (WorkRef.current[i] = el)}
                   ></s.InputMoney>
                 </s.LiProps>
                 <s.LiProps>
@@ -341,7 +439,15 @@ const RequstResistration = () => {
             <s.ClockText>시작일</s.ClockText>
           </s.LiProps>
           <s.LiProps>
-            <s.InputQualifi type="date"></s.InputQualifi>
+            <s.InputQualifi
+              type="date"
+              onChange={(e) =>
+                setDateState({
+                  startDate: e.target.value,
+                  endDate: dateState.endDate,
+                })
+              }
+            ></s.InputQualifi>
           </s.LiProps>
           <s.LiProps>
             <s.TenWon width={10} left={20}>
@@ -352,7 +458,15 @@ const RequstResistration = () => {
             <s.ClockText>종료일</s.ClockText>
           </s.LiProps>
           <s.LiProps>
-            <s.InputQualifi type="date"></s.InputQualifi>
+            <s.InputQualifi
+              type="date"
+              onChange={(e) =>
+                setDateState({
+                  startDate: dateState.startDate,
+                  endDate: e.target.value,
+                })
+              }
+            ></s.InputQualifi>
           </s.LiProps>
         </s.DailyUl>
         <s.Ring top={50} />
@@ -365,7 +479,10 @@ const RequstResistration = () => {
               </s.InputLi>
               <s.InputLi>
                 <s.Delelte>
-                  <s.InputPropss type="text" width={200}></s.InputPropss>
+                  <SelectComplete
+                    Data={interviewData}
+                    ref={(el) => (InputRef.current[i] = el)}
+                  ></SelectComplete>
                   <s.DeleteButton onClick={() => RemoveAdmision(i)}>
                     X
                   </s.DeleteButton>
@@ -379,7 +496,7 @@ const RequstResistration = () => {
             </s.PlusButton>
           </s.InputLi>
         </s.UlAddmision>
-        <s.Ring top={50} />
+        <s.Ring top={150} />
         <s.Titlet>제출서류</s.Titlet>
         <s.UlSubmitted>
           <s.LiProps>
@@ -413,12 +530,18 @@ const RequstResistration = () => {
         <s.InputTextProps
           type-="text"
           placeholder="지원자에게 전달할 사항 또는 회사 및 업무에 대해 강조할 사항등의 의견을 적어주세요."
+          onChange={(e) => setSpecial(e.target.value)}
         ></s.InputTextProps>
         <s.Ring top={50} />
         <s.Titlet>근무지</s.Titlet>
         <s.UlDirectProps>
           <s.LiProps>
-            <s.CheckInput type="checkbox" left={-40}></s.CheckInput>
+            <s.CheckInput
+              type="radio"
+              name={1}
+              left={-40}
+              onChange={() => setLocate({ set: 1, text: locate.text })}
+            ></s.CheckInput>
           </s.LiProps>
           <s.LiProps>
             <s.TenWon width={185} left={20}>
@@ -426,17 +549,30 @@ const RequstResistration = () => {
             </s.TenWon>
           </s.LiProps>
           <s.LiProps>
-            <s.CheckInput type="checkbox" left={60}></s.CheckInput>
+            <s.CheckInput
+              type="radio"
+              name={1}
+              left={60}
+              onChange={() => setLocate({ set: 2, text: locate.text })}
+            ></s.CheckInput>
           </s.LiProps>
           <s.LiProps>
-            <s.DirectInput type="text" placeholder="직접 입력" />
+            <s.DirectInput
+              type="text"
+              placeholder="직접 입력"
+              onChange={(e) => setLocate({ set: 2, text: e.target.value })}
+            />
           </s.LiProps>
         </s.UlDirectProps>
         <s.Ring top={50} />
         <s.Titlet>개별등록</s.Titlet>
         <s.UlDirectProps>
           <s.LiProps>
-            <s.CheckInput type="checkbox" left={-40}></s.CheckInput>
+            <s.CheckInput
+              type="checkbox"
+              left={-40}
+              onChange={() => setState(!state)}
+            ></s.CheckInput>
           </s.LiProps>
           <s.LiProps>
             <s.TenWon width={153} left={20}>

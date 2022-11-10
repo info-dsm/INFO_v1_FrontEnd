@@ -1,80 +1,40 @@
-import styled from "styled-components";
-import { useState, useCallback, forwardRef, useEffect } from "react";
-const AutoComplete = forwardRef(({ Data }, ref) => {
+import styled, { keyframes } from "styled-components";
+import { useState, forwardRef, useEffect } from "react";
+import { SelectImg } from "../../../images";
+const SelectComplete = forwardRef(({ Data }, ref) => {
   const [state, setState] = useState(false);
-  const [statee, setStatee] = useState(true);
-  const [data, setData] = useState(Data);
-  const [write, setWrite] = useState("");
-  const [start, setStart] = useState(-1);
-  useEffect(() => {
-    console.log(data);
-    // eslint-disable-next-line array-callback-return
-    const same = Data.filter((el) => {
-      if (el.skill.indexOf(write) !== -1) {
-        return el;
-      }
-    });
-    const content = same.sort((a, b) => {
-      return a.skill.indexOf(write) - b.skill.indexOf(write);
-    });
-    setData(content);
-    if (start === -1) {
-      setState(false);
-    } else if (statee) {
-      setState(true);
-    } else {
-      setStatee(true);
-      setState(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Data, data.length, write, setWrite]);
+  const [write, setWrite] = useState("클릭 시 선택");
   const AddValuePropsFunc = (props) => {
-    console.log(props);
     setWrite(props);
-    setStatee(false);
     setState(false);
   };
-  const RemoveEvent = useCallback(
-    (e) => {
-      setState(false);
-      // eslint-disable-next-line array-callback-return
-      const same = Data.filter((el) => {
-        if (el.skill.indexOf(e.target.value) !== -1) {
-          return el;
-        }
-      });
-      setData(same);
-    },
-    [Data]
-  );
+  useEffect(() => {
+    document.addEventListener(
+      "click",
+      () => {
+        setState(false);
+      },
+      [state, setState]
+    );
+  }, [state]);
   return (
     <>
       <InputProps
         ref={ref}
-        type="text"
         width={200}
-        value={write}
+        id={write}
         state={state}
-        onInput={(e) => {
-          setWrite(e.target.value);
-          setStart(1);
+        onClick={(e) => {
+          e.stopPropagation();
+          setState(true);
         }}
-        onFocus={() => {
-          console.log(Data);
-          if (statee) {
-            setState(true);
-          } else {
-            setState(false);
-            setStatee(true);
-          }
-        }}
-        onBlur={(e) => {
-          RemoveEvent(e);
-        }}
-      ></InputProps>
+      >
+        {write}
+        <ImgSelected src={SelectImg} state={state} />
+      </InputProps>
       <DataList state={state}>
         <ul>
-          {data.map((user) => (
+          {Data.map((user) => (
             <li onMouseDown={() => AddValuePropsFunc(user.skill)}>
               {user.skill}
             </li>
@@ -84,7 +44,15 @@ const AutoComplete = forwardRef(({ Data }, ref) => {
     </>
   );
 });
-export default AutoComplete;
+export default SelectComplete;
+const Spin = (x, y) => keyframes`
+ 0% {
+    transform: rotate(${x}deg);
+ }
+ 100% {
+  transform: rotate(${y}deg);
+ }
+`;
 const DataList = styled.div`
   position: relative;
   width: 200px;
@@ -102,6 +70,7 @@ const DataList = styled.div`
 
     overflow-y: scroll;
     scroll-padding-top: 20px;
+    scroll-snap-points-y: none;
     &::-webkit-scrollbar {
       width: 5px;
     }
@@ -140,17 +109,25 @@ const DataList = styled.div`
     color: ${(props) => props.theme.colors.white};
   }
 `;
-const InputProps = styled.input`
+const InputProps = styled.div`
+  padding-top: 11px;
+  padding-right: 15px;
   width: ${(props) => props.width}px;
   height: 50px;
   border-radius: 20px 20px ${(props) => (props.state ? 0 : 20)}px
     ${(props) => (props.state ? 0 : 20)}px;
-  font-size: 24px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 700;
+  font: 700 normal 22px "NanumGothic", sans-serif;
   color: ${(props) => props.theme.colors.black};
   text-align: center;
   border: none;
   background-color: ${(props) => props.theme.colors.semiWhite};
+`;
+const ImgSelected = styled.img`
+  top: 17px;
+  left: 170px;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  animation: ${(props) => (props.state ? Spin(60, 0) : Spin(0, 60))} 0.25s
+    ease-in-out 0s alternate forwards;
 `;

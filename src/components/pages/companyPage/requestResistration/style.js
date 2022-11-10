@@ -456,7 +456,8 @@ export const InputPropss = styled(InputProps)`
 export const DeleteButton = styled.button`
   cursor: pointer;
   position: relative;
-  top: -3px;
+  top: -190px;
+  left: 200px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -525,7 +526,6 @@ export const RemoveBtn = styled.button`
   border-radius: 50%;
   padding-bottom: 5px;
   padding-right: 6px;
-  cursor: pointer;
 `;
 
 export const FileTextDiv = styled.div`
@@ -632,7 +632,7 @@ export const GradeUl = styled.ul`
 `;
 export const GradesUl = styled.ul`
   position: relative;
-  width: 210px;
+  width: 230px;
   height: 56px;
   top: 50px;
   left: 410px;
