@@ -69,6 +69,14 @@ export const UlSubTitle = styled.ul`
   left: -180px;
   display: flex;
 `;
+export const WonText = styled.div`
+  position: relative;
+  height: 28px;
+  margin-top: 3px;
+  margin-left: 20px;
+  font: 400 normal 24px "NanumGothic";
+  color: ${(props) => props.theme.colors.black};
+`;
 export const LiSubTitle = styled.li`
   position: relative;
   margin-left: ${(props) => props.margin}px;
@@ -104,7 +112,7 @@ export const LiContent = styled.li`
 `;
 export const SubTitle = styled.div`
   position: relative;
-  width: 96px;
+  width: 130px;
   height: 28px;
   margin-top: 60px;
   font-family: "NanumGothic", sans-serif;
@@ -178,18 +186,15 @@ export const LiProps = styled.li`
   list-style: none;
   height: 100%;
 `;
-export const CheckInput = styled.input`
-  margin-top: 5px;
-  cursor: pointer;
-  appearance: none;
-  width: 30px;
-  height: 30px;
-  margin-left: ${(props) => props.left}px;
-  background-color: ${(props) => props.theme.colors.mediumGray};
-  :checked {
-    border: 5px solid ${(props) => props.theme.colors.mediumGray};
-    background-color: ${(props) => props.theme.colors.blue};
-  }
+export const LiPropss = styled.li`
+  position: relative;
+  height: 100%;
+  margin-right: 40px;
+  width: auto;
+  height: 28px;
+  font: 400 normal 24px "NaumGothic";
+  line-height: 24px;
+  color: ${(props) => props.theme.colors.black};
 `;
 export const CheckText = styled.div`
   margin-left: 20px;
@@ -203,22 +208,6 @@ export const CheckText = styled.div`
   font-size: 24px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.black};
-`;
-export const InputQualifi = styled.input`
-  margin-left: 20px;
-  width: 200px;
-  height: 40px;
-  border-radius: 20px;
-  border: none;
-  padding-left: 20px;
-  padding-right: 20px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 24px;
-  color: ${(props) => props.theme.colors.black};
-  background-color: ${(props) => props.theme.colors.mediumGray};
 `;
 export const UlQualifi = styled.ul`
   position: relative;
@@ -279,24 +268,6 @@ export const Achive = styled.div`
   margin-left: 20px;
   margin-top: 7px;
   color: ${(props) => props.theme.colors.black};
-`;
-export const AchiveInput = styled.input`
-  margin-left: 20px;
-  width: 80px;
-  height: 40px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 24px;
-  background-color: ${(props) => props.theme.colors.mediumGray};
-  color: ${(props) => props.theme.colors.black};
-  border-radius: 20px;
-  border: none;
-  margin-right: 20px;
-  padding-left: 24px;
-  padding-right: 24px;
-  text-align: center;
 `;
 export const QweText = styled.div`
   position: relative;
@@ -365,42 +336,11 @@ export const TestText = styled.div`
   color: ${(props) => props.theme.colors.blue};
   margin-left: -40px;
 `;
-export const InputMoney = styled.input`
-  margin-left: 20px;
-  width: 100px;
-  height: 40px;
-  text-align: center;
-  border: none;
-  background: ${(props) => props.theme.colors.mediumGray};
-  border-radius: 20px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 24px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: ${(props) => props.theme.colors.black};
-`;
 export const TenWon = styled.div`
   position: relative;
   width: ${(props) => props.width}px;
   height: 28px;
-  margin-top: 7px;
-  font-family: "NanumGothic";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 24px;
-  margin-left: ${(props) => props.left}px;
-  color: ${(props) => props.theme.colors.black};
-`;
-export const TextBok = styled.div`
-  position: relative;
-  width: auto;
-  height: 28px;
-  margin-top: 7px;
-  margin-left: 20px;
+  margin-top: 8px;
   font-family: "NanumGothic";
   font-style: normal;
   font-weight: 400;
@@ -415,7 +355,6 @@ export const UlLineBreak = styled.ul`
   margin-top: 30px;
   width: 1236px;
   height: auto;
-  left: -100px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -445,7 +384,7 @@ export const LiWork = styled.li`
 `;
 export const ClockText = styled.div`
   position: relative;
-  margin-top: 5px;
+  margin-top: 3px;
   width: auto;
   font-family: "NanumGothic";
   font-weight: 700;
@@ -457,7 +396,7 @@ export const ClockText = styled.div`
 export const DailyUl = styled.ul`
   position: relative;
   height: 40px;
-  width: 712px;
+  width: 560px;
   margin-top: 60px;
   left: -60px;
   display: flex;
@@ -477,22 +416,6 @@ export const Delelte = styled.div`
   height: 50px;
   background-color: ${(props) => props.theme.colors.mediumGray};
   border-radius: 20px;
-`;
-export const InputProps = styled.input`
-  width: ${(props) => props.width}px;
-  height: 50px;
-  background-color: ${(props) => props.theme.colors.mediumGray};
-  border-radius: 20px;
-  font-size: 24px;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  color: ${(props) => props.theme.colors.black};
-  text-align: center;
-  border: none;
-`;
-export const InputPropss = styled(InputProps)`
-  background-color: ${(props) => props.theme.colors.semiWhite};
 `;
 export const DeleteButton = styled.button`
   cursor: pointer;
@@ -527,31 +450,6 @@ export const UlSubmitted = styled.ul`
   top: 40px;
   flex-wrap: wrap;
 `;
-export const LabelFile = styled.label`
-  display: inline-block;
-  padding: 8.5px 44.5px;
-  background-color: ${(props) => props.theme.colors.blue};
-  vertical-align: middle;
-  font-family: "NanumGothic";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 20px;
-  border-radius: 20px;
-  color: ${(props) => props.theme.colors.white};
-  cursor: pointer;
-  margin-left: -40px;
-`;
-export const FileHidden = styled.input`
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-`;
 export const RemoveBtn = styled.button`
   margin-left: 15px;
   width: 30px;
@@ -585,25 +483,6 @@ export const UlTable = styled.ul`
   width: auto;
   height: 40px;
   display: flex;
-`;
-export const InputTextProps = styled.input`
-  position: relative;
-  margin-top: 40px;
-  width: 1136px;
-  height: 40px;
-  background: ${(props) => props.theme.colors.mediumGray};
-  padding: 0 21px;
-  border: none;
-  border-radius: 20px;
-`;
-export const DirectInput = styled.input`
-  width: 798px;
-  height: 40px;
-  margin-left: 20px;
-  background: ${(props) => props.theme.colors.mediumGray};
-  border-radius: 20px;
-  border: none;
-  padding: 0 21px;
 `;
 export const UlDirectProps = styled.ul`
   margin-top: 60px;
@@ -658,4 +537,27 @@ export const BoxPropsUl = styled.ul`
   padding: 0px;
   width: 1156px;
   height: auto;
+`;
+export const AsdfProps = styled.li`
+  font: 700 normal 24px "NanumGothic", sans-serif;
+  color: ${(props) => props.theme.colors.blue};
+`;
+export const GradeUl = styled.ul`
+  position: relative;
+  width: 1136px;
+  display: flex;
+  list-style-type: none;
+  left: -40px;
+`;
+export const GradesUl = styled.ul`
+  position: relative;
+  width: 230px;
+  height: 56px;
+  top: 50px;
+  left: 410px;
+  list-style-type: none;
+`;
+export const GradesLi = styled.li`
+  font: 400 normal 20px "NanumGothic";
+  color: ${(props) => props.theme.colors.black};
 `;

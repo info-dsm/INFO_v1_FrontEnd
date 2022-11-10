@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import RequstResistration from "./components/pages/companyPage/requestResistration";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RecruitmentList from "./components/pages/companyPage/recruitmentList";
+import RequstManage from "./components/pages/teacherPage/manage";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -24,6 +25,7 @@ function App() {
                 path="/company/list/write"
                 element={<RequstResistration />}
               />
+              <Route path="/teacher/list/item" element={<RequstManage />} />
             </Routes>
             <Footer />
           </BrowserRouter>
@@ -39,10 +41,12 @@ const GlobalStyle = createGlobalStyle`
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
+    overflow-x: hidden;
   }
 
   * {
     outline: none;
     box-sizing: border-box;
+    
   }
 `;

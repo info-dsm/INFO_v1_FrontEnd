@@ -70,29 +70,45 @@ const ModalManage = ({ Data }) => {
                   </UlSubTitle>
                   <UlContent>
                     <LiContent width={212} state={state[i].state}>
-                      {el.main}
+                      {el.bigClassification}
                     </LiContent>
                     <LiContent width={167} state={state[i].state}>
-                      {el.sub}
+                      {el.smallClassification}
                     </LiContent>
                     <LiContent width={191} state={state[i].state}>
-                      {el.num}
+                      {el.numberOfEmployee}
                     </LiContent>
                     <LiContent width={566} state={state[i].state}>
-                      {el.duty}
+                      {el.detailBusinessDescription}
                     </LiContent>
                   </UlContent>
                   <SubTitle>필요언어</SubTitle>
                   <EssentialUl>
-                    {el.lang.map((user) => (
+                    {el.languageList.map((user) => (
                       <EssentialLi>
                         <ButtonProps>{user}</ButtonProps>
                       </EssentialLi>
                     ))}
                   </EssentialUl>
-                  <SubTitle>기타기술</SubTitle>
+                  <li>
+                    <SubTitle>기타기술</SubTitle>
+                  </li>
+                  <li>
+                    <GradesUl>
+                      <AsdfProps>성적(커트라인)</AsdfProps>
+                      <GradesLi>상위 {el.gradeCutLine}%이내</GradesLi>
+                    </GradesUl>
+                  </li>
                   <EssentialUl>
-                    {el.stack.map((user) => (
+                    {el.technologyList.map((user) => (
+                      <EssentialLi>
+                        <ButtonProps>{user}</ButtonProps>
+                      </EssentialLi>
+                    ))}
+                  </EssentialUl>
+                  <SubTitle>국가자격증</SubTitle>
+                  <EssentialUl>
+                    {el.needCertificateList.map((user) => (
                       <EssentialLi>
                         <ButtonProps>{user}</ButtonProps>
                       </EssentialLi>
@@ -238,7 +254,7 @@ const LiContent = styled.li`
 `;
 const SubTitle = styled.div`
   position: relative;
-  width: 96px;
+  width: 130px;
   height: 28px;
   margin-top: 60px;
   font-family: "NanumGothic", sans-serif;
@@ -290,4 +306,27 @@ const Button = styled.button`
   border-radius: 100px;
   cursor: pointer;
   border: 2px solid ${(props) => props.theme.colors.blue};
+`;
+export const AsdfProps = styled.li`
+  font: 700 normal 24px "NanumGothic", sans-serif;
+  color: ${(props) => props.theme.colors.blue};
+`;
+export const GradeUl = styled.ul`
+  position: relative;
+  width: 1136px;
+  display: flex;
+  list-style-type: none;
+  left: -40px;
+`;
+export const GradesUl = styled.ul`
+  position: relative;
+  width: 230px;
+  height: 56px;
+  top: 50px;
+  left: 410px;
+  list-style-type: none;
+`;
+export const GradesLi = styled.li`
+  font: 400 normal 20px "NanumGothic";
+  color: ${(props) => props.theme.colors.black};
 `;
