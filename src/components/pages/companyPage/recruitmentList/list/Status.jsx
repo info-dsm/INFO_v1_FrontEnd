@@ -2,17 +2,22 @@ import styled from "styled-components";
 import { WaitImg } from "../../../../../images";
 import { SuccessImg } from "../../../../../images";
 import { FailImg } from "../../../../../images";
-import { useState } from "react";
-const ImageProps = (status) => {
+import { useEffect, useState } from "react";
+const ImageProps = ({ status }) => {
   const [state, setState] = useState(FailImg);
-  if (status === "WAITING") {
-    setState(WaitImg);
-  } else if (status === "APPROVE") {
-    setState(SuccessImg);
-  }
+  useEffect(() => {
+    console.log(status);
+    if (status === "WAITING") {
+      setState(WaitImg);
+    } else if (status === "APPROVE") {
+      setState(SuccessImg);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      <Emoji src={state} alt="" />
+      <Emoji src={state} alt="아이콘" />
     </>
   );
 };
