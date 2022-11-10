@@ -5,7 +5,9 @@ import checkImg from "../../../../../images/checked.png";
 import failImg from "../../../../../images/failed.png";
 import AutoComplete from "../../../../common/autocomplete";
 import axios from "axios";
-import { BASE_URL, skillData } from "../../../../../export/data";
+import { skillData } from "../../../../../export/data";
+import { BaseUrl } from "../../../../../export/base";
+import Swal from "sweetalert2";
 
 const CompanySignUp = () => {
   const [skill, setSkill] = useState([1]);
@@ -194,7 +196,7 @@ const CompanySignUp = () => {
     ) {
       settingFormData("request", body);
       axios({
-        url: BASE_URL + "/company",
+        url: BaseUrl + "/company",
         method: "POST",
         headers: { "Contest-Type": "multipart/form-data" },
         data: formData,
@@ -204,11 +206,29 @@ const CompanySignUp = () => {
       })
         .then((res) => {
           console.log(res);
+          Swal.fire({
+            title: "계정이 성공적으로 생성되었습니다!",
+            icon: "success",
+            confirmButtonText: "Ok",
+          }).then((result) => {
+            window.location.href = "/company/login";
+          });
         })
         .catch((err) => {
-          console.log(err);
+          Swal.fire({
+            title: "계정 생성이 원활하게 되지 않았습니다..",
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
         });
+    } else {
+      Swal.fire({
+        title: "내용을 모두 입력해주세요.",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
     }
+
     console.log(formData.get("companyIntroductionFile"));
     console.log(formData.get("businessRegisteredCertificate"));
     console.log(formData.get("companyPhotoList"));
@@ -243,7 +263,7 @@ const CompanySignUp = () => {
   const onCheck = (str) => {
     if (str === "인증번호 전송" && companyInfomation.email !== "") {
       axios({
-        url: BASE_URL + "/company/email",
+        url: BaseUrl + "/company/email",
         method: "POST",
         params: {
           email: companyInfomation.email,
@@ -251,16 +271,26 @@ const CompanySignUp = () => {
       })
         .then((res) => {
           setSuccess({ ...success, sendEmail: true });
+          Swal.fire({
+            title: "인증번호 발송!",
+            icon: "success",
+            confirmButtonText: "Ok",
+          });
         })
         .catch((err) => {
           setSuccess({ ...success, sendEmail: false });
+          Swal.fire({
+            title: "이미 생성한 계정이거나 잘 못된 계정입니다.",
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
         });
     } else if (
       str === "인증번호 확인" &&
       companyInfomation.emailCheckCode !== ""
     ) {
       axios({
-        url: BASE_URL + "/company/email/code/check",
+        url: BaseUrl + "/company/email/code/check",
         method: "GET",
         params: {
           email: companyInfomation.email,
@@ -269,9 +299,19 @@ const CompanySignUp = () => {
       })
         .then((res) => {
           setSuccess({ ...success, checkSuccess: true });
+          Swal.fire({
+            title: "인증번호가 성공적으로 확인되었습니다.",
+            icon: "success",
+            confirmButtonText: "Ok",
+          });
         })
         .catch((err) => {
           setSuccess({ ...success, checkSuccess: false });
+          Swal.fire({
+            title: "인증번호가 올바르지 않습니다.",
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
         });
     }
   };
