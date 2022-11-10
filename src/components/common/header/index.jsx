@@ -57,6 +57,7 @@ const Menu = styled.li`
   list-style: none;
   position: relative;
   color: ${(props) => props.theme.colors.white};
+  filter: drop-shadow(0px 0px 25px rgba(0, 0, 0, 0.75));
 `;
 const Nav = styled.div`
   width: 100%;
