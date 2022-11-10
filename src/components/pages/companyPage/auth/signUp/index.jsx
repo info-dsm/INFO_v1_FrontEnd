@@ -198,7 +198,7 @@ const CompanySignUp = () => {
       axios({
         url: BaseUrl + "/company",
         method: "POST",
-        headers: { "Contest-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" },
         data: formData,
         params: {
           emailCheckCode: emailCheckCode,

@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  value: [
+  recruitmentRequest: [
     {
-      main: "",
-      sub: "",
-      num: "",
-      duty: "",
-      grade: 0,
-      lang: [],
-      stack: [],
-      cert: [],
+      bigClassification: "",
+      smallClassification: "",
+      numberOfEmployee: 0,
+      detailBusinessDescription: "",
+      gradeCutLine: 0,
+      needCertificateList: [],
+      languageList: [],
+      technologyList: [],
     },
   ],
 };
@@ -18,7 +18,7 @@ const selectValue = createSlice({
   initialState,
   reducers: {
     value: (state, action) => {
-      state.value = action.payload;
+      state.recruitmentRequest = action.payload;
     },
   },
 });
