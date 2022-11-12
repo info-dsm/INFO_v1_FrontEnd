@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BaseUrl } from "../../../../export/base";
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgwMDU3OTEsImV4cCI6MTY2ODA5MjE5MX0.QTZ34-wPuT39t-B_28_zfNi9PMEZSel4s632aw1AgF0";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgyMTYzODMsImV4cCI6MTY2ODMwMjc4M30.VaaCr7wVhxcbG0Mkq9m671P2JuCqpR1GcrFYT9kXrek";
 export const getListProps = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(["datas"], async () => {
@@ -76,12 +76,75 @@ export const postNotice = (arr, ad) => {
 export const getMyList = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(["MyCompanyList"], async () => {
-    const { data } = await axios.get(BaseUrl + "/notice/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(data);
-    return data;
+    let res;
+    await axios
+      .get(BaseUrl + "/notice/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const data = response.data;
+        let arr = new Array(data.length)
+          .fill(0)
+          .map((e, i) =>
+            new Array(
+              data[i].data.notice.recruitmentBusinessResponse.length
+            ).fill("")
+          );
+        let arr2 = new Array(data.length)
+          .fill(0)
+          .map((e, i) =>
+            new Array(
+              data[i].data.notice.recruitmentBusinessResponse.length
+            ).fill("")
+          );
+        let count = [];
+        for (let i = 0; i < data.length; i++) {
+          let temp = 0;
+          for (
+            let j = 0;
+            j < data[i].data.notice.recruitmentBusinessResponse.length;
+            j++
+          ) {
+            arr[i][j] =
+              data[i].data.notice.recruitmentBusinessResponse[
+                j
+              ].classificationResponse.bigClassification.bigClassificationName;
+            arr2[i][j] =
+              data[i].data.notice.recruitmentBusinessResponse[
+                j
+              ].classificationResponse.name;
+            temp =
+              temp +
+              data[i].data.notice.recruitmentBusinessResponse[j]
+                .numberOfEmployee;
+          }
+          count.push({
+            total: temp,
+            approve: data[i].approveStatus,
+            day: data[i].data.notice.company.lastNoticeDate,
+            id: data[i].data.notice.recruitmentBusinessResponse[0]
+              .recruitmentBusinessId,
+          });
+        }
+        const ad = arr.map((item) =>
+          item.filter((e, i, ar) => {
+            return ar.findIndex((el) => e === el) === i;
+          })
+        );
+        console.log(ad);
+        const as = arr2.map((item) =>
+          item.filter((e, i, ar) => {
+            return ar.findIndex((el) => e === el) === i;
+          })
+        );
+        for (let i = 0; i < data.length; i++) {
+          as[i] = as[i].join();
+          ad[i] = ad[i].join();
+        }
+        res = { count, as, ad };
+      });
+    return res;
   });
 };

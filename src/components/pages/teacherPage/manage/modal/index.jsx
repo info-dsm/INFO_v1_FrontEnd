@@ -1,36 +1,27 @@
 import { useDispatch } from "react-redux";
 import { stateModalManage } from "../../../../../redux/store/modal";
 import { TitleData } from "../../../../../export/data";
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
 import { stateManageCount } from "../../../../../redux/store/count";
 const ModalManage = ({ Data }) => {
-  const [state, setState] = useState([{ state: false }]);
-  const [, setRestart] = useState({});
+  const [state, setState] = useState(
+    new Array(Data.length).fill({ state: false })
+  );
   const dispatch = useDispatch();
-  useLayoutEffect(() => {
-    const ad = state;
-    for (let i = 1; i < Data.length; i++) {
-      ad.push({ state: false });
-    }
-    setState(ad);
-  }, [Data, state]);
   const ClickEvent = useCallback(
     (index) => {
       const ad = state;
-      ad.map((item, i) => {
+      const asdf = ad.map((item, i) => {
         if (i !== index) {
-          item.state = false;
+          item = { state: false };
           return item;
         } else {
-          item.state = true;
+          item = { state: true };
           return item;
         }
       });
-      setState(ad);
-      console.log(state);
-      console.log(state[index].state);
-      setRestart({});
+      setState(asdf);
     },
     [state]
   );
@@ -70,10 +61,13 @@ const ModalManage = ({ Data }) => {
                   </UlSubTitle>
                   <UlContent>
                     <LiContent width={212} state={state[i].state}>
-                      {el.bigClassification}
+                      {
+                        el.classificationResponse.bigClassification
+                          .bigClassificationName
+                      }
                     </LiContent>
                     <LiContent width={167} state={state[i].state}>
-                      {el.smallClassification}
+                      {el.classificationResponse.name}
                     </LiContent>
                     <LiContent width={191} state={state[i].state}>
                       {el.numberOfEmployee}
@@ -84,9 +78,9 @@ const ModalManage = ({ Data }) => {
                   </UlContent>
                   <SubTitle>필요언어</SubTitle>
                   <EssentialUl>
-                    {el.languageList.map((user) => (
+                    {el.languageSet.map((user) => (
                       <EssentialLi>
-                        <ButtonProps>{user}</ButtonProps>
+                        <ButtonProps>{user.languageName}</ButtonProps>
                       </EssentialLi>
                     ))}
                   </EssentialUl>
@@ -100,17 +94,17 @@ const ModalManage = ({ Data }) => {
                     </GradesUl>
                   </li>
                   <EssentialUl>
-                    {el.technologyList.map((user) => (
+                    {el.technologySet.map((user) => (
                       <EssentialLi>
-                        <ButtonProps>{user}</ButtonProps>
+                        <ButtonProps>{user.technologyName}</ButtonProps>
                       </EssentialLi>
                     ))}
                   </EssentialUl>
                   <SubTitle>국가자격증</SubTitle>
                   <EssentialUl>
-                    {el.needCertificateList.map((user) => (
+                    {el.certificateList.map((user) => (
                       <EssentialLi>
-                        <ButtonProps>{user}</ButtonProps>
+                        <ButtonProps>{user.certificateName}</ButtonProps>
                       </EssentialLi>
                     ))}
                   </EssentialUl>
