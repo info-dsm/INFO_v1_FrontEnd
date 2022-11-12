@@ -77,6 +77,21 @@ export const WonText = styled.div`
   font: 400 normal 24px "NanumGothic";
   color: ${(props) => props.theme.colors.black};
 `;
+export const WonTest = styled.div`
+  position: relative;
+  height: 28px;
+  margin-top: 3px;
+  font: 400 normal 24px "NanumGothic";
+  color: ${(props) => props.theme.colors.black};
+`;
+export const JunText = styled.div`
+  position: relative;
+  height: 28px;
+  margin-top: 5px;
+  margin-left: 20px;
+  font: 700 normal 24px "NanumGothic";
+  color: ${(props) => props.theme.colors.black};
+`;
 export const LiSubTitle = styled.li`
   position: relative;
   margin-left: ${(props) => props.margin}px;
@@ -181,6 +196,14 @@ export const UlProps = styled.ul`
   height: 40px;
   display: flex;
 `;
+export const UlPropss = styled.ul`
+  position: relative;
+  margin-top: 30px;
+  width: 1136px;
+  height: 40px;
+  display: flex;
+  left: -20px;
+`;
 export const LiProps = styled.li`
   position: relative;
   list-style: none;
@@ -219,25 +242,6 @@ export const LiQulifi = styled.li`
   margin-left: -40px;
   margin-bottom: 10px;
   list-style: none;
-`;
-export const PlusButton = styled.button`
-  position: relative;
-  cursor: pointer;
-  margin-left: ${(props) => props.left}px;
-  border-radius: 50%;
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 24px;
-  background-color: ${(props) => props.theme.colors.mediumGray};
-  color: ${(props) => props.theme.colors.black};
-  width: 40px;
-  height: 40px;
-  border: none;
-  padding-bottom: 5px;
-  top: ${(props) => props.top}px;
-  padding-left: 8px;
 `;
 export const PlusButtonT = styled.button`
   position: relative;
@@ -280,21 +284,6 @@ export const QweText = styled.div`
   font-size: 24px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.black};
-`;
-export const MinusButton = styled.button`
-  position: absolute;
-  width: 40px;
-  height: 30px;
-  color: ${(props) => props.theme.colors.blue};
-  font-family: "NanumGothic", sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 24px;
-  border: none;
-  border-radius: 50%;
-  left: 180px;
-  cursor: pointer;
 `;
 export const Ring = styled.div`
   position: relative;
@@ -383,6 +372,17 @@ export const LiWork = styled.li`
   height: 40px;
 `;
 export const ClockText = styled.div`
+  position: relative;
+  margin-top: 5px;
+  width: auto;
+  font-family: "NanumGothic";
+  font-weight: 700;
+  font-size: 24px;
+  height: 24px;
+  color: ${(props) => props.theme.colors.blue};
+  margin-left: 20px;
+`;
+export const ClockTexts = styled.div`
   position: relative;
   margin-top: 3px;
   width: auto;
@@ -507,17 +507,22 @@ export const SubmitButton = styled.div`
   position: relative;
   width: 180px;
   height: 40px;
-  padding: 7px 39px;
+  padding: 8px 39px;
   background-color: ${(props) => props.theme.colors.blue};
   border-radius: 100px;
-  font-family: "NanumGothic", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
+  font: 700 16px "NanumGothic", sans-serif;
   color: ${(props) => props.theme.colors.white};
+  cursor: pointer;
+`;
+export const UlPross = styled.ul`
+  position: relative;
+  width: 840px;
+  height: 40px;
   left: 0px;
   right: 0px;
   margin: 70px auto;
-  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 `;
 export const BoxPropsLi = styled.li`
   position: relative;
@@ -560,4 +565,15 @@ export const GradesUl = styled.ul`
 export const GradesLi = styled.li`
   font: 400 normal 20px "NanumGothic";
   color: ${(props) => props.theme.colors.black};
+`;
+export const TextGeun = styled.div`
+  margin-top: 50px;
+  font: 500 normal 20px "NanumGothic";
+`;
+export const ImgDown = styled.img`
+  position: relative;
+  width: 17px;
+  height: 17px;
+  top: 3px;
+  left: 5px;
 `;

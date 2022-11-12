@@ -2,21 +2,33 @@ import React from "react";
 import Header from "../../../common/header";
 import styled from "styled-components";
 import ResistrationList from "./list";
+import LoadingPage from "../../../common/loading";
+import ErrorPage from "../../../common/error";
+import { getMyList } from "../../../api/company/requesrResistration";
 const RecruitmentList = () => {
+  const { status, data } = getMyList();
   return (
     <>
-      <Header
-        title={"모집의뢰 목록"}
-        description={"모집의뢰서등을 관리해보세요"}
-      />
-      <MainDiv>
-        <List>
-          <AddBtn>
-            <button>+</button>
-          </AddBtn>
-          <ResistrationList />
-        </List>
-      </MainDiv>
+      {status === "loading" ? (
+        <LoadingPage />
+      ) : status === "error" ? (
+        <ErrorPage />
+      ) : (
+        <>
+          <Header
+            title={"모집의뢰 목록"}
+            description={"모집의뢰서등을 관리해보세요"}
+          />
+          <MainDiv>
+            <List>
+              <AddBtn>
+                <button>+</button>
+              </AddBtn>
+              <ResistrationList data={data} />
+            </List>
+          </MainDiv>
+        </>
+      )}
     </>
   );
 };
@@ -42,8 +54,9 @@ const AddBtn = styled.div`
   }
 `;
 const List = styled.div`
-  width: 1136px;
+  width: 1176px;
   margin-bottom: 300px;
+  padding: 0;
 `;
 
 export default RecruitmentList;
