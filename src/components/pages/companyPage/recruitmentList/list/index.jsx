@@ -1,56 +1,40 @@
 import styled from "styled-components";
-import LoadingPage from "../../../../common/loading";
-import ErrorPage from "../../../../common/error";
-import { getMyList } from "../../../../api/company/requesrResistration";
+
 import ImageProps from "./Status";
-const ResistrationList = () => {
-  const { status, data } = getMyList();
+const ResistrationList = ({ data }) => {
   console.log(data);
   return (
     <>
-      {status === "loading" ? (
-        <LoadingPage />
-      ) : status === "error" ? (
-        <ErrorPage />
-      ) : (
-        <Ul>
-          {data.map((user) => (
-            <>
-              {user.data.notice.recruitmentBusinessResponse.map((item) => (
-                <Li>
-                  <Recruitment>
-                    <div>
-                      <ImageProps status={user.approveStatus} />
-                      <Number>{item.recruitmentBusinessId}</Number>
-                      <Category>
-                        <div>대분류</div>
-                        <div>
-                          {
-                            item.classificationResponse.bigClassification
-                              .bigClassificationName
-                          }
-                        </div>
-                      </Category>
-                      <Category>
-                        <div>소분류</div>
-                        <div>{item.classificationResponse.name}</div>
-                      </Category>
-                      <Category>
-                        <div>채용인원</div>
-                        <div>{item.numberOfEmployee}명</div>
-                      </Category>
-                    </div>
-                    <ApplicantList>
-                      <div>{user.data.notice.company.lastNoticeDate}</div>
-                      <button>신청자 리스트</button>
-                    </ApplicantList>
-                  </Recruitment>
-                </Li>
-              ))}
-            </>
-          ))}
-        </Ul>
-      )}
+      <Ul>
+        {data.as.map((user, i) => (
+          <>
+            <Li>
+              <Recruitment>
+                <div>
+                  <ImageProps status={data.count[i].approve} />
+                  <Number>{data.count[i].id}</Number>
+                  <Category>
+                    <div>대분류</div>
+                    <Main>{user}</Main>
+                  </Category>
+                  <Category>
+                    <div>소분류</div>
+                    <Sub>{data.ad[i]}</Sub>
+                  </Category>
+                  <Category>
+                    <div>채용인원</div>
+                    <div>{data.count[i].total}명</div>
+                  </Category>
+                </div>
+                <ApplicantList>
+                  <div>{data.count[i].day}</div>
+                  <button>신청자 리스트</button>
+                </ApplicantList>
+              </Recruitment>
+            </Li>
+          </>
+        ))}
+      </Ul>
     </>
   );
 };
@@ -91,13 +75,25 @@ const ApplicantList = styled.div`
 `;
 
 const Number = styled.div`
+  width: 10px;
   font-size: 24px;
   font-weight: 700;
   color: #4000ff;
   margin-left: 20px;
   margin-right: 31px;
 `;
-
+const Main = styled.div`
+  width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+const Sub = styled.div`
+  width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 const Category = styled.div`
   display: inline-flex;
   align-items: center;
@@ -109,8 +105,7 @@ const Category = styled.div`
     color: #4000ff;
     + div {
       color: #000;
-      font-weight: 400;
-      font-size: 20px;
+      font: 400 normal 18px "NanumGothic", sans-serif;
     }
   }
 `;
@@ -118,4 +113,6 @@ const Ul = styled.ul`
   position: relative;
   list-style-type: none;
 `;
-const Li = styled.li``;
+const Li = styled.li`
+  width: 1136px;
+`;

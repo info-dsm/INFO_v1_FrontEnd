@@ -42,9 +42,9 @@ export const supportData = [
   "병특신청",
 ];
 export const workData = [
-  { clock: "출근시간", si: "시" },
-  { clock: "퇴근시간", si: "시" },
-  { clock: "근무시간 (주)", si: "시간" },
+  { clock: "출근시간", si: "시", workTime: 0 },
+  { clock: "퇴근시간", si: "시", workTime: 0 },
+  { clock: "근무시간 (주)", si: "시간", workTime: 0 },
 ];
 export const interviewData = [
   { skill: "서류전형", request: "DOCUMENT" },
@@ -58,4 +58,10 @@ export const interviewData = [
   { skill: "임원 면접", request: "DIRECTOR_INTERVIEW" },
   { skill: "최종 면접", request: "FINAL_INTERVIEW" },
   { skill: "신체 검사", request: "PHYSICAL_TEST" },
+];
+export const SubmitData = [
+  { text: "모집의뢰 승인", path: "/notice", method: "put" },
+  { text: "모집의뢰 거부", path: "/notice/approve", method: "delete" },
+  { text: "모집의뢰 삭제", path: "/notice", method: "delete" },
+  { text: "모집의뢰 출력", path: "/notice/out", method: "post" },
 ];
