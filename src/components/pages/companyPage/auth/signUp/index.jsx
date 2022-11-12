@@ -8,6 +8,7 @@ import axios from "axios";
 import { skillData } from "../../../../../export/data";
 import { BaseUrl } from "../../../../../export/base";
 import Swal from "sweetalert2";
+import { Notice } from "../../../../common/notice";
 
 const CompanySignUp = () => {
   const [skill, setSkill] = useState([1]);
@@ -222,10 +223,9 @@ const CompanySignUp = () => {
           });
         });
     } else {
-      Swal.fire({
-        title: "내용을 모두 입력해주세요.",
-        icon: "error",
-        confirmButtonText: "Ok",
+      Notice({
+        state: "success",
+        message: "내용을 모두 입력해주세요..",
       });
     }
 
@@ -322,6 +322,7 @@ const CompanySignUp = () => {
         title={"기업 가입"}
         description={"채용 의뢰 전, 회사를 등록해주세요!"}
       />
+
       <Nav>
         <button>기업정보</button>
         <button>모집의뢰정보</button>
