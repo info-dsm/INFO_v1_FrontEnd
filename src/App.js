@@ -10,6 +10,7 @@ import RequstResistration from "./components/pages/companyPage/requestResistrati
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RecruitmentList from "./components/pages/companyPage/recruitmentList";
 import RequstManage from "./components/pages/teacherPage/manage";
+import TeacherList from "./components/pages/teacherPage/list";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -26,6 +27,7 @@ function App() {
                 element={<RequstResistration />}
               />
               <Route path="/teacher/list/item" element={<RequstManage />} />
+              <Route path="/teacher/list" element={<TeacherList />} />
             </Routes>
             <Footer />
           </BrowserRouter>

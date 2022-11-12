@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
-
-export const Notice = (props) => {
+import "./style.css";
+export const Notice = ({ props }) => {
   const state = {
     color1:
       props.state === "success"
@@ -26,18 +26,54 @@ export const Notice = (props) => {
         ? "polygon(36% 60%, 83% 9%, 100% 26%, 36% 89%, 0 57%, 14% 41%)"
         : "polygon(30% 8%,9% 28%,30% 50%,9% 72%,28% 92%,50% 70%,72% 91%,91% 72%,70% 50%,91% 28%,70% 8%,50% 30%)",
   };
-
-  return (
-    <>
-      <MainDiv color1={state.color1} color2={state.color2}>
-        <Logo>
-          <Icon path={state.icon} />
-        </Logo>
-        <Message>{props.message}</Message>
-        <Bar color={state.barColor} />
-      </MainDiv>
-    </>
-  );
+  let asdf = document.createElement("div");
+  asdf.innerHTML = `
+  <div class="MainDiv">
+  <span class="Logo"><div class="Icon"></div></span>
+  <div class="Message"><div class="Bar"></div></div>
+  </div>
+  `;
+  let esd = document.getElementsByClassName("Bar");
+  esd.style.backgroundColor = state.barColor;
+  let Icon = document.getElementsByClassName("Icon");
+  Icon.style.clipPath = state.icon;
+  let MainDiv = document.getElementsByClassName("MainDiv");
+  MainDiv.style.backgroundImage = `linear-gradient(#fff, #fff),
+    linear-gradient(
+      to right,
+      ${state.color1} 0%,
+      ${state.color2} 100%
+    )`;
+  // const MoveNotice = [
+  //   {
+  //     transform: "translateX(150%)",
+  //   },
+  //   {
+  //     transform: "translateX(0)",
+  //   },
+  //   {
+  //     transform: "translateX(0)",
+  //   },
+  //   {
+  //     transform: "translateX(150%)",
+  //   },
+  // ];
+  // asdf.animate(MoveNotice, {
+  //   duration: 3900,
+  //   fillMode: "forwards",
+  //   timeFunction: "ease-in-out",
+  // });
+  // return (
+  //   <>
+  //     <MainDiv color1={state.color1} color2={state.color2}>
+  //       <Logo>
+  //         <Icon path={state.icon} />
+  //       </Logo>
+  //       <Message>{props.message}</Message>
+  //       <Bar color={state.barColor} />
+  //     </MainDiv>
+  //   </>
+  // );
 };
 
 const MoveNotice = keyframes`
