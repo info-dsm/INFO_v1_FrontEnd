@@ -8,27 +8,39 @@ import { useCallback } from "react";
 import { postNotice, postNoticeRequest } from "../../../../api/teacher";
 import LoadingPage from "../../../../common/loading";
 import ErrorPage from "../../../../common/error";
-const Wait = () => {
+const Wait = ({ path }) => {
   const [count, setCount] = useState(0);
   const [arr, setArr] = useState([]);
-  const [arr2, setArr2] = useState([1]);
   const queryClient = useQueryClient();
-  const { status, data } = postNotice(count, "/notice/waiting-notice/list");
+  const { status, data } = postNotice(count, path);
 
   useEffect(() => {
-    let asdf = [];
-    if (status === "success") {
-      for (let i = 1; i <= data.totalPage; i++) {
-        asdf.push(i);
+    if (data?.totalPage > 5) {
+      if (data.totalPage % 5 !== 0) {
+        if (parseInt(count / 5) === parseInt(data.totalPage / 5)) {
+          const asd = parseInt(data.totalPage % 5);
+          let aq = new Array(5).fill(0);
+          for (let i = 0; i < 5; i++) {
+            if (i < asd) {
+              aq[i] = 5 * asd + 1 + i;
+            } else {
+              aq[i] = "•";
+            }
+          }
+          setArr(aq);
+        }
       }
-      setArr(asdf);
+      if (count % 5 === 0 && count / 5 < data.totalPage / 5 - 1) {
+        setArr([count + 1, count + 2, count + 3, count + 4, count + 5]);
+      } else if (count % 5 === 4) {
+        setArr([count - 3, count - 2, count - 1, count, count + 1]);
+      }
     }
-  }, [data]);
+  }, [count, data?.totalPage]);
   useEffect(() => {
     if (data?.last && data.totalPage > count) {
-      queryClient.prefetchQuery(
-        ["pagin", count + 1, "/notice/waiting-notice/list"],
-        () => postNoticeRequest(count + 1, "/notice/waiting-notice/list")
+      queryClient.prefetchQuery(["pagin", count + 1, path], () =>
+        postNoticeRequest(count + 1, path)
       );
     }
   }, [data, count, queryClient]);
@@ -70,15 +82,36 @@ const Wait = () => {
                 <Button onClick={() => setCount(0)}>First Page</Button>
               </Li>
               <Li>
-                <Text>&lt;</Text>
+                <Text
+                  onClick={() => {
+                    if (count > 4) {
+                      setCount((parseInt(count / 5) - 1) * 5 + 4);
+                    }
+                  }}
+                >
+                  &lt;
+                </Text>
               </Li>
               {arr.map((item) => (
                 <Li id={item} onClick={() => Click(item - 1)}>
-                  <Text>{item}</Text>
+                  <Text state={item === count + 1}>{item}</Text>
                 </Li>
               ))}
               <Li>
-                <Text>&gt;</Text>
+                <Text
+                  onClick={() => {
+                    if (
+                      data.totalPage % 5 === 0
+                        ? data.totalPage / 5 + 1 !== parseInt(count / 5) + 1
+                        : parseInt(data.totalPage / 5) + 1 !==
+                          parseInt(count / 5) + 1
+                    ) {
+                      setCount((parseInt(count / 5) + 1) * 5);
+                    }
+                  }}
+                >
+                  &gt;
+                </Text>
               </Li>
               <Li>
                 <Button onClick={() => setCount(data.totalPage - 1)}>
@@ -111,7 +144,10 @@ const Text = styled.div`
   height: 60px;
   padding-top: 15px;
   text-align: center;
+  background-color: ${(props) =>
+    props.state ? props.theme.colors.blue : props.theme.colors.mediumPurple};
   cursor: pointer;
+  border-radius: 100%;
   :hover {
     background-color: ${(props) => props.theme.colors.blue};
     border-radius: 100%;

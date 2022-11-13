@@ -2,7 +2,8 @@ import Wait from "./wait";
 const TeacherList = () => {
   return (
     <>
-      <Wait />
+      <Wait path="/notice/waiting-notice/list" />
+      <Wait path="/notice/list" />
     </>
   );
 };
