@@ -103,7 +103,6 @@ export const postNoticeRequest = async (idx, path) => {
       totalPage: data.totalPages,
     };
   });
-  console.log(res);
   return res;
 };
 export const postNotice = (idx, path) => {
