@@ -25,10 +25,10 @@ const Wait = () => {
     }
   }, [data]);
   useEffect(() => {
-    if (data?.last) {
+    if (data?.last && data.totalPage > count) {
       queryClient.prefetchQuery(
-        ["pagin", count, "/notice/waiting-notice/list"],
-        () => postNoticeRequest(count, "/notice/waiting-notice/list")
+        ["pagin", count + 1, "/notice/waiting-notice/list"],
+        () => postNoticeRequest(count + 1, "/notice/waiting-notice/list")
       );
     }
   }, [data, count, queryClient]);
