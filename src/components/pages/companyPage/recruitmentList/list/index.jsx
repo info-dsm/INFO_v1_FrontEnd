@@ -15,11 +15,11 @@ const ResistrationList = ({ data }) => {
                   <Number>{data.count[i].id}</Number>
                   <Category>
                     <div>대분류</div>
-                    <Main>{user}</Main>
+                    <Main>{data.ad[i]}</Main>
                   </Category>
                   <Category>
                     <div>소분류</div>
-                    <Sub>{data.ad[i]}</Sub>
+                    <Sub>{user}</Sub>
                   </Category>
                   <Category>
                     <div>채용인원</div>

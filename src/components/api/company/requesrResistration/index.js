@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BaseUrl } from "../../../../export/base";
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgyMTYzODMsImV4cCI6MTY2ODMwMjc4M30.VaaCr7wVhxcbG0Mkq9m671P2JuCqpR1GcrFYT9kXrek";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgzMTI4MTksImV4cCI6MTY2ODM5OTIxOX0.Xa8JlV2OyvwTvjV35kKCZrmfWI7mxN89UifM4UX_GYM";
 export const getListProps = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(["datas"], async () => {
@@ -126,6 +126,7 @@ export const getMyList = () => {
             day: data[i].data.notice.company.lastNoticeDate,
             id: data[i].data.notice.recruitmentBusinessResponse[0]
               .recruitmentBusinessId,
+            noticeId: data[i].data.notice.noticeId,
           });
         }
         const ad = arr.map((item) =>

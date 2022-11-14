@@ -17,7 +17,6 @@ import GeunMu from "./geunmu";
 import { DownLoadImg } from "../../../../images";
 const RequstManage = () => {
   const { status, data } = getBoardList();
-
   const modal = useSelector((state) => state.modal.state.modalmanage);
   const count = useSelector((count) => count.count.count.manageCount);
   const [file] = useState([]);
@@ -224,11 +223,9 @@ const RequstManage = () => {
             <s.Ring top={50} />
             <s.Titlet>참고서류</s.Titlet>
             <s.UlSubmitted>
-              {" "}
               {data.formAttachmentList.map((item) => (
                 <>
                   <s.EssentialLi>
-                    {" "}
                     <s.ButtonProps>
                       {item.fileName}
                       <a href={item.fileUrl} download={item.fileName}>

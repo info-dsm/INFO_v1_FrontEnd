@@ -1,6 +1,5 @@
 import * as s from "../style";
-import { supportData } from "../../../../../export/data";
-const BokLi = ({ wel, meal }) => {
+const BokLi = ({ meal }) => {
   console.time("asd");
   let ad = [];
   if (meal.breakfast) {
