@@ -1,0 +1,152 @@
+@keyframes AlertFadeIn {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes AlertFadeOut {
+  0% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+}
+
+.AlertMainDiv {
+  position: fixed;
+  z-index: 99;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.AlertModal {
+  width: 460px;
+  height: 700px;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fcfffb;
+
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
+
+  animation: AlertFadeIn 0.5s ease-out forwards;
+}
+
+.AlertFadeOutModal {
+  animation: AlertFadeOut 0.5s ease-out forwards;
+}
+
+.AlertH1 {
+  margin-top: 60px;
+  font-weight: 500;
+  font-size: 40px;
+  color: #5c5d58;
+}
+
+.SuccessH1 {
+  color: #3ede3e;
+}
+
+.ErrorH1 {
+  color: rgb(243, 104, 104);
+}
+
+.AlertModal button {
+  width: 200px;
+  height: 60px;
+  font-size: 24px;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 12px;
+  margin-top: 30px;
+  background-image: linear-gradient(#5c5d58 0%, #5c5d58 100%);
+  color: #fcfffb;
+}
+
+.SuccessButton > button {
+  background-image: linear-gradient(#8ae8be 0%, #3ede3e 100%);
+}
+
+.ErrorButton > button {
+  background-image: linear-gradient(#ffa7ba 0%, rgb(243, 104, 104) 100%);
+}
+
+.AlertMessage {
+  width: 70%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.AlertIconDiv {
+  margin-top: 100px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 10px solid transparent;
+  border-radius: 50%;
+  background-image: linear-gradient(#fff, #fff),
+    linear-gradient(#5c5d58 0%, #5c5d58 100%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.AlertIcon {
+  width: 80px;
+  height: 80px;
+  background-color: #fcfffb;
+  background-image: linear-gradient(#5c5d58 0%, #5c5d58 100%);
+  clip-path: polygon(
+    30% 8%,
+    9% 28%,
+    30% 50%,
+    9% 72%,
+    28% 92%,
+    50% 70%,
+    72% 91%,
+    91% 72%,
+    70% 50%,
+    91% 28%,
+    70% 8%,
+    50% 30%
+  );
+}
+
+.SuccessIcon {
+  clip-path: polygon(36% 60%, 83% 9%, 100% 26%, 36% 89%, 0 57%, 14% 41%);
+}
+
+.SuccessIconDiv {
+  background-image: linear-gradient(#fff, #fff),
+    linear-gradient(#d0eda2 0%, #a0ebbf 100%);
+}
+
+.SuccessIconDiv > div {
+  background-image: linear-gradient(#d0eda2 0%, #a0ebbf 100%);
+}
+
+.ErrorIconDiv {
+  background-image: linear-gradient(#fff, #fff),
+    linear-gradient(#ffa7ba 0%, rgb(243, 104, 104) 100%);
+}
+
+.ErrorIconDiv > div {
+  background-image: linear-gradient(#ffa7ba 0%, rgb(243, 104, 104) 100%);
+}
