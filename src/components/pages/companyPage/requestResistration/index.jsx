@@ -16,6 +16,7 @@ import SelectComplete from "../../../common/select";
 import { value } from "../../../../redux/store/selectValue";
 import * as s from "./style";
 import { postNotice } from "../../../api/company/requesrResistration";
+import { open } from "../../../common/addresshook";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
   const Data = useSelector((stack) => stack.selectValue.recruitmentRequest);
@@ -34,10 +35,26 @@ const RequstResistration = () => {
   const WorkRef = useRef([]);
   const WelfareRef = useRef();
   const dispatch = useDispatch();
-  console.log({ Data });
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    setLocate({ set: locate.set, text: fullAddress });
+    document.body.removeChild(document.getElementById("daum_postcode_script"));
+  };
+
   const AddWelfare = () => {
-    console.log(WelfareRef.current.value);
-    console.log(list);
     if (
       list.indexOf(WelfareRef.current.value) === -1 &&
       WelfareRef.current.value !== ""
@@ -553,14 +570,25 @@ const RequstResistration = () => {
               type="radio"
               name={1}
               left={60}
-              onChange={() => setLocate({ set: 2, text: locate.text })}
+              onChange={() => {
+                setLocate({ set: 2, text: locate.text });
+              }}
             ></s.CheckInput>
           </s.LiProps>
           <s.LiProps>
             <s.DirectInput
               type="text"
               placeholder="직접 입력"
-              onChange={(e) => setLocate({ set: 2, text: e.target.value })}
+              value={locate.text}
+              onClick={() =>
+                open({
+                  onComplete: handleComplete,
+                  width: 700,
+                  height: 700,
+                  left: 200,
+                  animation: true,
+                })
+              }
             />
           </s.LiProps>
         </s.UlDirectProps>

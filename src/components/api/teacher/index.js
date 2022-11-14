@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BaseUrl } from "../../../export/base";
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgyNzMxMTQsImV4cCI6MTY2ODM1OTUxNH0.ozHJmAsv1yBuwWQUfvm9ToUPvoK9H2_4jhKuGtpDLYY";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgzODEzNzUsImV4cCI6MTY2ODQ2Nzc3NX0.5BpCYYQQ_slpXRWtm3wdSjW-_VrKOnKK1KJ4R-MdY58";
 export const getBoardList = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(["getBoardList"], async () => {
     const { data } = await axios({
       method: "get",
       url: BaseUrl + "/notice",
-      params: { id: 656574354 },
+      params: { id: 134953727 },
       headers: {
         Authorization: `Bearer ${token}`,
       },

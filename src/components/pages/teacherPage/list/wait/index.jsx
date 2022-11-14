@@ -19,12 +19,12 @@ const Wait = ({ path }) => {
       if (data.totalPage % 5 !== 0) {
         if (parseInt(count / 5) === parseInt(data.totalPage / 5)) {
           const asd = parseInt(data.totalPage % 5);
-          let aq = new Array(5).fill(0);
+          let aq = new Array(asd).fill(0);
           for (let i = 0; i < 5; i++) {
             if (i < asd) {
               aq[i] = 5 * asd + 1 + i;
             } else {
-              aq[i] = "•";
+              break;
             }
           }
           setArr(aq);
@@ -43,7 +43,7 @@ const Wait = ({ path }) => {
         postNoticeRequest(count + 1, path)
       );
     }
-  }, [data, count, queryClient]);
+  }, [data, count, queryClient, path]);
   const Click = useCallback((e) => {
     setCount(e);
   }, []);
