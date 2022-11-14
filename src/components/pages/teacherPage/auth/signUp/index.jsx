@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { BaseUrl } from "../../../../../export/base";
-import Swal from "sweetalert2";
+import { Alert } from "../../../../common/alert";
+import { Notice } from "../../../../common/notice";
 
 const TeacherSignUp = () => {
   const str = [
@@ -87,26 +88,30 @@ const TeacherSignUp = () => {
             password: password,
             name: name,
           },
-        }).then((res) => {
-          Swal.fire({
-            title: "계정이 성공적으로 생성되었습니다!",
-            icon: "success",
-            confirmButtonText: "Ok",
-          }).then((result) => {
-            window.location.href = "/student/login";
+        })
+          .then((res) => {
+            Alert({
+              state: "success",
+              message: "계정이 성공적으로 생성되었습니다.",
+            }).then(() => {
+              window.location.href = "/student/login";
+            });
+          })
+          .catch(() => {
+            Alert({
+              state: "error",
+              message: "계정이 생성되지 못 했습니다.",
+            });
           });
-        });
       } else
-        Swal.fire({
-          title: "내용을 모두 입력해주세요.",
-          icon: "error",
-          confirmButtonText: "Ok",
+        Notice({
+          state: "error",
+          message: "내용을 모두 입력해주세요.",
         });
     } else
-      Swal.fire({
-        title: "인증번호나 학번 중복을 확인해주세요.",
-        icon: "error",
-        confirmButtonText: "Ok",
+      Notice({
+        state: "error",
+        message: "인증번호나 학번 중복 확인을 해주세요.",
       });
   };
 
@@ -120,18 +125,24 @@ const TeacherSignUp = () => {
         },
       })
         .then((res) => {
+          Notice({
+            state: "success",
+            message: "인증번호가 발송되었습니다.",
+          });
           setSuccess({ ...success, certifiedSend: true });
         })
         .catch((err) => {
+          Notice({
+            state: "error",
+            message: "존재하지 않거나 이미 가입된 이메일이",
+          });
           setSuccess({ ...success, certifiedSend: false });
         });
     } else {
-      Swal.fire({
-        title: "이메일을 입력해주세요.",
-        icon: "error",
-        confirmButtonText: "Ok",
+      Notice({
+        state: "error",
+        message: "이메일을 입력해주세요.",
       });
-      //푸시 알림
     }
   };
 
@@ -146,16 +157,23 @@ const TeacherSignUp = () => {
         },
       })
         .then((res) => {
+          Notice({
+            state: "success",
+            message: "인증번호가 확인되었습니다.",
+          });
           setSuccess({ ...success, certifiedCheck: true });
         })
         .catch((err) => {
+          Notice({
+            state: "error",
+            message: "인증번호가 올바르지 않습니다.",
+          });
           setSuccess({ ...success, certifiedCheck: false });
         });
     } else {
-      Swal.fire({
-        title: "인증번호를 입력해주세요.",
-        icon: "error",
-        confirmButtonText: "Ok",
+      Notice({
+        state: "error",
+        message: "인증번호를 입력해주세요.",
       });
       //푸시 알림
     }

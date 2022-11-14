@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { BaseUrl } from "../../../../../export/base";
+import { Alert } from "../../../../common/alert";
+import { Notice } from "../../../../common/notice";
 
 const TeacherSignIn = () => {
   const [data, setData] = useState({
@@ -42,14 +44,31 @@ const TeacherSignIn = () => {
           email: data.email,
           password: data.password,
         },
-      }).then((res) => {
-        const { accessToken, refreshToken } = res.data;
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
-        sessionStorage.setItem("accessToken", accessToken);
+      })
+        .then((res) => {
+          const { accessToken, refreshToken } = res.data;
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+          sessionStorage.setItem("accessToken", accessToken);
+          Alert({
+            state: "success",
+            message: "로그인 되었습니다.",
+          }).then(() => {
+            //url 이동
+          });
+        })
+        .catch(() => {
+          Alert({
+            state: "error",
+            message: "이메일이나 비밀번호를 다시 확인해주세요.",
+          });
+        });
+    } else
+      Notice({
+        state: "error",
+        message: "내용을 입력해주세요",
       });
-    } else console.log("내용을 입력해주세요");
   };
 
   return (
