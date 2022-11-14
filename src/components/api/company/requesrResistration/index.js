@@ -126,6 +126,7 @@ export const getMyList = () => {
             day: data[i].data.notice.company.lastNoticeDate,
             id: data[i].data.notice.recruitmentBusinessResponse[0]
               .recruitmentBusinessId,
+            noticeId: data[i].data.notice.noticeId,
           });
         }
         const ad = arr.map((item) =>
