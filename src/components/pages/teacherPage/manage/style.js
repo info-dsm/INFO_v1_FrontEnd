@@ -3,7 +3,7 @@ export const Table = styled.div`
   position: relative;
   width: 1136px;
   height: auto;
-  top: 100px;
+  top: 50px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -576,4 +576,11 @@ export const ImgDown = styled.img`
   height: 17px;
   top: 3px;
   left: 5px;
+`;
+export const ArrowImg = styled.img`
+  position: relative;
+  top: 40px;
+  left: 40px;
+  width: 40px;
+  height: 40px;
 `;

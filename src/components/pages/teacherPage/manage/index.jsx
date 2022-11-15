@@ -6,7 +6,7 @@ import Header from "../../../common/header";
 import { useState } from "react";
 import * as s from "./style";
 import ModalManage from "./modal";
-import { getBoardList, noticeRequest } from "../../../api/teacher";
+import { getNoticeItem, noticeRequest } from "../../../api/teacher";
 import { SubmitData } from "../../../../export/data";
 import BokLi from "./Bokli";
 import ErrorPage from "../../../common/error";
@@ -15,11 +15,16 @@ import ClockWork from "./clockTime";
 import BokliAfter from "./Bokli/bok";
 import GeunMu from "./geunmu";
 import { DownLoadImg } from "../../../../images";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ArrowBack } from "../../../../images";
 const RequstManage = () => {
-  const { status, data } = getBoardList();
+  const { noticeId } = useParams();
+  const { status, data } = getNoticeItem(noticeId);
   const modal = useSelector((state) => state.modal.state.modalmanage);
   const count = useSelector((count) => count.count.count.manageCount);
   const [file] = useState([]);
+
   const dispatch = useDispatch();
   const ShowModal = () => {
     dispatch(stateModalManage(true));
@@ -32,7 +37,13 @@ const RequstManage = () => {
         <ErrorPage />
       ) : (
         <>
-          <Header title="모집의뢰 등록" description="모집공고를 등록해보세요" />
+          <Header
+            title="모집의뢰 관리"
+            description="회사정보를 볼 수 있습니다."
+          />
+          <Link to="/teacher/list">
+            <s.ArrowImg src={ArrowBack} />
+          </Link>
           <s.Table>
             <s.Title>채용직무</s.Title>
             <s.Button onClick={() => ShowModal()}>선택</s.Button>
@@ -278,7 +289,12 @@ const RequstManage = () => {
                 <s.LiProps>
                   <s.SubmitButton
                     onClick={() =>
-                      noticeRequest(item.method, item.path, data.noticeId)
+                      noticeRequest(
+                        item.method,
+                        item.path,
+                        data.noticeId,
+                        item.message
+                      )
                     }
                   >
                     {item.text}
