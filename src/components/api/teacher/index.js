@@ -1,33 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BaseUrl } from "../../../export/base";
+import { Notice } from "../../common/notice";
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgzODEzNzUsImV4cCI6MTY2ODQ2Nzc3NX0.5BpCYYQQ_slpXRWtm3wdSjW-_VrKOnKK1KJ4R-MdY58";
-export const getBoardList = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useQuery(["getBoardList"], async () => {
-    const { data } = await axios({
-      method: "get",
-      url: BaseUrl + "/notice",
-      params: { id: 134953727 },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(data);
-    return data;
-  });
-};
-export const noticeRequest = async (method, path, query) => {
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2Njg0Njg1NDgsImV4cCI6MTY2ODU1NDk0OH0.6G9f1-8wdnEGCDn0ABzT-e4LUVsRhSnxXsNvZrxBqOk";
+export const getBoardList = async (id) => {
   const { data } = await axios({
+    method: "get",
+    url: BaseUrl + "/notice",
+    params: { id: id },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
+export const getNoticeItem = (id) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useQuery(["noticeItem", id], () => getBoardList(id));
+};
+export const noticeRequest = async (method, path, query, message) => {
+  await axios({
     method: method,
     url: BaseUrl + path,
     params: { noticeId: query },
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
-  console.log(data);
+  })
+    .then((res) => {
+      Notice({ state: "seccess", message: message });
+    })
+    .catch((err) => {
+      Notice({ state: "error", message: err.message });
+    });
 };
 export const postNoticeRequest = async (idx, path) => {
   let res;
@@ -114,4 +120,42 @@ export const postNotice = (idx, path) => {
       keepPreviousData: true,
     }
   );
+};
+export const getCompanyRequest = async (idx) => {
+  let data;
+  await axios({
+    method: "get",
+    url: BaseUrl + "/company/list",
+    params: {
+      idx: idx,
+      size: 8,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    data = res.data;
+  });
+  console.log(data);
+  return data;
+};
+export const getCompany = (idx) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useQuery(["list", idx], async () => getCompanyRequest(idx), {
+    keepPreviousData: true,
+  });
+};
+export const getCompanyName = (id) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useQuery(["list", id], async () => {
+    const { data } = await axios({
+      method: "get",
+      url: BaseUrl + "/company/search",
+      params: { query: id },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  });
 };
