@@ -17,6 +17,7 @@ import { value } from "../../../../redux/store/selectValue";
 import * as s from "./style";
 import { postNotice } from "../../../api/company/requesrResistration";
 import { open } from "../../../common/addresshook";
+import { useNavigate } from "react-router-dom";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
   const Data = useSelector((stack) => stack.selectValue.recruitmentRequest);
@@ -34,6 +35,7 @@ const RequstResistration = () => {
   const InputRef = useRef([]);
   const WorkRef = useRef([]);
   const WelfareRef = useRef();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -81,7 +83,6 @@ const RequstResistration = () => {
     (e) => {
       const ad = [...file, ...e.target.files];
       setFile(ad);
-      console.log(file);
     },
     [file]
   );
@@ -108,11 +109,7 @@ const RequstResistration = () => {
     dispatch(value(ad));
   };
   const submit = () => {
-    console.log(MealRef.current[0].checked);
-    console.log(BokRef.current[0].checked);
-    console.log(BokRef.current[0].value);
     let arr = [];
-    console.log(InputRef.current[0].id);
     for (let i = 0; i < InputRef.current.length; i++) {
       console.log(InputRef.current[i].id);
       const find = (e) => {
@@ -163,7 +160,7 @@ const RequstResistration = () => {
       as = {
         ...ad,
         workPlace: {
-          isSameWithCompanyAddress: true,
+          isSameWithCompanyAddress: false,
           otherPlace: locate.text,
         },
         isPersonalContact: state,
@@ -172,13 +169,13 @@ const RequstResistration = () => {
       as = {
         ...ad,
         workPlace: {
-          isSameWithCompanyAddress: false,
+          isSameWithCompanyAddress: true,
         },
         isPersonalContact: state,
       };
     }
-    console.log(as);
     postNotice(file, as);
+    navigate("/company/list");
   };
   return (
     <>

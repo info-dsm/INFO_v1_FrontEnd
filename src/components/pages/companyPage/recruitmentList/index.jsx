@@ -5,6 +5,7 @@ import ResistrationList from "./list";
 import LoadingPage from "../../../common/loading";
 import ErrorPage from "../../../common/error";
 import { getMyList } from "../../../api/company/requesrResistration";
+import { StyledLink } from "../../../../style/theme";
 const RecruitmentList = () => {
   const { status, data } = getMyList();
   return (
@@ -21,9 +22,12 @@ const RecruitmentList = () => {
           />
           <MainDiv>
             <List>
-              <AddBtn>
-                <button>+</button>
-              </AddBtn>
+              <StyledLink to="/company/list/write">
+                <AddBtn>
+                  <button>+</button>
+                </AddBtn>
+              </StyledLink>
+
               <ResistrationList data={data} />
             </List>
           </MainDiv>

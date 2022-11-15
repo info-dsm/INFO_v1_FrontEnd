@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BaseUrl } from "../../../../export/base";
+import { Notice } from "../../../common/notice";
+import { useNavigate } from "react-router-dom";
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2NjgzMTI4MTksImV4cCI6MTY2ODM5OTIxOX0.Xa8JlV2OyvwTvjV35kKCZrmfWI7mxN89UifM4UX_GYM";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2Njg0NTMwNzgsImV4cCI6MTY2ODUzOTQ3OH0.Px0CiC-ZakXX0axx85c19fil7K4zJeoCTPAxmlqumDI";
 export const getListProps = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(["datas"], async () => {
@@ -50,8 +52,6 @@ export const getListProps = () => {
   });
 };
 export const postNotice = (arr, ad) => {
-  console.log(arr);
-  console.log(ad);
   let formData = new FormData();
   for (let i in arr) {
     formData.append("attachment", arr[i]);
@@ -71,7 +71,11 @@ export const postNotice = (arr, ad) => {
       "Access-Control-Allow-Origin": "*",
     },
     data: formData,
-  });
+  })
+    .then((res) => {
+      Notice({ state: "success", message: "정상적으로 처리되었습니다." });
+    })
+    .catch((err) => Notice({ state: "error", message: err.message }));
 };
 export const getMyList = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks

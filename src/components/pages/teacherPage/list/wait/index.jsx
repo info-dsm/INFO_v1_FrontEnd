@@ -1,19 +1,22 @@
 /* eslint-disable react/jsx-no-undef */
 import styled from "styled-components";
 import { Notice } from "../../../../common/notice";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useCallback } from "react";
-import { postNotice, postNoticeRequest } from "../../../../api/teacher";
+import {
+  getBoardList,
+  postNotice,
+  postNoticeRequest,
+} from "../../../../api/teacher";
 import LoadingPage from "../../../../common/loading";
 import ErrorPage from "../../../../common/error";
+import { useNavigate } from "react-router-dom";
 const Wait = ({ path }) => {
   const [count, setCount] = useState(0);
   const [arr, setArr] = useState([]);
   const queryClient = useQueryClient();
   const { status, data } = postNotice(count, path);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (data?.totalPage > 5) {
       if (data.totalPage % 5 !== 0) {
@@ -22,7 +25,7 @@ const Wait = ({ path }) => {
           let aq = new Array(asd).fill(0);
           for (let i = 0; i < 5; i++) {
             if (i < asd) {
-              aq[i] = 5 * asd + 1 + i;
+              aq[i] = 5 * (asd + 1) + 1 + i;
             } else {
               break;
             }
@@ -35,10 +38,16 @@ const Wait = ({ path }) => {
       } else if (count % 5 === 4) {
         setArr([count - 3, count - 2, count - 1, count, count + 1]);
       }
+    } else if (data?.totalPage) {
+      let ad = new Array(data?.totalPage).fill(0);
+      for (let i = 0; i < data.totalPage; i++) {
+        ad[i] = i + 1;
+      }
+      setArr(ad);
     }
   }, [count, data?.totalPage]);
   useEffect(() => {
-    if (data?.last && data.totalPage > count) {
+    if (data?.last && data.totalPage - 1 > count) {
       queryClient.prefetchQuery(["pagin", count + 1, path], () =>
         postNoticeRequest(count + 1, path)
       );
@@ -47,6 +56,9 @@ const Wait = ({ path }) => {
   const Click = useCallback((e) => {
     setCount(e);
   }, []);
+  const PreFetching = async (id) => {
+    queryClient.prefetchQuery(["noticeitem", id], () => getBoardList(id));
+  };
   return (
     <>
       {status === "loading" ? (
@@ -70,7 +82,12 @@ const Wait = ({ path }) => {
                       <div>{user.total}명</div>
                     </Category>
                     <ButtonProps>
-                      <div>자세히 보기</div>
+                      <div
+                        onClick={() => navigate(`/teacher/list/${user.id}`)}
+                        onMouseEnter={() => PreFetching(user.id)}
+                      >
+                        자세히 보기
+                      </div>
                       <div>지원자 리스트</div>
                     </ButtonProps>
                   </Box>
@@ -127,7 +144,8 @@ const Wait = ({ path }) => {
 };
 export default Wait;
 const Table = styled.div`
-  margin: 200px auto;
+  margin: 0px auto;
+  margin-bottom: 200px;
   width: 1190px;
   height: 813px;
   background-color: ${(props) => props.theme.colors.mediumPurple};
@@ -139,7 +157,8 @@ const Li = styled.li`
 const Text = styled.div`
   position: relative;
   font: 700 normal 23px "Roboto";
-  color: ${(props) => props.theme.colors.black};
+  color: ${(props) =>
+    props.state ? props.theme.colors.white : props.theme.colors.black};
   width: 60px;
   height: 60px;
   padding-top: 15px;
@@ -151,6 +170,7 @@ const Text = styled.div`
   :hover {
     background-color: ${(props) => props.theme.colors.blue};
     border-radius: 100%;
+    color: ${(props) => props.theme.colors.white};
   }
 `;
 const Button = styled.div`

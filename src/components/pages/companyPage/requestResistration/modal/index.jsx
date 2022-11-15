@@ -5,10 +5,10 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import * as s from "./style";
 import { value } from "../../../../../redux/store/selectValue";
 import AutoComplete from "../../../../common/autocomplete";
-import Swal from "sweetalert2";
 import { getListProps } from "../../../../api/company/requesrResistration";
 import LoadingPage from "../../../../common/loading";
 import ErrorPage from "../../../../common/error";
+import { Notice } from "../../../../common/notice";
 const SelectModal = () => {
   const { status, data } = getListProps();
   const dispatch = useDispatch();
@@ -167,38 +167,19 @@ const SelectModal = () => {
       };
       console.log(arr3);
       if (radio.id === "") {
-        Swal.fire({
-          title: "버튼을 체크해주세요..",
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
+        Notice({ state: "error", message: "버튼을 체크해주세요..." });
       } else if (NumRef.current.value === "" || NumRef.current.value === "0") {
-        Swal.fire({
-          title: "명 수를 입력해주세요..",
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
+        Notice({ state: "error", message: "명 수를 입력해주세요..." });
       } else if (TextRef.current.value === "") {
-        Swal.fire({
-          title: "상세직무를 입력해주세요..",
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
+        Notice({ state: "error", message: "상세직무를 입력해주세요..." });
       } else if (arr1.length === 0) {
-        Swal.fire({
-          title: "사용언어를 입력해주세요..",
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
+        Notice({ state: "error", message: "사용언어를 입력해주세요..." });
       } else if (arr2.length === 0) {
-        Swal.fire({
-          title: "사용스킬을 입력해주세요..",
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
+        Notice({ state: "error", message: "사용스킬을 입력해주세요..." });
       } else if (ArrStateData.length === ArrStateCountData) {
         dispatch(value([...ArrStateData, props]));
         dispatch(stateModal(false));
+        Notice({ state: "success", message: "정상적으로 처리되었습니다." });
       } else {
         const ad = ArrStateData.map((el, i) => {
           if (i === ArrStateCountData) {
@@ -209,6 +190,7 @@ const SelectModal = () => {
             return el;
           }
         });
+        Notice({ state: "success", message: "정상적으로 처리되었습니다." });
         dispatch(value(ad));
         dispatch(stateModal(false));
       }

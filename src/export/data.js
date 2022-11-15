@@ -60,8 +60,33 @@ export const interviewData = [
   { skill: "신체 검사", request: "PHYSICAL_TEST" },
 ];
 export const SubmitData = [
-  { text: "모집의뢰 승인", path: "/notice/approve", method: "put" },
-  { text: "모집의뢰 거부", path: "/notice/approve", method: "delete" },
-  { text: "모집의뢰 삭제", path: "/notice", method: "delete" },
-  { text: "모집의뢰 출력", path: "/notice/out", method: "post" },
+  {
+    text: "모집의뢰 승인",
+    path: "/notice/approve",
+    method: "put",
+    message: "승인되었습니다.",
+  },
+  {
+    text: "모집의뢰 거부",
+    path: "/notice/approve",
+    method: "delete",
+    message: "거부되었습니다.",
+  },
+  {
+    text: "모집의뢰 삭제",
+    path: "/notice",
+    method: "delete",
+    message: "삭제되었습니다.",
+  },
+  {
+    text: "모집의뢰 출력",
+    path: "/notice/out",
+    method: "post",
+    message: "출력페이지로 이동합니다.",
+  },
+];
+export const TeacherData = [
+  {
+    path: "/teacher/list",
+  },
 ];
