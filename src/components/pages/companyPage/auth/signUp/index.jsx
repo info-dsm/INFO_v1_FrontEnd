@@ -7,8 +7,8 @@ import AutoComplete from "../../../../common/autocomplete";
 import axios from "axios";
 import { skillData } from "../../../../../export/data";
 import { BaseUrl } from "../../../../../export/base";
-import Swal from "sweetalert2";
 import { Notice } from "../../../../common/notice";
+import { Alert } from "../../../../common/alert";
 
 const CompanySignUp = () => {
   const [skill, setSkill] = useState([1]);
@@ -120,7 +120,10 @@ const CompanySignUp = () => {
         settingFormData(props, e.target.files[i]);
         arr.push(e.target.files[i].name);
       } else {
-        console.log("파일이 아름다워요!");
+        Notice({
+          state: "error",
+          message: "파일 크기가 너무 큽니다.",
+        });
         arr = [];
         break;
       }
@@ -206,34 +209,25 @@ const CompanySignUp = () => {
         },
       })
         .then((res) => {
-          console.log(res);
-          Swal.fire({
-            title: "계정이 성공적으로 생성되었습니다!",
-            icon: "success",
-            confirmButtonText: "Ok",
+          Alert({
+            state: "success",
+            message: "계정이 성공적으로 생성되었습니다.",
           }).then((result) => {
             window.location.href = "/company/login";
           });
         })
         .catch((err) => {
-          Swal.fire({
-            title: "계정 생성이 원활하게 되지 않았습니다..",
-            icon: "error",
-            confirmButtonText: "Ok",
+          Alert({
+            state: "error",
+            message: "계정 생성이 원활하게 되지 않았습니다..",
           });
         });
     } else {
       Notice({
-        state: "success",
+        state: "error",
         message: "내용을 모두 입력해주세요..",
       });
     }
-
-    console.log(formData.get("companyIntroductionFile"));
-    console.log(formData.get("businessRegisteredCertificate"));
-    console.log(formData.get("companyPhotoList"));
-    console.log(formData.get("companyLogo"));
-    console.log(formData.get("request"));
   };
 
   const settingFormData = (props, body) => {
@@ -271,18 +265,16 @@ const CompanySignUp = () => {
       })
         .then((res) => {
           setSuccess({ ...success, sendEmail: true });
-          Swal.fire({
-            title: "인증번호 발송!",
-            icon: "success",
-            confirmButtonText: "Ok",
+          Notice({
+            state: "success",
+            message: "인증번호 발송!",
           });
         })
         .catch((err) => {
           setSuccess({ ...success, sendEmail: false });
-          Swal.fire({
-            title: "이미 생성한 계정이거나 잘 못된 계정입니다.",
-            icon: "error",
-            confirmButtonText: "Ok",
+          Notice({
+            state: "error",
+            message: "존재하지 않거나 이미 가입된 이메일입니다.",
           });
         });
     } else if (
@@ -299,18 +291,16 @@ const CompanySignUp = () => {
       })
         .then((res) => {
           setSuccess({ ...success, checkSuccess: true });
-          Swal.fire({
-            title: "인증번호가 성공적으로 확인되었습니다.",
-            icon: "success",
-            confirmButtonText: "Ok",
+          Notice({
+            state: "error",
+            message: "인증번호가 성공적으로 확인되었습니다.",
           });
         })
         .catch((err) => {
           setSuccess({ ...success, checkSuccess: false });
-          Swal.fire({
-            title: "인증번호가 올바르지 않습니다.",
-            icon: "error",
-            confirmButtonText: "Ok",
+          Notice({
+            state: "error",
+            message: "인증번호가 올바르지 않습니다.",
           });
         });
     }

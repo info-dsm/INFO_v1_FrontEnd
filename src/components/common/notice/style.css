@@ -11,7 +11,7 @@
   }
 }
 
-.MainDiv {
+.NoticeMainDiv {
   position: relative;
   position: fixed;
   width: 450px;
@@ -34,27 +34,27 @@
     linear-gradient(#5c5d58 0%, #5c5d58 100%);
 }
 
-.MainDiv > span {
+.NoticeMainDiv > span {
   background-image: linear-gradient(#5c5d58 0%, #5c5d58 100%);
 }
 
-.SuccessMain {
+.NoticeSuccessMain {
   background-image: linear-gradient(#fff, #fff),
     linear-gradient(to right, #d0f398 0%, #61bf61 100%);
 }
-.SuccessMain > span {
+.NoticeSuccessMain > span {
   background-image: linear-gradient(to right, #d0f398 0%, #61bf61 100%);
 }
 
-.ErrorMain {
+.NoticeErrorMain {
   background-image: linear-gradient(#fff, #fff),
     linear-gradient(to right, #ff9baf 0%, #f00000 100%);
 }
-.ErrorMain > span {
+.NoticeErrorMain > span {
   background-image: linear-gradient(to right, #ff9baf 0%, #f00000 100%);
 }
 
-.Logo {
+.NoticeLogo {
   width: 87px;
   height: 100%;
   clip-path: polygon(0% 0%, 65% 0, 65% 34%, 80% 50%, 65% 64%, 65% 100%, 0 100%);
@@ -65,7 +65,7 @@
   align-items: center;
 }
 
-.Icon {
+.NoticeIcon {
   width: 30px;
   height: 30px;
   background-color: #fff;
@@ -86,11 +86,11 @@
   );
 }
 
-.SuccessIcon {
+.NoticeSuccessIcon {
   clip-path: polygon(36% 60%, 83% 9%, 100% 26%, 36% 89%, 0 57%, 14% 41%);
 }
 
-.Message {
+.NoticeMessage {
   font-size: 16px;
   font-weight: 400;
   margin-left: -6px;
@@ -106,7 +106,7 @@
   }
 }
 
-.Bar {
+.NoticeBar {
   width: 380px;
   height: 5px;
   position: absolute;
@@ -118,10 +118,10 @@
   background-color: #5c5d58;
 }
 
-.SuccessBar {
+.NoticeSuccessBar {
   background-color: #89d275;
 }
 
-.ErrorBar {
+.NoticeErrorBar {
   background-color: #f63a42;
 }

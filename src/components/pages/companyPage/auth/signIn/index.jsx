@@ -5,7 +5,8 @@ import axios from "axios";
 import { BaseUrl } from "../../../../../export/base";
 import checkImg from "../../../../../images/checked.png";
 import failImg from "../../../../../images/failed.png";
-import Swal from "sweetalert2";
+import { Notice } from "../../../../common/notice";
+import { Alert } from "../../../../common/alert";
 
 const CompanySignIn = () => {
   const [data, setData] = useState({
@@ -53,25 +54,36 @@ const CompanySignIn = () => {
             companyNumber: data.companyNumber,
             password: data.password,
           },
-        }).then((res) => {
-          const { accessToken, refreshToken } = res.data;
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${accessToken}`;
-          sessionStorage.setItem("accessToken", accessToken);
-        });
+        })
+          .then((res) => {
+            const { accessToken, refreshToken } = res.data;
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${accessToken}`;
+            sessionStorage.setItem("accessToken", accessToken);
+            Alert({
+              state: "success",
+              message: "성공적으로 로그인되었습니다.",
+            }).then(() => {
+              // url 이동
+            });
+          })
+          .catch(() => {
+            Alert({
+              state: "error",
+              message: "사업자번호나 비밀번호를 확인해주세요.",
+            });
+          });
       } else {
-        Swal.fire({
-          title: "내용을 모두 입력해주세요.",
-          icon: "error",
-          confirmButtonText: "Ok",
+        Notice({
+          state: "error",
+          message: "내용을 모두 입력해주세요",
         });
       }
     } else {
-      Swal.fire({
-        title: "기업을 조회해주세요.",
-        icon: "error",
-        confirmButtonText: "Ok",
+      Notice({
+        state: "error",
+        message: "기업을 조회해주세요",
       });
     }
   };
@@ -88,11 +100,24 @@ const CompanySignIn = () => {
         .then((res) => {
           setHint({ ...hint, str: res.data });
           setSuccess({ ...success, inquiry: true });
+          Notice({
+            state: "success",
+            message: "성공적으로 회사 조회를 하였습니다.",
+          });
         })
         .catch((err) => {
           setHint({ ...hint, str: err.message });
           setSuccess({ ...success, inquiry: false });
+          Notice({
+            state: "error",
+            message: "존재하지 않거나 가입된 회사입니다.",
+          });
         });
+    } else {
+      Notice({
+        state: "error",
+        message: "내용을 모두 입력해주세요",
+      });
     }
   };
 
@@ -163,7 +188,7 @@ const CompanySignIn = () => {
                 or
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
-                <Link to={"/companysignup"}>
+                <Link to={"/company/signup"}>
                   <a>SignUp</a>
                 </Link>
               </HighlightText>
