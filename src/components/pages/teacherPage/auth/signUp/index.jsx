@@ -227,7 +227,7 @@ const TeacherSignUp = () => {
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 <Link to={"/teacher/login"}>
-                  <a>Login</a>
+                  <div>Login</div>
                 </Link>
               </HighlightText>
             </Submit>
@@ -340,7 +340,7 @@ const HighlightText = styled.span`
   cursor: ${(props) => props.cursor};
   margin-left: 10px;
 
-  a {
+  div {
     text-decoration: none;
     color: #7243ff;
   }

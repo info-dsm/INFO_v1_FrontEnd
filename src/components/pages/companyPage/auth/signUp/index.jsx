@@ -10,7 +10,7 @@ import { BaseUrl } from "../../../../../export/base";
 import { Notice } from "../../../../common/notice";
 import { Alert } from "../../../../common/alert";
 import NavProps from "../../../../common/nav";
-
+import { open } from "../../../../common/addresshook";
 const CompanySignUp = () => {
   const [skill, setSkill] = useState([1]);
   const SkillRef = useRef([]);
@@ -306,7 +306,49 @@ const CompanySignUp = () => {
         });
     }
   };
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
 
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+    setCompanyInfomation({
+      ...companyInfomation,
+      homeFullAddress: fullAddress,
+      homeAddressNumber: data.zonecode,
+    });
+    document.body.removeChild(document.getElementById("daum_postcode_script"));
+  };
+  const subhandleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    setCompanyInfomation({
+      ...companyInfomation,
+      agentFullAddress: fullAddress,
+      agentAddressNumber: data.zonecode,
+    });
+    document.body.removeChild(document.getElementById("daum_postcode_script"));
+  };
   return (
     <>
       <Header
@@ -377,12 +419,30 @@ const CompanySignUp = () => {
                 <div>
                   <span>본사</span>
                   <InputForm
-                    onChange={(e) => onChangeState("homeFullAddress", e)}
+                    value={companyInfomation.homeFullAddress}
+                    onClick={() =>
+                      open({
+                        onComplete: handleComplete,
+                        width: 700,
+                        height: 700,
+                        left: 200,
+                        animation: true,
+                      })
+                    }
                     placeholder="ex) 대전광역시 유성구 가정북로 76"
                   />
                   <InputForm
-                    type={"number"}
-                    onChange={(e) => onChangeState("homeAddressNumber", e)}
+                    type={"text"}
+                    value={companyInfomation.homeAddressNumber}
+                    onClick={() =>
+                      open({
+                        onComplete: handleComplete,
+                        width: 700,
+                        height: 700,
+                        left: 200,
+                        animation: true,
+                      })
+                    }
                     style={{ width: "100px" }}
                     placeholder="ex) 34111"
                   />
@@ -390,12 +450,30 @@ const CompanySignUp = () => {
                 <div>
                   <span>연구소/지점</span>
                   <InputForm
-                    onChange={(e) => onChangeState("agentFullAddress", e)}
+                    value={companyInfomation.agentFullAddress}
+                    onClick={() =>
+                      open({
+                        onComplete: subhandleComplete,
+                        width: 700,
+                        height: 700,
+                        left: 200,
+                        animation: true,
+                      })
+                    }
                     placeholder="ex) 대전광역시 유성구 가정북로 76"
                   />
                   <InputForm
                     type={"number"}
-                    onChange={(e) => onChangeState("agentAddressNumber", e)}
+                    value={companyInfomation.agentAddressNumber}
+                    onClick={() =>
+                      open({
+                        onComplete: subhandleComplete,
+                        width: 700,
+                        height: 700,
+                        left: 200,
+                        animation: true,
+                      })
+                    }
                     style={{ width: "100px" }}
                     placeholder="ex) 34111"
                   />
