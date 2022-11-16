@@ -672,7 +672,7 @@ const PlusButton = styled.div`
     background-color: #f0f0f0;
     outline: none;
     border: none;
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
     border-radius: 12px;
     left: -45px;
     width: 250px;
@@ -792,7 +792,7 @@ const InputForm = styled.input`
   height: 50px;
   border-radius: 18px;
   background-color: #f0f0f0;
-  font-size: 20px;
+  font-size: 17px;
   margin-right: 30px;
   padding-left: 24px;
   font-weight: 700;
