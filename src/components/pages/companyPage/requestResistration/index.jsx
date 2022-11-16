@@ -19,6 +19,7 @@ import { postNotice } from "../../../api/company/requesrResistration";
 import { open } from "../../../common/addresshook";
 import { useNavigate } from "react-router-dom";
 import NavProps from "../../../common/nav";
+import { Notice } from "../../../common/notice";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
   const Data = useSelector((stack) => stack.selectValue.recruitmentRequest);
@@ -30,6 +31,7 @@ const RequstResistration = () => {
   const [state, setState] = useState(false);
   const [special, setSpecial] = useState("");
   const [dateState, setDateState] = useState({ startDate: "", endDate: "" });
+  const [postDaum, setPostDaum] = useState(false);
   const BokRef = useRef([]);
   const MealRef = useRef([]);
   const MoneyRef = useRef([]);
@@ -54,6 +56,7 @@ const RequstResistration = () => {
     }
 
     setLocate({ set: locate.set, text: fullAddress });
+    setPostDaum(false);
     document.body.removeChild(document.getElementById("daum_postcode_script"));
   };
 
@@ -579,15 +582,24 @@ const RequstResistration = () => {
               type="text"
               placeholder="직접 입력"
               value={locate.text}
-              onClick={() =>
-                open({
-                  onComplete: handleComplete,
-                  width: 700,
-                  height: 700,
-                  left: 200,
-                  animation: true,
-                })
-              }
+              onClick={(e) => {
+                if (postDaum) {
+                  Notice({
+                    state: "error",
+                    message: "이미 중복된 창이있습니다.",
+                  });
+                  e.preventDefault();
+                } else {
+                  setPostDaum(true);
+                  open({
+                    onComplete: handleComplete,
+                    width: 700,
+                    height: 700,
+                    left: 200,
+                    animation: true,
+                  });
+                }
+              }}
             />
           </s.LiProps>
         </s.UlDirectProps>
