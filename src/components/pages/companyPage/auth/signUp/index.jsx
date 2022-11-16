@@ -5,10 +5,11 @@ import checkImg from "../../../../../images/checked.png";
 import failImg from "../../../../../images/failed.png";
 import AutoComplete from "../../../../common/autocomplete";
 import axios from "axios";
-import { skillData } from "../../../../../export/data";
+import { CompanyData, skillData } from "../../../../../export/data";
 import { BaseUrl } from "../../../../../export/base";
 import { Notice } from "../../../../common/notice";
 import { Alert } from "../../../../common/alert";
+import NavProps from "../../../../common/nav";
 
 const CompanySignUp = () => {
   const [skill, setSkill] = useState([1]);
@@ -313,10 +314,7 @@ const CompanySignUp = () => {
         description={"채용 의뢰 전, 회사를 등록해주세요!"}
       />
 
-      <Nav>
-        <button>기업정보</button>
-        <button>모집의뢰정보</button>
-      </Nav>
+      <NavProps props={CompanyData} idx={0} />
       <MainDiv>
         <ContainerDiv>
           <Title>

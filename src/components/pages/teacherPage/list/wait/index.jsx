@@ -1,16 +1,16 @@
 /* eslint-disable react/jsx-no-undef */
 import styled from "styled-components";
-import { Notice } from "../../../../common/notice";
 import { useState, useEffect, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   getBoardList,
+  getUserCompany,
   postNotice,
   postNoticeRequest,
 } from "../../../../api/teacher";
-import LoadingPage from "../../../../common/loading";
-import ErrorPage from "../../../../common/error";
+import Error from "../../../../common/error/error";
 import { useNavigate } from "react-router-dom";
+import Load from "../../../../common/loading/load";
 const Wait = ({ path }) => {
   const [count, setCount] = useState(0);
   const [arr, setArr] = useState([]);
@@ -59,12 +59,17 @@ const Wait = ({ path }) => {
   const PreFetching = async (id) => {
     queryClient.prefetchQuery(["noticeitem", id], () => getBoardList(id));
   };
+  const PreFech = async (id) => {
+    queryClient.prefetchQuery(["teacherGetUser", id, 0], () =>
+      getUserCompany(id, 0)
+    );
+  };
   return (
     <>
       {status === "loading" ? (
-        <LoadingPage />
+        <Load />
       ) : status === "error" ? (
-        <ErrorPage />
+        <Error />
       ) : (
         <>
           <Table>
@@ -88,7 +93,16 @@ const Wait = ({ path }) => {
                       >
                         자세히 보기
                       </div>
-                      <div>지원자 리스트</div>
+                      <div
+                        onClick={() =>
+                          navigate(`/teacher/manage/user/${user.id}`, {
+                            state: data.content[i],
+                          })
+                        }
+                        onMouseEnter={() => PreFech(user.id)}
+                      >
+                        지원자 리스트
+                      </div>
                     </ButtonProps>
                   </Box>
                 </Libox>

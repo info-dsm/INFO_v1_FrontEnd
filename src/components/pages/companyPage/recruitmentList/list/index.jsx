@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { StyledLink } from "../../../../../style/theme";
 
 import ImageProps from "./Status";
 const ResistrationList = ({ data }) => {
@@ -28,7 +29,12 @@ const ResistrationList = ({ data }) => {
                 </div>
                 <ApplicantList>
                   <div>{data.count[i].day}</div>
-                  <button>신청자 리스트</button>
+                  <StyledLink
+                    to={`/company/manage/user/${data.count[i].data.noticeId}`}
+                    state={data.count[i].data}
+                  >
+                    <button>신청자 리스트</button>
+                  </StyledLink>
                 </ApplicantList>
               </Recruitment>
             </Li>
@@ -71,6 +77,7 @@ const ApplicantList = styled.div`
     background-color: #4000ff;
     font-size: 14px;
     font-weight: 700;
+    cursor: pointer;
   }
 `;
 

@@ -1,10 +1,10 @@
 import styled, { keyframes } from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 const Error = (props) => {
   const arr = Array.from({ length: 3 }, () => {
     return "404";
   });
-
+  const navigate = useNavigate();
   return (
     <>
       <Title>
@@ -17,7 +17,7 @@ const Error = (props) => {
       <Description color={props.color}>PAGE NOT FOUND</Description>
       <Button
         onClick={() => {
-          window.history.back();
+          navigate(-1);
         }}
       >
         GO BACK

@@ -58,6 +58,7 @@ const ModalManage = ({ Data }) => {
                         </LiSubTitle>
                       </>
                     ))}
+                    {state[i].state ? <Select>✓</Select> : <></>}
                   </UlSubTitle>
                   <UlContent>
                     <LiContent width={212} state={state[i].state}>
@@ -84,15 +85,19 @@ const ModalManage = ({ Data }) => {
                       </EssentialLi>
                     ))}
                   </EssentialUl>
-                  <li>
-                    <SubTitle>기타기술</SubTitle>
-                  </li>
-                  <li>
-                    <GradesUl>
-                      <AsdfProps>성적(커트라인)</AsdfProps>
-                      <GradesLi>상위 {el.gradeCutLine}%이내</GradesLi>
-                    </GradesUl>
-                  </li>
+                  <GradeUl>
+                    <li>
+                      <SubTitle>기타기술</SubTitle>
+                    </li>
+                    <li>
+                      <GradesUl>
+                        <AsdfProps>성적(커트라인)</AsdfProps>
+                        <GradesLi state={state[i].state}>
+                          상위 {el.gradeCutLine}%이내
+                        </GradesLi>
+                      </GradesUl>
+                    </li>
+                  </GradeUl>
                   <EssentialUl>
                     {el.technologySet.map((user) => (
                       <EssentialLi>
@@ -186,16 +191,18 @@ const BoxPropsLi = styled.li`
   position: relative;
   width: 1156px;
   left: -10px;
-  padding: 10px;
+  padding: 30px;
   height: auto;
-  border: 2px solid
-    ${(props) =>
-      props.state ? props.theme.colors.blue : props.theme.colors.black};
+  height: 550px;
   background-color: ${(props) =>
-    props.state ? props.theme.colors.gray : props.theme.colors.white};
+    props.state ? props.theme.colors.semiWhite : props.theme.colors.white};
+  box-shadow: ${(props) =>
+      props.state ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.3)"}3px
+    3px 3px 3px;
   list-style: none;
   border-radius: 20px;
   margin-top: 20px;
+  cursor: pointer;
 `;
 const BoxPropsUl = styled.ul`
   position: relative;
@@ -242,8 +249,7 @@ const LiContent = styled.li`
   font-weight: 400;
   font-size: 20px;
   line-height: 20px;
-  color: ${(props) =>
-    props.state ? props.theme.colors.white : props.theme.colors.black};
+  color: ${(props) => props.theme.colors.black};
   word-break: break-all;
 `;
 const SubTitle = styled.div`
@@ -316,11 +322,18 @@ export const GradesUl = styled.ul`
   position: relative;
   width: 230px;
   height: 56px;
-  top: 50px;
+  top: -50px;
   left: 410px;
   list-style-type: none;
 `;
 export const GradesLi = styled.li`
   font: 400 normal 20px "NanumGothic";
   color: ${(props) => props.theme.colors.black};
+`;
+const Select = styled.div`
+  position: relative;
+  color: ${(props) => props.theme.colors.green};
+  top: -20px;
+  left: 380px;
+  font: 700 normal 40px "NanumGothic";
 `;

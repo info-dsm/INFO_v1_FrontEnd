@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BaseUrl } from "../../../../../export/base";
 import { Alert } from "../../../../common/alert";
 import { Notice } from "../../../../common/notice";
-
+import { PostReissue } from "../../../../api/reisue";
 const TeacherSignIn = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -51,11 +52,17 @@ const TeacherSignIn = () => {
             "Authorization"
           ] = `Bearer ${accessToken}`;
           sessionStorage.setItem("accessToken", accessToken);
+          sessionStorage.setItem("refreshToken", refreshToken);
+          setTimeout(() => {
+            PostReissue();
+          }, 171800000);
+          clearTimeout();
           Alert({
             state: "success",
             message: "로그인 되었습니다.",
           }).then(() => {
             //url 이동
+            navigate("/teacher");
           });
         })
         .catch(() => {

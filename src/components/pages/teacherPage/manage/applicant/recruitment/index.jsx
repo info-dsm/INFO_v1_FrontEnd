@@ -1,6 +1,6 @@
 import styled from "styled-components";
-
-const Recruitment = ({ TitleData, Data, count }) => {
+import { TitleData } from "../../../../../../export/data";
+const Recruitment = ({ data, count }) => {
   return (
     <>
       <BoxPropsUl>
@@ -18,26 +18,68 @@ const Recruitment = ({ TitleData, Data, count }) => {
             ))}
           </UlSubTitle>
           <UlContent>
-            <LiContent width={212}>{Data[count].main}</LiContent>
-            <LiContent width={167}>{Data[count].sub}</LiContent>
-            <LiContent width={191}>{Data[count].num}</LiContent>
-            <LiContent width={566}>{Data[count].duty}</LiContent>
+            <LiContent width={212}>
+              {
+                data.recruitmentBusinessResponse[count].classificationResponse
+                  .bigClassification.bigClassificationName
+              }
+            </LiContent>
+            <LiContent width={167}>
+              {
+                data.recruitmentBusinessResponse[count].classificationResponse
+                  .name
+              }
+            </LiContent>
+            <LiContent width={191}>
+              {data.recruitmentBusinessResponse[count].numberOfEmployee}
+            </LiContent>
+            <LiContent width={566}>
+              {
+                data.recruitmentBusinessResponse[count]
+                  .detailBusinessDescription
+              }
+            </LiContent>
           </UlContent>
           <SubTitle>필요언어</SubTitle>
           <EssentialUl>
-            {Data[count].lang.map((user) => (
+            {data.recruitmentBusinessResponse[count].languageSet.map((user) => (
               <EssentialLi>
-                <ButtonProps>{user}</ButtonProps>
+                <ButtonProps>{user.languageName}</ButtonProps>
               </EssentialLi>
             ))}
           </EssentialUl>
-          <SubTitle>기타기술</SubTitle>
+          <GradeUl>
+            <li>
+              <SubTitle>기타기술</SubTitle>
+            </li>
+            <li>
+              <GradesUl>
+                <AsdfProps>성적(커트라인)</AsdfProps>
+                <GradesLi>
+                  상위 {data.recruitmentBusinessResponse[count].gradeCutLine}
+                  %이내
+                </GradesLi>
+              </GradesUl>
+            </li>
+          </GradeUl>
           <EssentialUl>
-            {Data[count].stack.map((user) => (
-              <EssentialLi>
-                <ButtonProps>{user}</ButtonProps>
-              </EssentialLi>
-            ))}
+            {data.recruitmentBusinessResponse[count].technologySet.map(
+              (user) => (
+                <EssentialLi>
+                  <ButtonProps>{user.technologyName}</ButtonProps>
+                </EssentialLi>
+              )
+            )}
+          </EssentialUl>
+          <SubTitle>국가자격증</SubTitle>
+          <EssentialUl>
+            {data.recruitmentBusinessResponse[count].certificateList.map(
+              (user) => (
+                <EssentialLi>
+                  <ButtonProps>{user.certificateName}</ButtonProps>
+                </EssentialLi>
+              )
+            )}
           </EssentialUl>
         </BoxPropsLi>
       </BoxPropsUl>
@@ -47,7 +89,7 @@ const Recruitment = ({ TitleData, Data, count }) => {
 export default Recruitment;
 const BoxPropsLi = styled.li`
   position: relative;
-  width: 1156px;
+  width: 1190px;
   left: -10px;
   padding: 10px;
   height: auto;
@@ -61,7 +103,7 @@ const BoxPropsUl = styled.ul`
   top: -30px;
   position: relative;
   padding: 0px;
-  width: 1156px;
+  width: 1190px;
   height: auto;
 `;
 const UlSubTitle = styled.ul`
@@ -87,7 +129,7 @@ const LiSubTitle = styled.li`
 `;
 const UlContent = styled.ul`
   position: relative;
-  width: 1176px;
+  width: 1190px;
   display: flex;
 `;
 const LiContent = styled.li`
@@ -106,7 +148,7 @@ const LiContent = styled.li`
 `;
 const SubTitle = styled.div`
   position: relative;
-  width: 96px;
+  width: 130px;
   height: 28px;
   margin-top: 60px;
   font-family: "NanumGothic", sans-serif;
@@ -142,4 +184,27 @@ const ButtonProps = styled.button`
   color: ${(props) => props.theme.colors.black};
   border-radius: 100px;
   border: none;
+`;
+const AsdfProps = styled.li`
+  font: 700 normal 24px "NanumGothic", sans-serif;
+  color: ${(props) => props.theme.colors.blue};
+`;
+const GradeUl = styled.ul`
+  position: relative;
+  width: 1136px;
+  display: flex;
+  list-style-type: none;
+  left: -40px;
+`;
+const GradesUl = styled.ul`
+  position: relative;
+  width: 230px;
+  height: 56px;
+  top: 50px;
+  left: 410px;
+  list-style-type: none;
+`;
+const GradesLi = styled.li`
+  font: 400 normal 20px "NanumGothic";
+  color: ${(props) => props.theme.colors.black};
 `;

@@ -19,6 +19,9 @@ import TeacherSignUp from "./components/pages/teacherPage/auth/signUp";
 import TeacherSignIn from "./components/pages/teacherPage/auth/signIn";
 import ShowCompany from "./components/pages/teacherPage/company/list";
 import SearchProps from "./components/pages/teacherPage/company/search";
+import CompanyInfo from "./components/pages/companyPage/info";
+import Applicant from "./components/pages/teacherPage/manage/applicant";
+import ErrorPage from "./components/common/error";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -29,6 +32,7 @@ function App() {
           <BrowserRouter>
             <GlobalStyle />
             <Routes>
+              <Route path="*" element={<ErrorPage />} />
               <Route path="/company/login" element={<CompanySignIn />} />
               <Route path="/company/signup" element={<CompanySignUp />} />
               <Route path="/student/login" element={<StudentSignIn />} />
@@ -42,12 +46,21 @@ function App() {
                 element={<RequstResistration />}
               />
               <Route path="/teacher" element={<ShowCompany />} />
+              <Route path="/teacher/company/:id" element={<CompanyInfo />} />
               <Route path="/teacher/:companyId" element={<SearchProps />} />
               <Route
                 path="/teacher/list/:noticeId"
                 element={<RequstManage />}
               />
               <Route path="/teacher/list" element={<TeacherList />} />
+              <Route
+                path="/teacher/manage/user/:teacherId"
+                element={<Applicant />}
+              />
+              <Route
+                path="/company/manage/user/:teacherId"
+                element={<Applicant />}
+              />
             </Routes>
             <Footer />
           </BrowserRouter>

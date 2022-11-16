@@ -3,7 +3,7 @@ import { stateModal } from "../../../../redux/store/modal";
 import { stateCount } from "../../../../redux/store/count";
 import { useSelector } from "react-redux";
 import SelectModal from "./modal";
-import { TitleData } from "../../../../export/data";
+import { CompanyData2, TitleData } from "../../../../export/data";
 import Header from "../../../common/header";
 import { useState, useCallback, useRef } from "react";
 import {
@@ -18,6 +18,7 @@ import * as s from "./style";
 import { postNotice } from "../../../api/company/requesrResistration";
 import { open } from "../../../common/addresshook";
 import { useNavigate } from "react-router-dom";
+import NavProps from "../../../common/nav";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
   const Data = useSelector((stack) => stack.selectValue.recruitmentRequest);
@@ -180,6 +181,7 @@ const RequstResistration = () => {
   return (
     <>
       <Header title="모집의뢰 관리" description="회사 정보를 볼 수 있습니다." />
+      <NavProps props={CompanyData2} idx={1} />
       <s.Table>
         <s.Title>채용직무</s.Title>
 

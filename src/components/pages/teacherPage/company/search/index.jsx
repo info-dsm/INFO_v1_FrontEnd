@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { getCompanyName } from "../../../../api/teacher";
+import { getCompanyInfo, getCompanyName } from "../../../../api/teacher";
 import ErrorPage from "../../../../common/error";
 import LoadingPage from "../../../../common/loading";
 import styled from "styled-components";
@@ -7,14 +7,22 @@ import { Link } from "react-router-dom";
 import { useState, useRef, useCallback } from "react";
 import Header from "../../../../common/header";
 import { ArrowBack } from "../../../../../images";
+import { StyledLink } from "../../../../../style/theme";
+import { useQueryClient } from "@tanstack/react-query";
+import NavProps from "../../../../common/nav";
+import { TeacherData } from "../../../../../export/data";
 const SearchProps = () => {
   const { companyId } = useParams();
   const [state, setState] = useState(companyId);
   const InputRef = useRef();
+  const queryClient = useQueryClient();
   const { status, data } = getCompanyName(state);
   const GetCompany = useCallback(() => {
     setState(InputRef.current.value);
   }, []);
+  const PreFetching = async (id) => {
+    queryClient.prefetchQuery(["companyInfo", id], () => getCompanyInfo(id));
+  };
   return (
     <>
       {status === "loading" ? (
@@ -27,9 +35,7 @@ const SearchProps = () => {
             title={"기업관리"}
             description={"손쉽게 기업들을 관리해보세요."}
           />
-          <Link to="/teacher">
-            <ArrowImg src={ArrowBack} />
-          </Link>
+          <NavProps props={TeacherData} idx={0} />
 
           <SearchDiv>
             <Search placeholder="회사이름" ref={InputRef} />
@@ -62,7 +68,13 @@ const SearchProps = () => {
                     <div>email</div>
                     <div>{user.contactorEmail}</div>
                   </Category>
-                  <ButtonProps>자세히보기</ButtonProps>
+                  <StyledLink to={`/teacher/company/${user.companyId}`}>
+                    <ButtonProps
+                      onMouseDown={() => PreFetching(user.companyId)}
+                    >
+                      자세히보기
+                    </ButtonProps>
+                  </StyledLink>
                 </Box>
               </Libox>
             ))}
@@ -105,6 +117,7 @@ const Box = styled.div`
   vertical-align: center;
 `;
 const Title = styled.div`
+  width: 50px;
   font: 700 normal 24px "NanumGothic", sans-serif;
   color: ${(props) => props.theme.colors.blue};
   display: inline-flex;
@@ -180,11 +193,4 @@ const DivText = styled.div`
   span {
     color: ${(props) => props.theme.colors.blue};
   }
-`;
-const ArrowImg = styled.img`
-  position: relative;
-  top: 30px;
-  left: 30px;
-  width: 40px;
-  height: 40px;
 `;

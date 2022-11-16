@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { stateModalManage } from "../../../../redux/store/modal";
 import { useSelector } from "react-redux";
-import { TitleData } from "../../../../export/data";
+import { TitleData, TeacherData } from "../../../../export/data";
 import Header from "../../../common/header";
 import { useState } from "react";
 import * as s from "./style";
@@ -16,8 +16,8 @@ import BokliAfter from "./Bokli/bok";
 import GeunMu from "./geunmu";
 import { DownLoadImg } from "../../../../images";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { ArrowBack } from "../../../../images";
+import { StyledLink } from "../../../../style/theme";
+import NavProps from "../../../common/nav";
 const RequstManage = () => {
   const { noticeId } = useParams();
   const { status, data } = getNoticeItem(noticeId);
@@ -41,9 +41,7 @@ const RequstManage = () => {
             title="모집의뢰 관리"
             description="회사정보를 볼 수 있습니다."
           />
-          <Link to="/teacher/list">
-            <s.ArrowImg src={ArrowBack} />
-          </Link>
+          <NavProps props={TeacherData} idx={1} />
           <s.Table>
             <s.Title>채용직무</s.Title>
             <s.Button onClick={() => ShowModal()}>선택</s.Button>
@@ -287,18 +285,20 @@ const RequstManage = () => {
             <s.UlPross>
               {SubmitData.map((item) => (
                 <s.LiProps>
-                  <s.SubmitButton
-                    onClick={() =>
-                      noticeRequest(
-                        item.method,
-                        item.path,
-                        data.noticeId,
-                        item.message
-                      )
-                    }
-                  >
-                    {item.text}
-                  </s.SubmitButton>
+                  <StyledLink to="/teacher/list">
+                    <s.SubmitButton
+                      onClick={() =>
+                        noticeRequest(
+                          item.method,
+                          item.path,
+                          data.noticeId,
+                          item.message
+                        )
+                      }
+                    >
+                      {item.text}
+                    </s.SubmitButton>
+                  </StyledLink>
                 </s.LiProps>
               ))}
             </s.UlPross>

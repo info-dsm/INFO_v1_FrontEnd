@@ -2,8 +2,8 @@ import axios from "axios";
 import { BaseUrl } from "../../../export/base";
 import { useQuery } from "@tanstack/react-query";
 export const Reissue = async () => {
-  const refresh = localStorage.getItem("refreshToken");
-  const token = localStorage.getItem("accessToken");
+  const refresh = sessionStorage.getItem("refreshToken");
+  const token = sessionStorage.getItem("accessToken");
   await axios({
     url: BaseUrl + "/auth/reissue",
     method: "post",
@@ -12,8 +12,8 @@ export const Reissue = async () => {
       refreshToken: refresh,
     },
   }).then(({ accessToken, refreshToken }) => {
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+    sessionStorage.setItem("accessToken", accessToken);
+    sessionStorage.setItem("refreshToken", refreshToken);
   });
 };
 export const PostReissue = () => {

@@ -3,14 +3,14 @@ import axios from "axios";
 import { BaseUrl } from "../../../export/base";
 import { Notice } from "../../common/notice";
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2Njg0Njg1NDgsImV4cCI6MTY2ODU1NDk0OH0.6G9f1-8wdnEGCDn0ABzT-e4LUVsRhSnxXsNvZrxBqOk";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2Njg1NTUwMDgsImV4cCI6MTY2ODY0MTQwOH0.DjQe-bca6O9JA7__pyIsLBxDaiiqzRR885ZlWERGvc0";
 export const getBoardList = async (id) => {
   const { data } = await axios({
     method: "get",
     url: BaseUrl + "/notice",
     params: { id: id },
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   });
   return data;
@@ -45,7 +45,7 @@ export const postNoticeRequest = async (idx, path) => {
       size: 7,
     },
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   }).then((response) => {
     const data = response.data;
@@ -107,6 +107,7 @@ export const postNoticeRequest = async (idx, path) => {
       last: data.last,
       first: data.first,
       totalPage: data.totalPages,
+      content: data.content,
     };
   });
   return res;
@@ -131,7 +132,7 @@ export const getCompanyRequest = async (idx) => {
       size: 8,
     },
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   }).then((res) => {
     data = res.data;
@@ -153,9 +154,46 @@ export const getCompanyName = (id) => {
       url: BaseUrl + "/company/search",
       params: { query: id },
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
     return data;
   });
+};
+export const getCompanyInfo = async (id) => {
+  const { data } = await axios({
+    url: BaseUrl + "/company",
+    method: "get",
+    params: { id: id },
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+    },
+  });
+  console.log(data);
+  return data;
+};
+export const getUseCompanyInfo = (id) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useQuery(["companyInfo", id], () => getCompanyInfo(id));
+};
+export const getUserCompany = async (id, idx) => {
+  const { data } = await axios({
+    url: BaseUrl + "/hire/apply/" + id,
+    method: "get",
+    params: {
+      idx: idx,
+      size: 5,
+    },
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+    },
+  });
+  console.log(data);
+  return data;
+};
+export const getUseUserCompany = (id, idx) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useQuery(["teacherGetUser", id, idx], () =>
+    getUseUserCompany(id, idx)
+  );
 };
