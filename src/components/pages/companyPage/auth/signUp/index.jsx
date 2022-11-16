@@ -1,19 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../../../common/header";
 import checkImg from "../../../../../images/checked.png";
 import failImg from "../../../../../images/failed.png";
-import AutoComplete from "../../../../common/autocomplete";
 import axios from "axios";
-import { CompanyData, skillData } from "../../../../../export/data";
 import { BaseUrl } from "../../../../../export/base";
 import { Notice } from "../../../../common/notice";
 import { Alert } from "../../../../common/alert";
 import NavProps from "../../../../common/nav";
 import { open } from "../../../../common/addresshook";
 const CompanySignUp = () => {
-  const [skill, setSkill] = useState([1]);
-  const SkillRef = useRef([]);
+  const [business, setBusiness] = useState("");
   const formData = new FormData();
   const [showFile, setShowFile] = useState({
     businessRegisteredCertificate: [],
@@ -27,19 +24,6 @@ const CompanySignUp = () => {
     { name: "companyLogo", kr: "회사 로고" },
     { name: "companyPhotoList", kr: "회사 사진 목록" },
   ];
-
-  const AddSkillText = useCallback(() => {
-    setSkill([...skill, 1]);
-  }, [skill]);
-  const DeleteSkill = useCallback(
-    (index) => {
-      const ad = skill.filter((e, i) => {
-        return i !== index;
-      });
-      setSkill(ad);
-    },
-    [skill]
-  );
 
   const [companyInfomation, setCompanyInfomation] = useState({
     companyNumber: "",
@@ -61,7 +45,7 @@ const CompanySignUp = () => {
     introduction: "",
     password: "",
     passwordHint: "",
-    leading: false,
+    isLeading: false,
   });
 
   const data = [
@@ -104,6 +88,17 @@ const CompanySignUp = () => {
     checkSuccess: "",
     passwordSuccess: "",
   });
+
+  const [businessAreaList, setBusinessAreaList] = useState([
+    { name: "사업체수", checked: false },
+    { name: "전기‧가스/수도/건설업", checked: false },
+    { name: "운수 및 창고업", checked: false },
+    { name: "정보통신업", checked: false },
+    { name: "금융 및 보험업", checked: false },
+    { name: "부동산업", checked: false },
+    { name: "전문과학 기술 서비스업", checked: false },
+    { name: "사업시설 관리, 사업지원 및 임대 서비스업", checked: false },
+  ]);
 
   useEffect(() => {
     if (
@@ -151,7 +146,7 @@ const CompanySignUp = () => {
       email,
       introduction,
       password,
-      leading,
+      isLeading,
       emailCheckCode,
       passwordHint,
     } = companyInfomation;
@@ -181,10 +176,12 @@ const CompanySignUp = () => {
         contactorPhone: contactorPhone,
         email: email,
       },
-      businessAreaList: SkillRef.current.map((item) => item.value),
+      businessAreaList: businessAreaList
+        .map((item) => (item.checked ? item.name : undefined))
+        .filter((element) => element !== undefined),
       introduction: introduction,
       password: password,
-      isLeading: leading,
+      isLeading: isLeading,
       passwordHint: passwordHint,
     };
 
@@ -352,29 +349,29 @@ const CompanySignUp = () => {
   return (
     <>
       <Header
-        title={"기업 가입"}
+        title={"기업 등록"}
         description={"채용 의뢰 전, 회사를 등록해주세요!"}
       />
 
-      <NavProps props={CompanyData} idx={0} />
+      {/* <NavProps props={CompanyData} idx={0} /> */}
       <MainDiv>
         <ContainerDiv>
           <Title>
             <h2>회사 명</h2>
             <CheckInput
               type="checkbox"
-              checked={companyInfomation.leading}
+              checked={companyInfomation.isLeading}
               onChange={(e) => {
                 setCompanyInfomation({
                   ...companyInfomation,
-                  leading: e.target.checked,
+                  isLeading: e.target.checked,
                 });
               }}
             ></CheckInput>
             <span>선도 기업</span>
           </Title>
           <ContentDiv>
-            <GridDiv>
+            <GridDiv width={800} column={4}>
               <Category>회사 명</Category>
               <InputForm
                 onChange={(e) => onChangeState("companyName", e)}
@@ -387,7 +384,7 @@ const CompanySignUp = () => {
               </Category>
               <InputForm
                 onChange={(e) => onChangeState("companyNumber", e)}
-                placeholder="ex) 00-000-00000"
+                placeholder="ex) 000-00-00000"
               />
               <Category>대표자</Category>
               <InputForm
@@ -517,10 +514,74 @@ const CompanySignUp = () => {
         </ContainerDiv>
         <ContainerDiv>
           <Title>
-            <h2>Contect</h2>
+            <h2>상세 설명</h2>
+          </Title>
+          <ContentDiv />
+          <Description onChange={(e) => onChangeState("introduction", e)} />
+          <hr />
+        </ContainerDiv>
+        <ContainerDiv>
+          <Title>
+            <h2>사업 분야</h2>
           </Title>
           <ContentDiv>
-            <GridDiv>
+            <GridDiv width={1000} column={8}>
+              {businessAreaList.map((item) => (
+                <>
+                  <CheckInput
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={(e) => {
+                      setBusinessAreaList(
+                        businessAreaList.map((business) =>
+                          business.name === item.name
+                            ? { ...business, checked: e.target.checked }
+                            : business
+                        )
+                      );
+                    }}
+                  ></CheckInput>
+                  <span>{item.name}</span>
+                </>
+              ))}
+            </GridDiv>
+
+            <PlusButton>
+              <input
+                placeholder="사업 분야를 적어주세요."
+                value={business}
+                onChange={(e) => setBusiness(e.target.value)}
+              />
+              <div
+                onClick={() => {
+                  if (business.length !== 0) {
+                    setBusinessAreaList([
+                      ...businessAreaList,
+                      {
+                        name: business,
+                        checked: true,
+                      },
+                    ]);
+                    setBusiness("");
+                  } else
+                    Notice({
+                      state: "error",
+                      message: "사업 분야를 적어주세요.",
+                    });
+                }}
+              >
+                +
+              </div>
+            </PlusButton>
+          </ContentDiv>
+          <hr />
+        </ContainerDiv>
+        <ContainerDiv>
+          <Title>
+            <h2>Contact</h2>
+          </Title>
+          <ContentDiv>
+            <GridDiv width={800} column={4}>
               <Category>대표자</Category>
               <InputForm
                 onChange={(e) => onChangeState("contactorName", e)}
@@ -542,95 +603,99 @@ const CompanySignUp = () => {
                 placeholder="ex) 02 or 0xx-xxxx-xxxx"
               />
             </GridDiv>
+
+            <AuthDiv>
+              {data.map((elm, i) => (
+                <InputDiv style={{ marginBottom: `${20 + (i % 2) * 40}px` }}>
+                  <div>
+                    <span>{elm.title}</span>
+
+                    {elm.key === "email" && success.sendEmail !== "" ? (
+                      <Success
+                        src={success.sendEmail ? checkImg : failImg}
+                        alt=""
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {elm.key === "emailCheckCode" &&
+                    success.checkSuccess !== "" ? (
+                      <Success
+                        src={success.checkSuccess ? checkImg : failImg}
+                        alt=""
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {elm.title === "비밀번호 확인" &&
+                    success.passwordSuccess !== "" &&
+                    companyInfomation.password !== "" ? (
+                      <Success
+                        src={success.passwordSuccess ? checkImg : failImg}
+                        alt=""
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    <Check onClick={() => onCheck(elm.additionalElm)}>
+                      {elm.additionalElm === "" ? "" : `${elm.additionalElm} >`}
+                    </Check>
+                  </div>
+                  <InputForm
+                    type={
+                      elm.title.slice(0, 4) === "비밀번호" ? "password" : "text"
+                    }
+                    placeholder={elm.placeholder}
+                    onChange={(e) => onChangeState(elm.key, e)}
+                  />
+                </InputDiv>
+              ))}
+            </AuthDiv>
           </ContentDiv>
-          <hr />
         </ContainerDiv>
-        <ContainerDiv>
-          <Title>
-            <h2>사업 분야</h2>
-          </Title>
-          <InputUl>
-            {skill.map((user, i) => (
-              <InputLi>
-                <Delelte>
-                  <AutoComplete
-                    Data={skillData}
-                    ref={(el) => (SkillRef.current[i] = el)}
-                  ></AutoComplete>
-                  <DeleteButton onClick={() => DeleteSkill(i)}>X</DeleteButton>
-                </Delelte>
-              </InputLi>
-            ))}
-
-            <InputLi>
-              <PlusBtn onClick={() => AddSkillText(1)}></PlusBtn>
-            </InputLi>
-          </InputUl>
-          <hr />
-        </ContainerDiv>
-        <ContainerDiv>
-          <Title>
-            <h2>Contect</h2>
-          </Title>
-          <ContentDiv />
-          <Description onChange={(e) => onChangeState("introduction", e)} />
-        </ContainerDiv>
+        <SubmitBtn onClick={() => onSignUp()}>기업 등록</SubmitBtn>
       </MainDiv>
-      <AuthDiv>
-        {data.map((elm, i) => (
-          <InputDiv style={{ marginBottom: `${20 + (i % 2) * 40}px` }}>
-            <div>
-              <span>{elm.title}</span>
-
-              {elm.key === "email" && success.sendEmail !== "" ? (
-                <Success src={success.sendEmail ? checkImg : failImg} alt="" />
-              ) : (
-                <></>
-              )}
-              {elm.key === "emailCheckCode" && success.checkSuccess !== "" ? (
-                <Success
-                  src={success.checkSuccess ? checkImg : failImg}
-                  alt=""
-                />
-              ) : (
-                <></>
-              )}
-              {elm.title === "비밀번호 확인" &&
-              success.passwordSuccess !== "" &&
-              companyInfomation.password !== "" ? (
-                <Success
-                  src={success.passwordSuccess ? checkImg : failImg}
-                  alt=""
-                />
-              ) : (
-                <></>
-              )}
-              <Check onClick={() => onCheck(elm.additionalElm)}>
-                {elm.additionalElm === "" ? "" : `${elm.additionalElm} >`}
-              </Check>
-            </div>
-            <InputForm
-              type={elm.title.slice(0, 4) === "비밀번호" ? "password" : "text"}
-              placeholder={elm.placeholder}
-              onChange={(e) => onChangeState(elm.key, e)}
-            />
-          </InputDiv>
-        ))}
-        <SubmitBtn onClick={() => onSignUp()}>회원가입</SubmitBtn>
-      </AuthDiv>
     </>
   );
 };
 
 export default CompanySignUp;
 
+const PlusButton = styled.div`
+  display: inline-flex;
+  align-items: center;
+  width: 88%;
+  gap: 10px;
+
+  input {
+    font-size: 16px;
+    background-color: #f0f0f0;
+    outline: none;
+    border: none;
+    padding: 10px 10px 10px 20px;
+    border-radius: 12px;
+    left: -45px;
+    width: 250px;
+  }
+  div {
+    cursor: pointer;
+    font-size: 18px;
+    right: 0;
+
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    background-color: ${(props) => props.theme.colors.mediumGray};
+    border-radius: 50%;
+  }
+`;
+
 const AuthDiv = styled.div`
   width: 99vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 150px;
-  margin-top: 139px;
 
   h2 {
     margin: 0;
@@ -727,7 +792,7 @@ const InputForm = styled.input`
   height: 50px;
   border-radius: 18px;
   background-color: #f0f0f0;
-  font-size: 20px;
+  font-size: 17px;
   margin-right: 30px;
   padding-left: 24px;
   font-weight: 700;
@@ -744,9 +809,9 @@ const Category = styled.span`
 `;
 
 const GridDiv = styled.div`
-  width: 800px;
+  width: ${(props) => props.width}px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(${(props) => props.column}, 1fr);
   margin-right: 80px;
   grid-row-gap: 43px;
   place-items: center end;
@@ -754,6 +819,10 @@ const GridDiv = styled.div`
 
   div {
     font-size: 20px;
+  }
+
+  span {
+    word-break: break-all;
   }
 `;
 
@@ -837,7 +906,7 @@ const SubmitBtn = styled.button`
   width: 600px;
   height: 50px;
   border-radius: 24px;
-  margin-top: 33px;
+  margin: 150px;
   background: linear-gradient(to right, #ab91f8, #7243ff);
   border: none;
   color: #fff;
@@ -845,66 +914,6 @@ const SubmitBtn = styled.button`
   cursor: pointer;
   font-weight: 700;
 `;
-
-export const InputUl = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  width: 1036px;
-  align-content: space-between;
-`;
-export const InputLi = styled.li`
-  position: relative;
-  margin-right: 60px;
-  list-style: none;
-  margin-left: -40px;
-  height: 60px;
-`;
-
-export const Delelte = styled.div`
-  width: 270px;
-  height: 50px;
-  background-color: ${(props) => props.theme.colors.mediumGray};
-  border-radius: 20px;
-`;
-export const DeleteButton = styled.button`
-  cursor: pointer;
-  position: relative;
-  top: -190px;
-  left: 200px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.colors.white};
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 0px;
-  color: ${(props) => props.theme.colors.black};
-  border: none;
-  margin-left: 20px;
-  margin-bottom: 10px;
-`;
-export const PlusBtn = styled.div`
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.colors.mediumGray};
-  margin-top: 5px;
-  cursor: pointer;
-  :after {
-    content: "+";
-    margin-left: 12px;
-    margin-top: 50px;
-    font-family: "NanumGothic", sans-serif;
-    font-weight: 700;
-    font-size: 24px;
-    font-style: normal;
-    color: ${(props) => props.theme.colors.blcak};
-  }
-`;
-
 export const CheckInput = styled.input`
   margin-top: 5px;
   margin-right: 15px;
@@ -912,7 +921,6 @@ export const CheckInput = styled.input`
   appearance: none;
   width: 30px;
   height: 30px;
-  margin-left: ${(props) => props.left}px;
   background-color: ${(props) => props.theme.colors.mediumGray};
   :checked {
     border: 5px solid ${(props) => props.theme.colors.mediumGray};
