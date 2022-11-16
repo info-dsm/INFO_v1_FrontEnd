@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { BaseUrl } from "../../../../../export/base";
 import { Alert } from "../../../../common/alert";
 import { Notice } from "../../../../common/notice";
-
+import { PostReissue } from "../../../../api/reisue";
 const StudentSignIn = () => {
   const [data, setData] = useState({
     email: "",
@@ -51,6 +51,11 @@ const StudentSignIn = () => {
             "Authorization"
           ] = `Bearer ${accessToken}`;
           sessionStorage.setItem("accessToken", accessToken);
+          sessionStorage.setItem("refreshToken", refreshToken);
+          setTimeout(() => {
+            PostReissue();
+          }, 171800000);
+          clearTimeout();
           Alert({
             state: "success",
             message: "로그인 되었습니다.",

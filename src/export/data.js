@@ -87,6 +87,31 @@ export const SubmitData = [
 ];
 export const TeacherData = [
   {
+    path: "/teacher",
+    name: "기업관리",
+  },
+  {
     path: "/teacher/list",
+    name: "모집공고 관리",
+  },
+];
+export const CompanyData = [
+  {
+    path: "/company/signup",
+    name: "기업정보",
+  },
+  {
+    path: "",
+    name: "모집의뢰 정보",
+  },
+];
+export const CompanyData2 = [
+  {
+    path: "",
+    name: "기업정보",
+  },
+  {
+    path: "/company/list",
+    name: "모집의뢰 정보",
   },
 ];

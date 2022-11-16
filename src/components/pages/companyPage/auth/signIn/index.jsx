@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { BaseUrl } from "../../../../../export/base";
@@ -7,8 +7,9 @@ import checkImg from "../../../../../images/checked.png";
 import failImg from "../../../../../images/failed.png";
 import { Notice } from "../../../../common/notice";
 import { Alert } from "../../../../common/alert";
-
+import { PostReissue } from "../../../../api/reisue";
 const CompanySignIn = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     companyNumber: "",
     password: "",
@@ -61,11 +62,17 @@ const CompanySignIn = () => {
               "Authorization"
             ] = `Bearer ${accessToken}`;
             sessionStorage.setItem("accessToken", accessToken);
+            sessionStorage.setItem("refreshToken", refreshToken);
+            setTimeout(() => {
+              PostReissue();
+            }, 171800000);
+            clearTimeout();
             Alert({
               state: "success",
               message: "성공적으로 로그인되었습니다.",
             }).then(() => {
               // url 이동
+              navigate("/company/list");
             });
           })
           .catch(() => {
@@ -189,7 +196,7 @@ const CompanySignIn = () => {
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 <Link to={"/company/signup"}>
-                  <a>SignUp</a>
+                  <div>SignUp</div>
                 </Link>
               </HighlightText>
             </Submit>
@@ -311,7 +318,7 @@ const HighlightText = styled.span`
   cursor: ${(props) => props.cursor};
   margin-left: 10px;
 
-  a {
+  div {
     text-decoration: none;
     color: #7243ff;
   }

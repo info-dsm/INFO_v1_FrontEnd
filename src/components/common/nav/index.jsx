@@ -6,7 +6,9 @@ const NavProps = ({ props, idx }) => {
       <Table>
         {props.map((user, i) => (
           <>
-            <StyledLink>{user}</StyledLink>
+            <StyledLink to={user.path}>
+              <Div state={i === idx}>{user.name}</Div>
+            </StyledLink>
           </>
         ))}
       </Table>
@@ -18,8 +20,20 @@ const Table = styled.div`
   position: relative;
   width: 100vw;
   height: 100px;
-  color: ${(props) => props.theme.colors.black};
+  background-color: ${(props) => props.theme.colors.black};
+  padding-top: 23px;
+  padding-left: 300px;
 `;
-const Ul = styled.ul`
-  position: relative;
+const Div = styled.div`
+  display: inline-flex;
+  text-align: center;
+  padding: 8px 35px;
+  height: 50px;
+  border-radius: 100px;
+  background-color: ${(props) =>
+    props.state ? props.theme.colors.mediumSlateBlue : "#272238"};
+  font: 400 normal 24px "NanumGothic";
+  top: 20px;
+  margin-right: 20px;
+  color: ${(props) => props.theme.colors.white};
 `;

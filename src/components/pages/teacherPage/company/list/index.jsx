@@ -3,11 +3,17 @@ import styled from "styled-components";
 import { Notice } from "../../../../common/notice";
 import { useState, useCallback, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { getCompany, getCompanyRequest } from "../../../../api/teacher";
+import {
+  getCompany,
+  getCompanyInfo,
+  getCompanyRequest,
+} from "../../../../api/teacher";
 import LoadingPage from "../../../../common/loading";
 import ErrorPage from "../../../../common/error";
 import Header from "../../../../common/header";
-import { Link } from "react-router-dom";
+import { StyledLink } from "../../../../../style/theme";
+import NavProps from "../../../../common/nav";
+import { TeacherData } from "../../../../../export/data";
 const ShowCompany = () => {
   const [count, setCount] = useState(0);
   const [arr, setArr] = useState([]);
@@ -15,7 +21,6 @@ const ShowCompany = () => {
   const { status, data } = getCompany(count);
   const [input, setInput] = useState("");
   useEffect(() => {
-    console.log("1", data);
     if (data?.totalPages > 5) {
       if (data.totalPages % 5 !== 0) {
         if (parseInt(count / 5) === parseInt(data.totalPages / 5)) {
@@ -51,6 +56,9 @@ const ShowCompany = () => {
   const Click = useCallback((e) => {
     setCount(e);
   }, []);
+  const PreFetching = async (id) => {
+    queryClient.prefetchQuery(["companyInfo", id], () => getCompanyInfo(id));
+  };
   return (
     <>
       {status === "loading" ? (
@@ -63,20 +71,21 @@ const ShowCompany = () => {
             title={"기업관리"}
             description={"손쉽게 기업들을 관리해보세요."}
           />
+          <NavProps props={TeacherData} idx={0} />
           <SearchDiv>
             <Search
               placeholder="회사이름"
               onInput={(e) => setInput(e.target.value)}
             />
-            <Link to={`/teacher/${input}`}>
+            <StyledLink to={`/teacher/${input}`}>
               <SearchButton>검색</SearchButton>
-            </Link>
+            </StyledLink>
           </SearchDiv>
 
           <Table>
             <Ulbox>
               {data.content.map((user, i) => (
-                <Libox>
+                <Libox onMouseDown={() => PreFetching(user.companyId)}>
                   <Box>
                     <Title>{user.companyId}</Title>
                     <ImgDiv>
@@ -97,7 +106,9 @@ const ShowCompany = () => {
                       <div>email</div>
                       <div>{user.contactorEmail}</div>
                     </Category>
-                    <ButtonProps>자세히보기</ButtonProps>
+                    <StyledLink to={`/teacher/company/${user.companyId}`}>
+                      <ButtonProps>자세히보기</ButtonProps>
+                    </StyledLink>
                   </Box>
                 </Libox>
               ))}
@@ -262,6 +273,7 @@ const Box = styled.div`
   vertical-align: center;
 `;
 const Title = styled.div`
+  width: 50px;
   font: 700 normal 24px "NanumGothic", sans-serif;
   color: ${(props) => props.theme.colors.blue};
   display: inline-flex;

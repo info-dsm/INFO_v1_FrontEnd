@@ -1,250 +1,139 @@
 import styled from "styled-components";
 import Header from "../../../common/header";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { BaseUrl } from "../../../../export/base";
-
+import { getUseCompanyInfo } from "../../../api/teacher";
+import LoadingPage from "../../../common/loading";
+import ErrorPage from "../../../common/error";
+import NavProps from "../../../common/nav";
+import { TeacherData } from "../../../../export/data";
 const CompanyInfo = () => {
-  let { id } = useParams();
-
-  const [data, setData] = useState({
-    companyId: 23,
-    companyNumber: "00-120-12304",
-    companyName: "아 맞다 하나 안 함",
-    companyInformation: {
-      homeAddress: {
-        fullAddress: "9",
-        addressNumber: 9,
-      },
-      agentAddress: {
-        fullAddress: "9",
-        addressNumber: 9,
-      },
-      representative: "찐찐찐찐막",
-      establishedAt: 9,
-      workerCount: 9,
-      annualSales: 9,
-    },
-    companyContact: {
-      contactorName: "찐찐막",
-      contactorRank: "ㄹㅇ찐막",
-      phoneNumber: "010-0120-1230",
-      contactorPhone: "010-1234-1203",
-      email: "eastcopper7228@gmail.com",
-    },
-    businessAreaResponseList: [
-      {
-        tagName: "react",
-      },
-    ],
-    companyIntroduction: {
-      introduction: "askldfjklasjklsdf;lafsd",
-      companyIntroductionFile: [
-        {
-          fileId: 70,
-          fileUrl:
-            "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/company/23/companyIntroduction/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%B3%B4%EA%B3%A0%EC%84%9C%202409%20%EC%9D%B4%EB%8F%99%ED%98%84.pdf",
-          fileType: "DOCS",
-          extension: "pdf",
-          fileName: "프로젝트 보고서 2409 이동현.pdf",
-        },
-      ],
-      companyLogo: {
-        fileId: 68,
-        fileUrl:
-          "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/company/23/companyLogo/1%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg",
-        fileType: "IMAGE",
-        extension: "jpg",
-        fileName: "1 - 복사본.jpg",
-      },
-      companyPhotoList: [
-        {
-          fileId: 71,
-          fileUrl:
-            "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/company/23/companyPhoto/1%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg",
-          fileType: "IMAGE",
-          extension: "jpg",
-          fileName: "1 - 복사본.jpg",
-        },
-        {
-          fileId: 72,
-          fileUrl:
-            "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/company/23/companyPhoto/1.jpg",
-          fileType: "IMAGE",
-          extension: "jpg",
-          fileName: "1.jpg",
-        },
-        {
-          fileId: 73,
-          fileUrl:
-            "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/company/23/companyPhoto/organize.png",
-          fileType: "IMAGE",
-          extension: "png",
-          fileName: "organize.png",
-        },
-        {
-          fileId: 74,
-          fileUrl:
-            "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/company/23/companyPhoto/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202022-11-08%20081948.png",
-          fileType: "IMAGE",
-          extension: "png",
-          fileName: "화면 캡처 2022-11-08 081948.png",
-        },
-      ],
-    },
-    commentList: [],
-    isLeading: false,
-    isAssociated: false,
-    lastNoticeDate: null,
-    totalHiredStudentList: [],
-  });
-
-  useEffect(() => {
-    axios({
-      url: BaseUrl + "/company",
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-      },
-      params: {
-        id: parseInt(id.substring(1)),
-      },
-    }).then((res) => {
-      setData(res.data);
-    });
-  }, []);
+  const { id } = useParams();
+  const { status, data } = getUseCompanyInfo(id);
 
   return (
     <>
-      <Header
-        title={"기업 가입"}
-        description={"채용 의뢰 전, 회사를 등록해주세요!"}
-      />
-
-      <Nav>
-        <button>기업정보</button>
-        <button>모집의뢰정보</button>
-      </Nav>
-      <MainDiv>
-        <ContainerDiv>
-          <Title>
-            <img src={data.companyIntroduction.companyLogo.fileUrl} alt="" />
-            <h2>회사 정보</h2>
-            <CheckInput type="checkbox" checked={data.isLeading}></CheckInput>
-            <span>선도 기업</span>
-          </Title>
-          <BannerImg
-            src={data.companyIntroduction.companyPhotoList[0].fileUrl}
-            alt=""
+      {status === "loading" ? (
+        <LoadingPage />
+      ) : status === "error" ? (
+        <ErrorPage />
+      ) : (
+        <>
+          <Header
+            title={"기업 가입"}
+            description={"채용 의뢰 전, 회사를 등록해주세요!"}
           />
-          <ContentDiv>
-            <GridDiv>
-              <Category>회사 명</Category>
-              <InputForm>{data.companyName}</InputForm>
-              <Category>
-                사업자
-                <br />
-                등록번호
-              </Category>
-              <InputForm>{data.companyNumber}</InputForm>
-              <Category>대표자</Category>
-              <InputForm>{data.companyInformation.representative}</InputForm>
-              <Category>근로자 수</Category>
-              <InputForm>{data.companyInformation.workerCount}</InputForm>
-              <Category>설립연도</Category>
-              <InputForm>{data.companyInformation.establishedAt}</InputForm>
-              <Category>연매출액</Category>
-              <InputForm>{data.companyInformation.annualSales}</InputForm>
-            </GridDiv>
-            <Address>
-              <Category>주소</Category>
-              <div>
-                <div>
-                  <span>본사</span>
-                  <AddressForm>
-                    {data.companyInformation.homeAddress.fullAddress}
-                  </AddressForm>
-                  <AddressForm style={{ width: "100px" }}>
-                    {data.companyInformation.homeAddress.addressNumber}
-                  </AddressForm>
-                </div>
-                <div>
-                  <span>연구소/지점</span>
-                  <AddressForm>
-                    {data.companyInformation.agentAddress.fullAddress}
-                  </AddressForm>
-                  <AddressForm style={{ width: "100px" }}>
-                    {data.companyInformation.agentAddress.addressNumber}
-                  </AddressForm>
-                </div>
-              </div>
-            </Address>
-          </ContentDiv>
-          <hr />
-        </ContainerDiv>
-        <ContainerDiv>
-          <Title>
-            <h2>Contect</h2>
-          </Title>
-          <ContentDiv>
-            <GridDiv>
-              <Category>대표자</Category>
-              <InputForm>{data.companyContact.contactorName}</InputForm>
-              <Category>소속 부서</Category>
-              <InputForm>{data.companyContact.contactorRank}</InputForm>
-              <Category>전화번호</Category>
-              <InputForm>{data.companyContact.phoneNumber}</InputForm>
-              <Category>휴대전화</Category>
-              <InputForm>{data.companyContact.contactorPhone}</InputForm>
-            </GridDiv>
-          </ContentDiv>
-          <hr />
-        </ContainerDiv>
-        <ContainerDiv>
-          <Title>
-            <h2>사업 분야</h2>
-          </Title>
-          <InputUl>
-            {data.businessAreaResponseList.map((item, i) => (
-              <>
-                <InputLi>{item.tagName}</InputLi>
-              </>
-            ))}
-          </InputUl>
-          <hr />
-        </ContainerDiv>
-        <ContainerDiv>
-          <Title>
-            <h2>Contect</h2>
-          </Title>
-          <ContentDiv />
-          <Description>{data.companyIntroduction.introduction}</Description>
-        </ContainerDiv>
-      </MainDiv>
+          <NavProps props={TeacherData} idx={0} />
+          <MainDiv>
+            <ContainerDiv>
+              <Title>
+                <img
+                  src={data.companyIntroduction.companyLogo.fileUrl}
+                  alt=""
+                />
+                <h2>회사 정보</h2>
+                <CheckInput
+                  type="checkbox"
+                  checked={data.isLeading}
+                ></CheckInput>
+                <span>선도 기업</span>
+              </Title>
+              <BannerImg
+                src={data.companyIntroduction.companyPhotoList[0].fileUrl}
+                alt=""
+              />
+              <ContentDiv>
+                <GridDiv>
+                  <Category>회사 명</Category>
+                  <InputForm>{data.companyName}</InputForm>
+                  <Category>
+                    사업자
+                    <br />
+                    등록번호
+                  </Category>
+                  <InputForm>{data.companyNumber}</InputForm>
+                  <Category>대표자</Category>
+                  <InputForm>
+                    {data.companyInformation.representative}
+                  </InputForm>
+                  <Category>근로자 수</Category>
+                  <InputForm>{data.companyInformation.workerCount}</InputForm>
+                  <Category>설립연도</Category>
+                  <InputForm>{data.companyInformation.establishedAt}</InputForm>
+                  <Category>연매출액</Category>
+                  <InputForm>{data.companyInformation.annualSales}</InputForm>
+                </GridDiv>
+                <Address>
+                  <Category>주소</Category>
+                  <div>
+                    <div>
+                      <span>본사</span>
+                      <AddressForm>
+                        {data.companyInformation.homeAddress.fullAddress}
+                      </AddressForm>
+                      <AddressForm style={{ width: "100px" }}>
+                        {data.companyInformation.homeAddress.addressNumber}
+                      </AddressForm>
+                    </div>
+                    <div>
+                      <span>연구소/지점</span>
+                      <AddressForm>
+                        {data.companyInformation.agentAddress.fullAddress}
+                      </AddressForm>
+                      <AddressForm style={{ width: "100px" }}>
+                        {data.companyInformation.agentAddress.addressNumber}
+                      </AddressForm>
+                    </div>
+                  </div>
+                </Address>
+              </ContentDiv>
+              <hr />
+            </ContainerDiv>
+            <ContainerDiv>
+              <Title>
+                <h2>Contect</h2>
+              </Title>
+              <ContentDiv>
+                <GridDiv>
+                  <Category>대표자</Category>
+                  <InputForm>{data.companyContact.contactorName}</InputForm>
+                  <Category>소속 부서</Category>
+                  <InputForm>{data.companyContact.contactorRank}</InputForm>
+                  <Category>전화번호</Category>
+                  <InputForm>{data.companyContact.phoneNumber}</InputForm>
+                  <Category>휴대전화</Category>
+                  <InputForm>{data.companyContact.contactorPhone}</InputForm>
+                </GridDiv>
+              </ContentDiv>
+              <hr />
+            </ContainerDiv>
+            <ContainerDiv>
+              <Title>
+                <h2>사업 분야</h2>
+              </Title>
+              <InputUl>
+                {data.businessAreaResponseList.map((item, i) => (
+                  <>
+                    <InputLi>{item.tagName}</InputLi>
+                  </>
+                ))}
+              </InputUl>
+              <hr />
+            </ContainerDiv>
+            <ContainerDiv>
+              <Title>
+                <h2>Contect</h2>
+              </Title>
+              <ContentDiv />
+              <Description>{data.companyIntroduction.introduction}</Description>
+            </ContainerDiv>
+          </MainDiv>
+        </>
+      )}
     </>
   );
 };
 
 export default CompanyInfo;
-
-const Nav = styled.div`
-  width: 100vw;
-  height: 100px;
-  background-color: #000;
-  padding-left: 350px;
-  gap: 40px;
-  display: inline-flex;
-  align-items: center;
-
-  button {
-    padding: 0px 30px;
-    border: none;
-    height: 50px;
-    border-radius: 24px;
-    font-size: 24px;
-  }
-`;
 
 const MainDiv = styled.div`
   margin-top: 242px;
@@ -342,7 +231,7 @@ const AddressForm = styled.div`
   border: none;
   width: 220px;
   height: 50px;
-  border-radius: 18px;
+  border-radius: 100px;
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -475,7 +364,7 @@ export const InputLi = styled.li`
   margin-left: -40px;
   width: 150px;
   background-color: #f3eeff;
-  border-radius: 12px;
+  border-radius: 100px;
   height: 50px;
   display: flex;
   justify-content: center;

@@ -2,9 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BaseUrl } from "../../../../export/base";
 import { Notice } from "../../../common/notice";
-import { useNavigate } from "react-router-dom";
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2Njg0NTMwNzgsImV4cCI6MTY2ODUzOTQ3OH0.Px0CiC-ZakXX0axx85c19fil7K4zJeoCTPAxmlqumDI";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2Njg1NTg0OTIsImV4cCI6MTY2ODY0NDg5Mn0.0rFN6RNL2HcGNNL9-QW1BEfsNMaC2fQ20-dgN0GaUSU";
 export const getListProps = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(["datas"], async () => {
@@ -14,17 +13,17 @@ export const getListProps = () => {
       .all([
         axios.get(BaseUrl + "/notice/technology/list", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }),
         axios.get(BaseUrl + "/notice/language/list", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }),
         axios.get(BaseUrl + "/notice/certificate/list", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }),
       ])
@@ -84,7 +83,7 @@ export const getMyList = () => {
     await axios
       .get(BaseUrl + "/notice/me", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
       })
       .then((response) => {
@@ -131,6 +130,7 @@ export const getMyList = () => {
             id: data[i].data.notice.recruitmentBusinessResponse[0]
               .recruitmentBusinessId,
             noticeId: data[i].data.notice.noticeId,
+            data: data[i].data.notice,
           });
         }
         const ad = arr.map((item) =>

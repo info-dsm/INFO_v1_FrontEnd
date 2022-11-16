@@ -6,6 +6,8 @@ import LoadingPage from "../../../common/loading";
 import ErrorPage from "../../../common/error";
 import { getMyList } from "../../../api/company/requesrResistration";
 import { StyledLink } from "../../../../style/theme";
+import NavProps from "../../../common/nav";
+import { CompanyData2 } from "../../../../export/data";
 const RecruitmentList = () => {
   const { status, data } = getMyList();
   return (
@@ -20,6 +22,7 @@ const RecruitmentList = () => {
             title={"모집의뢰 목록"}
             description={"모집의뢰서등을 관리해보세요"}
           />
+          <NavProps props={CompanyData2} idx={1} />
           <MainDiv>
             <List>
               <StyledLink to="/company/list/write">
