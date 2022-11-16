@@ -20,7 +20,7 @@ const CompanySignIn = () => {
     {
       name: "사업자번호",
       additionalElm: "기업 조회",
-      placeholder: "ex) 00-000-00000",
+      placeholder: "ex) 000-00-00000",
       check: "inquiry",
       func: () => {
         getPasswordHint();
@@ -196,7 +196,7 @@ const CompanySignIn = () => {
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 <Link to={"/company/signup"}>
-                  <div>SignUp</div>
+                  <a>기업 등록</a>
                 </Link>
               </HighlightText>
             </Submit>
