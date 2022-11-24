@@ -30,10 +30,11 @@ const LogoImg = styled.img`
   position: relative;
   left: 384px;
   top: 50px;
+  height: 40px;
 `;
 const Table = styled.div`
   position: relative;
-  bottom: 0px;
+  bottom: 0;
   width: 100%;
   height: 300px;
   background-color: ${(props) => props.theme.colors.black};
