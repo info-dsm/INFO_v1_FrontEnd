@@ -1,11 +1,10 @@
 import styled, { keyframes } from "styled-components";
-import { useState, forwardRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { SelectImg } from "../../../images";
-const SelectComplete = forwardRef(({ Data }, ref) => {
+const SelectComplete = ({ Data, func, write, num }) => {
   const [state, setState] = useState(false);
-  const [write, setWrite] = useState("클릭 시 선택");
   const AddValuePropsFunc = (props) => {
-    setWrite(props);
+    func(props, num);
     setState(false);
   };
   useEffect(() => {
@@ -20,7 +19,6 @@ const SelectComplete = forwardRef(({ Data }, ref) => {
   return (
     <>
       <InputProps
-        ref={ref}
         width={200}
         id={write}
         state={state}
@@ -43,7 +41,7 @@ const SelectComplete = forwardRef(({ Data }, ref) => {
       </DataList>
     </>
   );
-});
+};
 export default SelectComplete;
 const Spin = (x, y) => keyframes`
  0% {

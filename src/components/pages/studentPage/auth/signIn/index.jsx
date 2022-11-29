@@ -6,12 +6,13 @@ import { BaseUrl } from "../../../../../export/base";
 import { Alert } from "../../../../common/alert";
 import { Notice } from "../../../../common/notice";
 import { PostReissue } from "../../../../api/reisue";
+import { useNavigate } from "react-router-dom";
 const StudentSignIn = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const changeInput = (e, props) => {
     setData({ ...data, [props]: e.target.value });
   };
@@ -61,6 +62,7 @@ const StudentSignIn = () => {
             message: "로그인 되었습니다.",
           }).then(() => {
             //url 이동
+            navigate("/student");
           });
         })
         .catch(() => {

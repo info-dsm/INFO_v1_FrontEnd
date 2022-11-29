@@ -20,22 +20,22 @@ import { open } from "../../../common/addresshook";
 import { useNavigate } from "react-router-dom";
 import NavProps from "../../../common/nav";
 import { Notice } from "../../../common/notice";
+import ModalPortal from "./modal/portal";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
   const Data = useSelector((stack) => stack.selectValue.recruitmentRequest);
   const [list, setList] = useState(supportData);
-  const [admission, setAdmission] = useState([1]);
+  const [admission, setAdmission] = useState(["클릭 시 선택"]);
   const [file, setFile] = useState([]);
   const [locate, setLocate] = useState({ set: 0, text: "" });
   const [mealState, setMealState] = useState(0);
   const [state, setState] = useState(false);
   const [special, setSpecial] = useState("");
   const [dateState, setDateState] = useState({ startDate: "", endDate: "" });
-  const [postDaum, setPostDaum] = useState(false);
+  const [, setReRender] = useState({});
   const BokRef = useRef([]);
   const MealRef = useRef([]);
   const MoneyRef = useRef([]);
-  const InputRef = useRef([]);
   const WorkRef = useRef([]);
   const WelfareRef = useRef();
   const navigate = useNavigate();
@@ -56,7 +56,6 @@ const RequstResistration = () => {
     }
 
     setLocate({ set: locate.set, text: fullAddress });
-    setPostDaum(false);
     document.body.removeChild(document.getElementById("daum_postcode_script"));
   };
 
@@ -69,8 +68,15 @@ const RequstResistration = () => {
     }
   };
   const AddAdmision = useCallback(() => {
-    setAdmission([...admission, 1]);
+    setAdmission([...admission, "클릭 시 선택"]);
   }, [admission]);
+  const ChangeAdmision = (props, num) => {
+    let ad = admission;
+    ad[num] = props;
+    setAdmission(ad);
+    console.log(admission);
+    setReRender({});
+  };
   const RemoveAdmision = useCallback(
     (index) => {
       // eslint-disable-next-line array-callback-return
@@ -114,11 +120,10 @@ const RequstResistration = () => {
   };
   const submit = () => {
     let arr = [];
-    for (let i = 0; i < InputRef.current.length; i++) {
-      console.log(InputRef.current[i].id);
+    for (let i = 0; i < admission.length; i++) {
       const find = (e) => {
         // console.log(e.skill);
-        if (e.skill === InputRef.current[i].id) {
+        if (e.skill === admission) {
           return true;
         }
       };
@@ -491,7 +496,7 @@ const RequstResistration = () => {
         <s.Ring top={50} />
         <s.Titlet>전형절차</s.Titlet>
         <s.UlAddmision>
-          {admission.map((user, i) => (
+          {admission.map((item, i) => (
             <>
               <s.InputLi>
                 <s.ClockText>{i + 1}차전형일</s.ClockText>
@@ -500,7 +505,9 @@ const RequstResistration = () => {
                 <s.Delelte>
                   <SelectComplete
                     Data={interviewData}
-                    ref={(el) => (InputRef.current[i] = el)}
+                    func={ChangeAdmision}
+                    write={item}
+                    num={i}
                   ></SelectComplete>
                   <s.DeleteButton onClick={() => RemoveAdmision(i)}>
                     X
@@ -583,14 +590,13 @@ const RequstResistration = () => {
               placeholder="직접 입력"
               value={locate.text}
               onClick={(e) => {
-                if (postDaum) {
+                if (locate.set !== 2) {
                   Notice({
                     state: "error",
-                    message: "이미 중복된 창이있습니다.",
+                    message: "체크가 안됐습니다.",
                   });
                   e.preventDefault();
                 } else {
-                  setPostDaum(true);
                   open({
                     onComplete: handleComplete,
                     width: 700,
@@ -628,7 +634,7 @@ const RequstResistration = () => {
         <s.SubmitButton onClick={() => submit()}>모집의뢰 등록</s.SubmitButton>
       </s.Table>
       <s.TableTwo></s.TableTwo>
-      {modal ? <SelectModal /> : <></>}
+      <ModalPortal> {modal ? <SelectModal /> : <></>}</ModalPortal>
     </>
   );
 };

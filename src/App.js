@@ -22,6 +22,7 @@ import SearchProps from "./components/pages/teacherPage/company/search";
 import CompanyInfo from "./components/pages/companyPage/info";
 import Applicant from "./components/pages/teacherPage/manage/applicant";
 import ErrorPage from "./components/common/error";
+import MainView from "./components/pages/studentPage/Main";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -40,7 +41,8 @@ function App() {
               <Route path="/teacher/login" element={<TeacherSignIn />} />
               <Route path="/teacher/signup" element={<TeacherSignUp />} />
               <Route path="/company/list" element={<RecruitmentList />} />
-
+              <Route path="/student" element={<MainView />} />
+              <Route />
               <Route
                 path="/company/list/write"
                 element={<RequstResistration />}

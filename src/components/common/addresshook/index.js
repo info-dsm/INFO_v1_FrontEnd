@@ -62,6 +62,7 @@ export const open = (options) => {
         popupTitle,
         popupKey,
         autoClose,
+        onClose,
       });
     })
     .catch(onError);

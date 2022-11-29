@@ -25,6 +25,7 @@ const SelectModal = () => {
   const [certState, setCertState] = useState(false);
   const [gradeState, setGradeState] = useState(false);
   const [achive, setAchive] = useState(0);
+  const [InputValue, setInputValue] = useState(["클릭 시 선택"]);
   const InputRef = useRef([]);
   const SkillRef = useRef([]);
   const CertRef = useRef([]);
@@ -129,6 +130,9 @@ const SelectModal = () => {
     },
     [radio]
   );
+  // const ChangeProps = useCallback(()=> {
+
+  // });
   const Submit = () => {
     if (status === "success") {
       let arr1 = [];

@@ -2,8 +2,6 @@ import { useParams } from "react-router-dom";
 import { getUserCompany, getUseUserCompany } from "../../../../../api/teacher";
 import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import Load from "../../../../../common/loading/load";
-import Error from "../../../../../common/error/error";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import LoadingPage from "../../../../../common/loading";
 import ErrorPage from "../../../../../common/error";
@@ -63,14 +61,14 @@ const StatusManageComponent = () => {
       ) : (
         <>
           <Table>
-            {/* <Ulbox>
-              {data.count.map((user, i) => (
+            <Ulbox>
+              {data.map((user, i) => (
                 <Libox>
                   <Box>
                     <Category>
-                      <div>{user.name}</div>
-                      <div>{data.ad[i]}</div>
-                      <div>{data.as[i]}</div>
+                      <div>{user.student.name}</div>
+                      <div>{user.student.studentKey}</div>
+                      <div>{user.student.emil}</div>
                     </Category>
                     <Category>
                       <div>채용인원</div>
@@ -83,7 +81,7 @@ const StatusManageComponent = () => {
                   </Box>
                 </Libox>
               ))}
-            </Ulbox> */}
+            </Ulbox>
             <Ul top={100 * 5 + 50}>
               <Li>
                 <Button onClick={() => setCount(0)}>First Page</Button>
