@@ -1,183 +1,225 @@
-import styled from 'styled-components';
-import CompanyImage from '../../../images/CompanyImg.jpg';
-import FileImage from '../../../images/file 2.png';
+import styled from "styled-components";
+import CompanyImage from "../../../images/CompanyImg.jpg";
+import FileImage from "../../../images/file 2.png";
 import axios from "axios";
 // import {useAsync} from 'react-async';
-import {useQuery} from "@tanstack/react-query";
-import {BaseUrl} from "../../../export/base";
+import { useQuery } from "@tanstack/react-query";
+import { BaseUrl } from "../../../export/base";
 
-const PrtCategory = ({Title}) => {
-    return (
-        <CategoryBar>
-            <CategoryBox>
-                <Category>{Title}</Category>
-            </CategoryBox>
-            <Hr></Hr>
-        </CategoryBar>
-    );
-}
+const PrtCategory = ({ Title }) => {
+  return (
+    <CategoryBar>
+      <CategoryBox>
+        <Category>{Title}</Category>
+      </CategoryBox>
+      <Hr></Hr>
+    </CategoryBar>
+  );
+};
 
-const myToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTY2ODc2OTgzMCwiZXhwIjoxNjY4ODU2MjMwfQ.Pwss-Q4yTXsOTF7IQJXutWIbaZxQC8w-CfTieL4lxSM';
+const myToken =
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTY2ODc2OTgzMCwiZXhwIjoxNjY4ODU2MjMwfQ.Pwss-Q4yTXsOTF7IQJXutWIbaZxQC8w-CfTieL4lxSM";
 
 async function getUsers() {
-    const response = await axios({
-        method: 'get',
-        url: BaseUrl + '/notice',
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-        },
-        params: {
-            id: 134953727
-        }
-    })
-    return response.data;
+  const token = sessionStorage.getItem("accessToken");
+  const response = await axios({
+    method: "get",
+    url: BaseUrl + "/notice",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      id: 134953727,
+    },
+  });
+  return response.data;
 }
 
 const NoticeModal = () => {
-    const {isLoading, error, data, isRefetching} = useQuery(["CompanyInfo"],
-        () => getUsers()
-    );
+  const { isLoading, error, data, isRefetching } = useQuery(
+    ["CompanyInfo"],
+    () => getUsers()
+  );
 
-    if (isLoading) return <div>로딩중..</div>;
-    if (error) return <div>에러가 발생했습니다</div>;
-    if (!data) return <button>불러오기</button>;
-    console.log(data.company.businessAreaResponseList);
-    const DC = data.company;
-    const CI = data.company.companyInformation;
-    const companyInfo = [
-        {title: "사업자 번호", list: DC.companyNumber},
-        {title: "대표", list: CI.representative},
-        {title: "설립 일자", list: CI.establishedAt + '년'},
-        {title: "E-mail", list: DC.companyContact.email},
-        {title: "근로자 수", list: CI.workerCount.toLocaleString('ko-KR') + ' 명'},
-        {title: "연 매출액", list: CI.annualSales.toLocaleString('ko-KR') + ' 원'},
-        {title: "사업 분야", list: DC.businessAreaResponseList[0].tagName},
-        {title: "본사 주소", list: CI.homeAddress.fullAddress},
-        {title: "지점 주소", list: CI.agentAddress || '지점 주소가 엄서요'},
-    ];
-    const employmentInfo = [
-        {title: "대분류", list: "웹프로그래밍"},
-        {title: "소분류", list: "풀스택"},
-        {title: "채용인원", list: "2명"},
-    ];
-    const needLang = [
-        {name: "Java"},
-        {name: "Java Script"},
-        {name: "HTML"},
-        {name: "CSS"},
-    ];
-    const ectTech = [
-        {name: "Vue.js"},
-        {name: "React"},
-    ];
-    const file = [
-        {name: data.formAttachmentList[0].fileName, url: data.formAttachmentList[0].fileUrl},
-        {name: data.formAttachmentList[1].fileName, url: data.formAttachmentList[1].fileUrl},
-        {name: data.formAttachmentList[2].fileName, url: data.formAttachmentList[2].fileUrl},
-    ];
-    return (
-        <Background>
-            <Blur>
-                <Notice>
-                    <SlideBox>
-                        <LeftSlide>(</LeftSlide>
-                        <RightSlide>)</RightSlide>
-                        <ImageList>
-                            <CompanyImg src={CompanyImage} alt="회사이미지입니다"></CompanyImg>
-                        </ImageList>
-                    </SlideBox>{/*슬라이드이미지*/}
-                    <Table>
-                        <Tr Height="111px">
-                            <PText Color="black" Width="162px" Size="36px">{data.company.companyName}</PText>
-                            <PText Color="black" Size="36px">INFO</PText>
-                        </Tr>
-                        {companyInfo.map((info) => (
-                            <Tr Height="52px">
-                                <PText Width="160px" Size="20px">{info.title}</PText>
-                                <PText Weight="400" Size="14px" Color="black">{info.list}</PText>
-                            </Tr>
-                        ))}
-                    </Table>{/*회사정보*/}
-                    <Applicant>
-                        <Now>현재 지원자 수</Now>
-                        <PText Weight="700" Size="24px">{data.applicantCount}</PText>
-                    </Applicant>{/*지원자 수*/}
-                    <WorkTitle>
-                        <PText Weight="700" Size="20px">업무 내용</PText>
-                        <End>
-                            <EndText>마감일자</EndText>
-                            <EndDate>{DC.lastNoticeDate}</EndDate>
-                        </End>
-                    </WorkTitle>{/*업무내용*/}
-                    <WorkInfo>
-                        <Info>이런 저런 일을 합니다.</Info>
-                    </WorkInfo>{/*업무내용*/}
-                    <PrtCategory Title="채용직무"/>
-                    <Employment>
-                        <EmploymentBox>
-                            {employmentInfo.map((info) => (
-                                <Tbr>
-                                    <PText Width="160px">{info.title}</PText>
-                                    <Td>{info.list}</Td>
-                                </Tbr>
-                            ))}
-                            <Tor>
-                                <PText>상세직무</PText>
-                                <Td>백엔드백엔드프론드백엔드 백엔드풀스택웹 프로그래밍 웹프로그래밍</Td>
-                            </Tor>
-                            <Tor>
-                                <PText>필요언어</PText>
-                                <TagList>
-                                    {needLang.map((info) => (
-                                        <Tag>{info.name}</Tag>
-                                    ))}
-                                </TagList>
-                            </Tor>
-                            <Tor>
-                                <PText>기타기술</PText>
-                                <TagList>
-                                    {ectTech.map((info) => (
-                                        <Tag>{info.name}</Tag>
-                                    ))}
-                                </TagList>
-                            </Tor>
-                        </EmploymentBox>
-                    </Employment>
-                    <PrtCategory Title="지원자격"/>
-                    <PrtCategory Title="복리후생"/>
-                    <PrtCategory Title="출•퇴근시간"/>
-                    <EnterTime>
-                        <ED>
-                            <ET>출근시간</ET>
-                            <EI>8시</EI>
-                        </ED>
-                        <ED>
-                            <ET>퇴근시간</ET>
-                            <EI>18시</EI>
-                        </ED>
-                        <ED>
-                            <ET>근무시간 (주)</ET>
-                            <EI>18시간</EI>
-                        </ED>
-                    </EnterTime>
-                    <PrtCategory Title="전형절차"/>
-                    <PrtCategory Title="제출서류"/>
-                    <Document>
-                        {file.map((info)=>(
-                            <File>
-                                <FileImg src={FileImage} alt="파일아이콘입니다"></FileImg>
-                                <FileName href={info.url} download>{info.name}</FileName>
-                            </File>
-                        ))}
-                    </Document>
-                    <PrtCategory Title="근무지"/>
-                    <PText Size="16px" Width="936px" Color="black">대전 유성구 가정북로 76</PText>
-                </Notice>
-            </Blur>
-        </Background>
-    )
-}
+  if (isLoading) return <div>로딩중..</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+  if (!data) return <button>불러오기</button>;
+  console.log(data.company.businessAreaResponseList);
+  const DC = data.company;
+  const CI = data.company.companyInformation;
+  const companyInfo = [
+    { title: "사업자 번호", list: DC.companyNumber },
+    { title: "대표", list: CI.representative },
+    { title: "설립 일자", list: CI.establishedAt + "년" },
+    { title: "E-mail", list: DC.companyContact.email },
+    {
+      title: "근로자 수",
+      list: CI.workerCount.toLocaleString("ko-KR") + " 명",
+    },
+    {
+      title: "연 매출액",
+      list: CI.annualSales.toLocaleString("ko-KR") + " 원",
+    },
+    { title: "사업 분야", list: DC.businessAreaResponseList[0].tagName },
+    { title: "본사 주소", list: CI.homeAddress.fullAddress },
+    { title: "지점 주소", list: CI.agentAddress || "지점 주소가 엄서요" },
+  ];
+  const employmentInfo = [
+    { title: "대분류", list: "웹프로그래밍" },
+    { title: "소분류", list: "풀스택" },
+    { title: "채용인원", list: "2명" },
+  ];
+  const needLang = [
+    { name: "Java" },
+    { name: "Java Script" },
+    { name: "HTML" },
+    { name: "CSS" },
+  ];
+  const ectTech = [{ name: "Vue.js" }, { name: "React" }];
+  const file = [
+    {
+      name: data.formAttachmentList[0].fileName,
+      url: data.formAttachmentList[0].fileUrl,
+    },
+    {
+      name: data.formAttachmentList[1].fileName,
+      url: data.formAttachmentList[1].fileUrl,
+    },
+    {
+      name: data.formAttachmentList[2].fileName,
+      url: data.formAttachmentList[2].fileUrl,
+    },
+  ];
+  return (
+    <Background>
+      <Blur>
+        <Notice>
+          <SlideBox>
+            <LeftSlide>(</LeftSlide>
+            <RightSlide>)</RightSlide>
+            <ImageList>
+              <CompanyImg
+                src={CompanyImage}
+                alt="회사이미지입니다"
+              ></CompanyImg>
+            </ImageList>
+          </SlideBox>
+          {/*슬라이드이미지*/}
+          <Table>
+            <Tr Height="111px">
+              <PText Color="black" Width="162px" Size="36px">
+                {data.company.companyName}
+              </PText>
+              <PText Color="black" Size="36px">
+                INFO
+              </PText>
+            </Tr>
+            {companyInfo.map((info) => (
+              <Tr Height="52px">
+                <PText Width="160px" Size="20px">
+                  {info.title}
+                </PText>
+                <PText Weight="400" Size="14px" Color="black">
+                  {info.list}
+                </PText>
+              </Tr>
+            ))}
+          </Table>
+          {/*회사정보*/}
+          <Applicant>
+            <Now>현재 지원자 수</Now>
+            <PText Weight="700" Size="24px">
+              {data.applicantCount}
+            </PText>
+          </Applicant>
+          {/*지원자 수*/}
+          <WorkTitle>
+            <PText Weight="700" Size="20px">
+              업무 내용
+            </PText>
+            <End>
+              <EndText>마감일자</EndText>
+              <EndDate>{DC.lastNoticeDate}</EndDate>
+            </End>
+          </WorkTitle>
+          {/*업무내용*/}
+          <WorkInfo>
+            <Info>이런 저런 일을 합니다.</Info>
+          </WorkInfo>
+          {/*업무내용*/}
+          <PrtCategory Title="채용직무" />
+          <Employment>
+            <EmploymentBox>
+              {employmentInfo.map((info) => (
+                <Tbr>
+                  <PText Width="160px">{info.title}</PText>
+                  <Td>{info.list}</Td>
+                </Tbr>
+              ))}
+              <Tor>
+                <PText>상세직무</PText>
+                <Td>
+                  백엔드백엔드프론드백엔드 백엔드풀스택웹 프로그래밍
+                  웹프로그래밍
+                </Td>
+              </Tor>
+              <Tor>
+                <PText>필요언어</PText>
+                <TagList>
+                  {needLang.map((info) => (
+                    <Tag>{info.name}</Tag>
+                  ))}
+                </TagList>
+              </Tor>
+              <Tor>
+                <PText>기타기술</PText>
+                <TagList>
+                  {ectTech.map((info) => (
+                    <Tag>{info.name}</Tag>
+                  ))}
+                </TagList>
+              </Tor>
+            </EmploymentBox>
+          </Employment>
+          <PrtCategory Title="지원자격" />
+          <PrtCategory Title="복리후생" />
+          <PrtCategory Title="출•퇴근시간" />
+          <EnterTime>
+            <ED>
+              <ET>출근시간</ET>
+              <EI>8시</EI>
+            </ED>
+            <ED>
+              <ET>퇴근시간</ET>
+              <EI>18시</EI>
+            </ED>
+            <ED>
+              <ET>근무시간 (주)</ET>
+              <EI>18시간</EI>
+            </ED>
+          </EnterTime>
+          <PrtCategory Title="전형절차" />
+          <PrtCategory Title="제출서류" />
+          <Document>
+            {file.map((info) => (
+              <File>
+                <FileImg src={FileImage} alt="파일아이콘입니다"></FileImg>
+                <FileName href={info.url} download>
+                  {info.name}
+                </FileName>
+              </File>
+            ))}
+          </Document>
+          <PrtCategory Title="근무지" />
+          <PText Size="16px" Width="936px" Color="black">
+            대전 유성구 가정북로 76
+          </PText>
+        </Notice>
+      </Blur>
+    </Background>
+  );
+};
 
 export default NoticeModal;
 
@@ -212,7 +254,7 @@ const ET = styled.p`
   font-weight: 600;
   font-size: 20px;
   line-height: 23px;
-  color: #4000FF;
+  color: #4000ff;
   padding-right: 20px;
 `; // 시간 타이틀
 const EI = styled.p`
@@ -270,7 +312,7 @@ const EmploymentBox = styled.div`
   display: flex;
   justify-content: start;
   flex-wrap: wrap;
-  background: #F3EEFF;
+  background: #f3eeff;
   padding: 0 30px 60px 30px;
   border-radius: 20px;
   width: 936px;
@@ -283,18 +325,18 @@ const Employment = styled.div`
 const Hr = styled.hr`
   width: 936px;
   height: 2px;
-  border: 2px solid #4000FF;
+  border: 2px solid #4000ff;
   margin: 0;
 `; // 카테고리 구분선
 const Category = styled.div`
   font-weight: 700;
   font-size: 16px;
-  color: #FFFFFF;
+  color: #ffffff;
   padding-top: 4px;
 `; // 카테고리 타이틀
 const CategoryBox = styled.div`
   height: 40px;
-  background: #4000FF;
+  background: #4000ff;
   border-radius: 20px 20px 0 0;
   padding: 0 30px 0 30px;
   display: flex;
@@ -307,7 +349,7 @@ const CategoryBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-` // 카테고리 타이틀 div
+`; // 카테고리 타이틀 div
 
 const Info = styled.p`
   font-weight: 400;
@@ -329,7 +371,7 @@ const EndText = styled.p`
 const EndDate = styled.p`
   font-weight: 400;
   font-size: 14px;
-  color: #4000FF;
+  color: #4000ff;
 `; // 0000.00.00
 const End = styled.div`
   display: flex;
@@ -366,14 +408,14 @@ const Td = styled.td`
 const Tr = styled.div`
   display: flex;
   align-items: center;
-  height: ${props => props.Height};
+  height: ${(props) => props.Height};
 `; // 테이블 형식으로 감쌈
 const PText = styled.p`
-  font-weight: ${props => props.Weight || "600"};
-  font-size: ${props => props.Size || "18px"};
+  font-weight: ${(props) => props.Weight || "600"};
+  font-size: ${(props) => props.Size || "18px"};
   text-align: start;
-  width: ${props => props.Width || "auto"};
-  color: ${props => props.Color || "#4000FF"};
+  width: ${(props) => props.Width || "auto"};
+  color: ${(props) => props.Color || "#4000FF"};
 `; // text
 const Table = styled.div`
   width: 936px;
@@ -424,8 +466,8 @@ const SlideBox = styled.div`
 `; // 이미지 슬라이드 박스
 
 const Notice = styled.div`
-  font-family: 'NanumGothic', sans-serif;
-  background: linear-gradient(180deg, #FFFFFF, #F5F2FF);
+  font-family: "NanumGothic", sans-serif;
+  background: linear-gradient(180deg, #ffffff, #f5f2ff);
   border-radius: 20px;
   height: 3203px;
   width: 1136px;
@@ -450,6 +492,3 @@ const Background = styled.div`
   width: 100%;
   background: white;
 `; // 모달 뒷배경
-
-
-

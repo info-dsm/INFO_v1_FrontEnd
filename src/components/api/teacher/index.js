@@ -169,7 +169,6 @@ export const getCompanyInfo = async (id) => {
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   });
-  console.log(data);
   return data;
 };
 export const getUseCompanyInfo = (id) => {

@@ -23,6 +23,10 @@ import CompanyInfo from "./components/pages/companyPage/info";
 import Applicant from "./components/pages/teacherPage/manage/applicant";
 import ErrorPage from "./components/common/error";
 import MainView from "./components/pages/studentPage/Main";
+import CompanyDetailView from "./components/pages/studentPage/Company/detail";
+import NoticeView from "./components/pages/studentPage/Notice";
+import CompanyView from "./components/pages/studentPage/Company/index";
+import EmploymentStatus from "./components/pages/studentPage/employmentStatus";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -42,7 +46,13 @@ function App() {
               <Route path="/teacher/signup" element={<TeacherSignUp />} />
               <Route path="/company/list" element={<RecruitmentList />} />
               <Route path="/student" element={<MainView />} />
-              <Route />
+              <Route path="/student/notice" element={<NoticeView />} />
+              <Route path="/student/company" element={<CompanyView />} />
+              <Route
+                path="/student/company/:id"
+                element={<CompanyDetailView />}
+              />
+              <Route path="/student/status" element={<EmploymentStatus />} />
               <Route
                 path="/company/list/write"
                 element={<RequstResistration />}

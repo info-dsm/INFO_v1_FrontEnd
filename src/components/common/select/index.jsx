@@ -24,7 +24,7 @@ const SelectComplete = ({ Data, func, write, num }) => {
         state={state}
         onClick={(e) => {
           e.stopPropagation();
-          setState(true);
+          setState(!state);
         }}
       >
         {write}
