@@ -40,12 +40,10 @@ const StudentSignUp = () => {
     },
     {
       name: "학번",
-      additionalElm: "학번 중복 확인",
+      additionalElm: "",
       placeholder: "학번을 입력해주세요",
-      check: "studentKeyCheck",
-      func: () => {
-        studentKeyCheck();
-      },
+      check: "",
+      func: () => {},
       key: "studentKey",
     },
     {
@@ -78,7 +76,6 @@ const StudentSignUp = () => {
   const [success, setSuccess] = useState({
     certifiedSend: "",
     certifiedCheck: "",
-    studentKeyCheck: "",
   });
 
   function changeInput(e, props) {
@@ -88,6 +85,7 @@ const StudentSignUp = () => {
   const submit = () => {
     const { studentKey, email, emailCheckCode, password, name, githubLink } =
       data;
+    console.log(data);
     if (Object.values(success).includes(true)) {
       if (!Object.values(data).includes("")) {
         axios({
@@ -96,10 +94,12 @@ const StudentSignUp = () => {
           data: {
             studentKey: studentKey,
             email: email,
-            emailCheckCode: emailCheckCode,
             password: password,
             name: name,
             githubLink: githubLink,
+          },
+          params: {
+            emailCode: emailCheckCode,
           },
         }).then((res) => {
           Alert({
@@ -117,32 +117,33 @@ const StudentSignUp = () => {
     } else
       Notice({
         state: "error",
-        message: "인증번호나 학번 중복을 확인해주세요.",
+        message: "인증번호를 확인해주세요.",
       });
   };
 
   const certified = () => {
     if (data.email !== "") {
       axios({
-        url: BaseUrl + "/auth/email/school",
-        method: "POST",
+        url: BaseUrl + "/auth/code",
+        method: "PUT",
         params: {
           email: data.email,
         },
       })
         .then((res) => {
+          setSuccess({ ...success, certifiedSend: true });
           Notice({
             state: "success",
-            message: "인증번호가 발송되었습니다.",
+            message: "인증번호 발송!",
           });
-          setSuccess({ ...success, certifiedSend: true });
         })
         .catch((err) => {
+          console.log(err);
+          setSuccess({ ...success, certifiedSend: false });
           Notice({
             state: "error",
             message: "존재하지 않거나 이미 가입된 이메일입니다.",
           });
-          setSuccess({ ...success, certifiedSend: false });
         });
     } else {
       Notice({
@@ -155,62 +156,32 @@ const StudentSignUp = () => {
   const certifiedCheck = () => {
     if (data.emailCheckCode !== "") {
       axios({
-        url: BaseUrl + "/auth/email/code/check",
-        method: "GET",
-        params: {
+        url: BaseUrl + "/auth/code",
+        method: "post",
+        data: {
           email: data.email,
-          code: data.emailCheckCode,
+          data: data.emailCheckCode,
+          type: "SIGNUP_EMAIL",
         },
       })
         .then((res) => {
+          setSuccess({ ...success, certifiedCheck: true });
           Notice({
             state: "success",
-            message: "이메일이 인증되었습니다.",
+            message: "인증번호가 성공적으로 확인되었습니다.",
           });
-          setSuccess({ ...success, certifiedCheck: true });
         })
         .catch((err) => {
+          setSuccess({ ...success, certifiedCheck: false });
           Notice({
             state: "error",
-            message: "인증번호가 틀렸습니다.",
+            message: "인증번호가 올바르지 않습니다.",
           });
-          setSuccess({ ...success, certifiedCheck: false });
         });
     } else {
       Notice({
         state: "error",
         message: "인증번호를 입력해주세요.",
-      });
-    }
-  };
-
-  const studentKeyCheck = () => {
-    if (data.studentKey !== "") {
-      axios({
-        url: BaseUrl + "/auth/student/check",
-        method: "GET",
-        params: {
-          studentKey: data.studentKey,
-        },
-      })
-        .then((res) => {
-          Notice({
-            state: "success",
-            message: "학번 중복이 확인되었습니다.",
-          });
-          setSuccess({ ...success, studentKeyCheck: true });
-        })
-        .catch((err) => {
-          Notice({
-            state: "error",
-            message: "이미 가입된 학번입니다.",
-          });
-          setSuccess({ ...success, studentKeyCheck: false });
-        });
-    } else {
-      Notice({
-        state: "error",
-        message: "내용을 입력해주세요",
       });
     }
   };
@@ -261,7 +232,7 @@ const StudentSignUp = () => {
                 Are you a
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
-                <Link to={"/teacher/signup"}>
+                <Link to={"/teacher/login"}>
                   <a>Teacher?</a>
                 </Link>
               </HighlightText>
