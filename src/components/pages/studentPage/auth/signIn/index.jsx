@@ -117,10 +117,12 @@ const StudentSignIn = () => {
             </>
             <HighlightDiv>
               <HighlightText cursor={"auto"} color={"#9B9EA0"}>
-                Forgot
+                Are you
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
-                Password?
+                <Link to={"/teacher/login"}>
+                  <a>Teacher?</a>
+                </Link>
               </HighlightText>
             </HighlightDiv>
             <Submit>
