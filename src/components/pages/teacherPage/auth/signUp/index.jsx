@@ -45,7 +45,7 @@ const TeacherSignUp = () => {
       placeholder: "선생님 인증번호를 입력해주세요",
       check: "",
       func: () => {},
-      key: "studentKey",
+      key: "teacherCheckCode",
     },
     {
       name: "비밀번호",
@@ -76,17 +76,20 @@ const TeacherSignUp = () => {
 
   const submit = () => {
     const { email, emailCheckCode, password, teacherCheckCode, name } = data;
+    console.log(data);
     if (Object.values(success).includes(true)) {
       if (!Object.values(data).includes("")) {
         axios({
           url: BaseUrl + "/auth/signup/teacher",
           method: "post",
           data: {
-            teacherCheckCode: teacherCheckCode,
             email: email,
-            emailCheckCode: emailCheckCode,
             password: password,
             name: name,
+          },
+          params: {
+            emailCode: emailCheckCode,
+            teacherCode: teacherCheckCode,
           },
         })
           .then((res) => {
@@ -118,25 +121,26 @@ const TeacherSignUp = () => {
   const certified = () => {
     if (data.email !== "") {
       axios({
-        url: BaseUrl + "/auth/email/school",
-        method: "POST",
+        url: BaseUrl + "/auth/code",
+        method: "PUT",
         params: {
           email: data.email,
         },
       })
         .then((res) => {
+          setSuccess({ ...success, certifiedSend: true });
           Notice({
             state: "success",
-            message: "인증번호가 발송되었습니다.",
+            message: "인증번호 발송!",
           });
-          setSuccess({ ...success, certifiedSend: true });
         })
         .catch((err) => {
+          console.log(err);
+          setSuccess({ ...success, certifiedSend: false });
           Notice({
             state: "error",
-            message: "존재하지 않거나 이미 가입된 이메일이",
+            message: "존재하지 않거나 이미 가입된 이메일입니다.",
           });
-          setSuccess({ ...success, certifiedSend: false });
         });
     } else {
       Notice({
@@ -149,26 +153,27 @@ const TeacherSignUp = () => {
   const certifiedCheck = () => {
     if (data.emailCheckCode !== "") {
       axios({
-        url: BaseUrl + "/auth/email/code/check",
-        method: "GET",
-        params: {
+        url: BaseUrl + "/auth/code",
+        method: "post",
+        data: {
           email: data.email,
-          code: data.emailCheckCode,
+          data: data.emailCheckCode,
+          type: "SIGNUP_EMAIL",
         },
       })
         .then((res) => {
+          setSuccess({ ...success, certifiedCheck: true });
           Notice({
             state: "success",
-            message: "인증번호가 확인되었습니다.",
+            message: "인증번호가 성공적으로 확인되었습니다.",
           });
-          setSuccess({ ...success, certifiedCheck: true });
         })
         .catch((err) => {
+          setSuccess({ ...success, certifiedCheck: false });
           Notice({
             state: "error",
             message: "인증번호가 올바르지 않습니다.",
           });
-          setSuccess({ ...success, certifiedCheck: false });
         });
     } else {
       Notice({
@@ -227,7 +232,7 @@ const TeacherSignUp = () => {
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 <Link to={"/teacher/login"}>
-                  <div>Login</div>
+                  <a>Login</a>
                 </Link>
               </HighlightText>
             </Submit>
@@ -340,16 +345,11 @@ const HighlightText = styled.span`
   cursor: ${(props) => props.cursor};
   margin-left: 10px;
 
-  div {
+  a {
     text-decoration: none;
     color: #7243ff;
   }
-`;
-
-const HighlightDiv = styled.span`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
+  
 `;
 
 const Submit = styled.div`
