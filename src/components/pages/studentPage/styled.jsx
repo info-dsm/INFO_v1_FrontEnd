@@ -11,6 +11,8 @@ export const Page_moving_btn = styled.button`
   border-radius: 10px;
   color: #fff;
   cursor: pointer;
+  position: absolute;
+  bottom: 20px;
   transition: 0.3s;
   &:hover {
     transform: scale(1.03);

@@ -9,51 +9,145 @@ import { useNavigate } from "react-router-dom";
 const CompanyView = () => {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [IC_data, set_IC] = useState(undefined);
+  const [IC_data, set_IC] = useState({
+    totalPages: 0,
+    totalElements: 0,
+    size: 0,
+    content: [
+      {
+        companyNumber: "string",
+        contactorEmail: "string",
+        companyName: "string",
+        homeAddressInfo: {
+          fullAddress: "string",
+          addressNumber: "string",
+        },
+        businessTagged: [
+          {
+            name: "string",
+          },
+          {
+            name: "react",
+          },
+        ],
+        workerCount: 0,
+        annualSales: 0,
+        isLeading: true,
+        isAssociated: true,
+        latestNoticeYear: 0,
+        totalEmployedCount: 0,
+        companyIntroductionResponse: {
+          introduction: "string",
+          businessCertificate: {
+            fileId: "string",
+            fileUrl: "string",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          companyIntroductionFile: [
+            {
+              fileId: "string",
+              fileUrl: "string",
+              fileType: "FileType",
+              extension: "string",
+              fileName: "string",
+              companyNumber: "string",
+              companyFileClassificationType: "CompanyFileClassificationType",
+            },
+          ],
+          companyLogo: {
+            fileId: "string",
+            fileUrl: "string",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          companyPhotoList: [
+            {
+              fileId: "string",
+              fileUrl: "string",
+              fileType: "FileType",
+              extension: "string",
+              fileName: "string",
+              companyNumber: "string",
+              companyFileClassificationType: "CompanyFileClassificationType",
+            },
+          ],
+        },
+      },
+    ],
+    number: 0,
+    sort: {
+      empty: true,
+      sorted: true,
+      unsorted: true,
+    },
+    numberOfElements: 0,
+    pageable: {
+      offset: 0,
+      sort: {
+        empty: true,
+        sorted: true,
+        unsorted: true,
+      },
+      paged: true,
+      pageNumber: 0,
+      pageSize: 0,
+      unpaged: true,
+    },
+    first: true,
+    last: true,
+    empty: true,
+  });
   const [search_string, set_search] = useState("");
   const navigate = useNavigate();
   let accessToken = sessionStorage.getItem("accessToken");
 
   const load_companys = () => {
-    if (search_string === "") {
-      axios({
-        method: "get",
-        url: BaseUrl + "/company/list",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        params: {
-          size: 4,
-          idx: page - 1,
-        },
-      })
-        .then((res) => {
-          console.log("companys sccess!");
-          set_IC(res.data.content);
-          setMaxPage(res.data.totalPages);
-        })
-        .catch(() => {
-          console.log("companys error...");
-        });
-    } else {
-      axios({
-        method: "get",
-        url: BaseUrl + "/company/search",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        params: {
-          query: search_string,
-        },
-      })
-        .then((res) => {
-          set_IC(res.data.content);
-          setMaxPage(res.data.totalPages);
-        })
-        .catch(() => {
-          navigate(-1);
-        });
-    }
+    // if (search_string === "") {
+    //   axios({
+    //     method: "get",
+    //     url: BaseUrl + "/company/list",
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //     params: {
+    //       size: 4,
+    //       idx: page - 1,
+    //     },
+    //   })
+    //     .then((res) => {
+    //       console.log("companys sccess!");
+    //       set_IC(res.data.content);
+    //       setMaxPage(res.data.totalPages);
+    //     })
+    //     .catch(() => {
+    //       console.log("companys error...");
+    //     });
+    // } else {
+    //   axios({
+    //     method: "get",
+    //     url: BaseUrl + "/company/search",
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //     params: {
+    //       query: search_string,
+    //     },
+    //   })
+    //     .then((res) => {
+    //       set_IC(res.data.content);
+    //       setMaxPage(res.data.totalPages);
+    //     })
+    //     .catch(() => {
+    //       navigate(-1);
+    //     });
+    // }
   };
 
   useEffect(() => {
@@ -106,7 +200,7 @@ const CompanyView = () => {
         )}
         <Grid_box>
           {IC_data ? (
-            IC_data.map((Data) => (
+            IC_data.content.map((Data) => (
               <IC_View IC_data={Data} key={Data.companyId} />
             ))
           ) : (
