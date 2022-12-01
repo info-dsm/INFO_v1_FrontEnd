@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { stateModal } from "../../../../../redux/store/modal";
-import { bundle, mainData } from "../../../../../export/data";
-import { useState, useCallback, useEffect, useRef } from "react";
+import { bundle } from "../../../../../export/data";
+import { useState, useCallback, useRef } from "react";
 import * as s from "./style";
 import { value } from "../../../../../redux/store/selectValue";
 import AutoComplete from "../../../../common/autocomplete";
@@ -12,12 +12,6 @@ import { Notice } from "../../../../common/notice";
 const SelectModal = () => {
   const { status, data } = getListProps();
   const dispatch = useDispatch();
-  const ArrStateCountData = useSelector((count) => count.count.count.count);
-  const ArrStateData = useSelector(
-    (stack) => stack.selectValue.recruitmentRequest
-  );
-  const [list, setList] = useState(mainData);
-  const [inputState, setInputState] = useState(false);
   const [arr, setArr] = useState([1]);
   const [skill, setSkill] = useState([1]);
   const [cert, setCert] = useState([1]);
@@ -30,44 +24,6 @@ const SelectModal = () => {
   const CertRef = useRef([]);
   const TextRef = useRef();
   const NumRef = useRef();
-  useEffect(() => {
-    const stateprops = { state: false };
-    setList((list) =>
-      list.map((e) => {
-        return { ...e, ...stateprops };
-      })
-    );
-    console.log("앙기모띠");
-  }, []);
-  const BlurEvent = useCallback((e) => {
-    if (e.target.value !== "") {
-      const ad = { title: e.target.value, subtitle: [], state: false };
-      setList([...mainData, ad]);
-      setInputState(false);
-    }
-  }, []);
-  const BlurSubEvent = useCallback((event, index) => {
-    if (event.target.value !== "") {
-      setList((list) =>
-        list.map((e, i) => {
-          if (i === index) {
-            e.state = false;
-            e.subtitle = [...e.subtitle, event.target.value];
-          }
-          return e;
-        })
-      );
-    } else {
-      setList((list) =>
-        list.map((e, i) => {
-          if (i === index) {
-            e.state = false;
-          }
-          return e;
-        })
-      );
-    }
-  }, []);
 
   const AddLangText = useCallback(
     (i) => {
@@ -109,19 +65,6 @@ const SelectModal = () => {
     },
     [cert]
   );
-  const InputStateProps = useCallback((index) => {
-    setList((list) =>
-      list.map((e, i) => {
-        if (i !== index && e.state === true) {
-          e.state = false;
-        }
-        if (i === index) {
-          e.state = true;
-        }
-        return e;
-      })
-    );
-  }, []);
   const RadioProps = useCallback(
     (e) => {
       setRadio({ id: e.target.id, value: e.target.value });
@@ -165,7 +108,6 @@ const SelectModal = () => {
         languageList: arr1,
         technologyList: arr2,
       };
-      console.log(arr3);
       if (radio.id === "") {
         Notice({ state: "error", message: "버튼을 체크해주세요..." });
       } else if (NumRef.current.value === "" || NumRef.current.value === "0") {
@@ -176,22 +118,9 @@ const SelectModal = () => {
         Notice({ state: "error", message: "사용언어를 입력해주세요..." });
       } else if (arr2.length === 0) {
         Notice({ state: "error", message: "사용스킬을 입력해주세요..." });
-      } else if (ArrStateData.length === ArrStateCountData) {
-        dispatch(value([...ArrStateData, props]));
-        dispatch(stateModal(false));
-        Notice({ state: "success", message: "정상적으로 처리되었습니다." });
       } else {
-        const ad = ArrStateData.map((el, i) => {
-          if (i === ArrStateCountData) {
-            el = props;
-            console.log(el);
-            return el;
-          } else {
-            return el;
-          }
-        });
         Notice({ state: "success", message: "정상적으로 처리되었습니다." });
-        dispatch(value(ad));
+        dispatch(value(props));
         dispatch(stateModal(false));
       }
     }
@@ -219,29 +148,31 @@ const SelectModal = () => {
               ))}
             </s.BundleUl>
             <s.MainUl>
-              {list.map((user, i) => (
+              {data[3].map((user, i) => (
                 <>
                   <s.MainLi>
                     <s.SubListUl>
                       <s.SubList
                         width={300}
-                        height={user.subtitle.length * 70 + 50}
+                        height={(user.smallClassification.length - 1) * 70 + 50}
                       >
-                        <s.MainTitleProps>{user.title}</s.MainTitleProps>
+                        <s.MainTitleProps>
+                          {user.bigClassification}
+                        </s.MainTitleProps>
                       </s.SubList>
                       <s.SubList
                         width={616}
-                        height={user.subtitle.length * 70 + 50}
+                        height={(user.smallClassification.length - 1) * 70}
                       >
                         <s.SubUl>
-                          {user.subtitle.map((asdf) => (
+                          {user.smallClassification.map((asdf) => (
                             <s.SubLi>
                               <s.Label>
                                 <s.LabelButton>{asdf}</s.LabelButton>
                                 <s.InputButton>
                                   <s.Radio
                                     type="radio"
-                                    id={user.title}
+                                    id={user.bigClassification}
                                     name="jingeon"
                                     value={asdf}
                                     onChange={(e) => RadioProps(e)}
@@ -250,63 +181,16 @@ const SelectModal = () => {
                               </s.Label>
                             </s.SubLi>
                           ))}
-                          <s.SubLi>
-                            {user.state ? (
-                              <s.Label>
-                                <s.InputSubText
-                                  width={400}
-                                  type="text"
-                                  onBlur={(e) => BlurSubEvent(e, i)}
-                                ></s.InputSubText>
-                              </s.Label>
-                            ) : (
-                              <s.PlusButton
-                                width={400}
-                                left={-10}
-                                onClick={() => {
-                                  InputStateProps(i);
-                                }}
-                              >
-                                +
-                              </s.PlusButton>
-                            )}
-                          </s.SubLi>
                         </s.SubUl>
                       </s.SubList>
                       <s.SubList
                         width={196}
-                        height={user.subtitle.length * 70 + 50}
+                        height={(user.smallClassification.length - 1) * 70 + 50}
                       ></s.SubList>
                     </s.SubListUl>
                   </s.MainLi>
                 </>
               ))}
-              <s.MainLi>
-                <s.SubListUl>
-                  <s.SubLi>
-                    {inputState ? (
-                      <>
-                        <s.InputText
-                          left={-20}
-                          width={300}
-                          type="text"
-                          onBlur={(e) => BlurEvent(e)}
-                        ></s.InputText>
-                      </>
-                    ) : (
-                      <s.PlusButton
-                        width={300}
-                        left={0}
-                        onClick={() => {
-                          setInputState(true);
-                        }}
-                      >
-                        +
-                      </s.PlusButton>
-                    )}
-                  </s.SubLi>
-                </s.SubListUl>
-              </s.MainLi>
             </s.MainUl>
             <s.TableTwo>
               <s.TableProps>

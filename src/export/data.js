@@ -61,13 +61,7 @@ export const interviewData = [
 ];
 export const SubmitData = [
   {
-    text: "모집의뢰 승인",
-    path: "/notice/approve",
-    method: "put",
-    message: "승인되었습니다.",
-  },
-  {
-    text: "모집의뢰 거부",
+    text: "모집의뢰 종료",
     path: "/notice/approve",
     method: "delete",
     message: "거부되었습니다.",
@@ -77,12 +71,6 @@ export const SubmitData = [
     path: "/notice",
     method: "delete",
     message: "삭제되었습니다.",
-  },
-  {
-    text: "모집의뢰 출력",
-    path: "/notice/out",
-    method: "post",
-    message: "출력페이지로 이동합니다.",
   },
 ];
 export const TeacherData = [

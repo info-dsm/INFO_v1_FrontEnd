@@ -2,37 +2,51 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BaseUrl } from "../../../../export/base";
 import { Notice } from "../../../common/notice";
-const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE2Njg1NTg0OTIsImV4cCI6MTY2ODY0NDg5Mn0.0rFN6RNL2HcGNNL9-QW1BEfsNMaC2fQ20-dgN0GaUSU";
 export const getListProps = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery(["datas"], async () => {
     let res;
     let ad;
+    let arr = [];
     await axios
       .all([
-        axios.get(BaseUrl + "/notice/technology/list", {
+        axios.get(BaseUrl + "/notice/technology", {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }),
-        axios.get(BaseUrl + "/notice/language/list", {
+        axios.get(BaseUrl + "/notice/language", {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }),
-        axios.get(BaseUrl + "/notice/certificate/list", {
+        axios.get(BaseUrl + "/notice/certificate", {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+          },
+        }),
+        axios.get(BaseUrl + "/notice/classification", {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }),
       ])
       .then(
-        axios.spread((res1, res2, res3) => {
+        axios.spread((res1, res2, res3, res4) => {
           const data1 = res1.data;
           const data2 = res2.data;
           const data3 = res3.data;
-          res = [data1, data2, data3];
+          const data4 = res4.data;
+          res = [data1, data2, data3, data4];
+          console.log(res);
+          arr = [
+            {
+              bigClassification:
+                res[3][0].bigClassification.bigClassificationName,
+              smallClassification: [res[3][0].name],
+            },
+          ];
+          let count = 0;
           ad = new Array(3)
             .fill(0)
             .map((e, i) => new Array(res[i].length).fill({ skill: 0 }));
@@ -45,10 +59,45 @@ export const getListProps = () => {
           for (let i = 0; i < ad[2].length; i++) {
             ad[2][i].skill = res[2][i].certificateName;
           }
+          for (let i = 1; i < res[3].length; i++) {
+            count = arr.findIndex(
+              (el) =>
+                el.bigClassification ===
+                res[3][i].bigClassification.bigClassificationName
+            );
+            if (count === undefined) {
+              arr.push({
+                bigclassification:
+                  res[3][i].bigClassification.bigClassificationName,
+                smallClassification: [res[3][i].name],
+              });
+            } else {
+              arr[count].smallClassification.push(res[3][i].name);
+            }
+          }
         })
       );
-    return ad;
+    console.log([...ad, arr]);
+    return [...ad, arr];
   });
+};
+export const InterviewProcess = async () => {
+  let arr;
+  await axios({
+    method: "get",
+    url: BaseUrl + "/notice/interview",
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+    },
+  }).then((res) => {
+    const data = res.data;
+    arr = new Array(data.length).fill({ skill: "", request: "" });
+    arr = arr.map((item, i) => {
+      return { skill: data[i].meaning, request: data[i].process };
+    });
+  });
+
+  return arr;
 };
 export const postNotice = (arr, ad) => {
   let formData = new FormData();
@@ -65,7 +114,7 @@ export const postNotice = (arr, ad) => {
     url: BaseUrl + "/notice",
     method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       "Content-Type": "multipart/form-data",
       "Access-Control-Allow-Origin": "*",
     },
@@ -88,20 +137,8 @@ export const getMyList = () => {
       })
       .then((response) => {
         const data = response.data;
-        let arr = new Array(data.length)
-          .fill(0)
-          .map((e, i) =>
-            new Array(
-              data[i].data.notice.recruitmentBusinessResponse.length
-            ).fill("")
-          );
-        let arr2 = new Array(data.length)
-          .fill(0)
-          .map((e, i) =>
-            new Array(
-              data[i].data.notice.recruitmentBusinessResponse.length
-            ).fill("")
-          );
+        let arr = new Array(data.length).fill(0);
+        let arr2 = new Array(data.length).fill(0);
         let count = [];
         for (let i = 0; i < data.length; i++) {
           let temp = 0;

@@ -1,17 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  recruitmentRequest: [
-    {
-      bigClassification: "",
-      smallClassification: "",
-      numberOfEmployee: 0,
-      detailBusinessDescription: "",
-      gradeCutLine: 0,
-      needCertificateList: [],
-      languageList: [],
-      technologyList: [],
-    },
-  ],
+  bigClassification: "",
+  smallClassification: "",
+  numberOfEmployee: 0,
+  detailBusinessDescription: "",
+  gradeCutLine: 0,
+  needCertificateList: [],
+  languageList: [],
+  technologyList: [],
 };
 const selectValue = createSlice({
   name: "stack",
