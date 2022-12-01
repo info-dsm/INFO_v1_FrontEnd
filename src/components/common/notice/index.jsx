@@ -1,6 +1,6 @@
 import "./style.css";
 export const Notice = (props) => {
-  if (document.getElementsByClassName("MainDiv").length === 0) {
+  if (document.getElementsByClassName("NoticeMainDiv").length === 0) {
     const body = document.querySelector("body");
     const mainDiv = document.createElement("div");
     const logoSpan = document.createElement("span");

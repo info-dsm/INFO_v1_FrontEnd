@@ -43,7 +43,6 @@ const CompanySignUp = () => {
     introduction: "",
     password: "",
     passwordHint: "",
-    isLeading: false,
   });
 
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -226,17 +225,6 @@ const CompanySignUp = () => {
         <S.ContainerDiv>
           <S.Title>
             <h2>회사 명</h2>
-            <S.CheckInput
-              type="checkbox"
-              checked={companyInfomation.isLeading}
-              onChange={(e) => {
-                setCompanyInfomation({
-                  ...companyInfomation,
-                  isLeading: e.target.checked,
-                });
-              }}
-            ></S.CheckInput>
-            <span>선도 기업</span>
           </S.Title>
           <S.ContentDiv>
             <S.GridDiv width={800} column={4}>
@@ -272,7 +260,7 @@ const CompanySignUp = () => {
               />
             </S.GridDiv>
 
-            <S.PlusButton>
+            {/* <S.PlusButton>
               <input
                 placeholder="사업 분야를 적어주세요."
                 value={business}
@@ -298,7 +286,7 @@ const CompanySignUp = () => {
               >
                 +
               </div>
-            </S.PlusButton>
+            </S.PlusButton> */}
           </S.ContentDiv>
           <hr />
         </S.ContainerDiv>

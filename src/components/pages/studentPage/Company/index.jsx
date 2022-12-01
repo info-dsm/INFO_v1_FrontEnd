@@ -5,149 +5,59 @@ import { BaseUrl } from "../../../../export/base.js";
 import IC_View from "../Introduce_company.jsx";
 import Header from "../../../common/header/index.jsx";
 import { useNavigate } from "react-router-dom";
+import { initialCompany } from "../../../../export/data.js";
 
 const CompanyView = () => {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [IC_data, set_IC] = useState({
-    totalPages: 0,
-    totalElements: 0,
-    size: 0,
-    content: [
-      {
-        companyNumber: "string",
-        contactorEmail: "string",
-        companyName: "string",
-        homeAddressInfo: {
-          fullAddress: "string",
-          addressNumber: "string",
-        },
-        businessTagged: [
-          {
-            name: "string",
-          },
-          {
-            name: "react",
-          },
-        ],
-        workerCount: 0,
-        annualSales: 0,
-        isLeading: true,
-        isAssociated: true,
-        latestNoticeYear: 0,
-        totalEmployedCount: 0,
-        companyIntroductionResponse: {
-          introduction: "string",
-          businessCertificate: {
-            fileId: "string",
-            fileUrl: "string",
-            fileType: "FileType",
-            extension: "string",
-            fileName: "string",
-            companyNumber: "string",
-            companyFileClassificationType: "CompanyFileClassificationType",
-          },
-          companyIntroductionFile: [
-            {
-              fileId: "string",
-              fileUrl: "string",
-              fileType: "FileType",
-              extension: "string",
-              fileName: "string",
-              companyNumber: "string",
-              companyFileClassificationType: "CompanyFileClassificationType",
-            },
-          ],
-          companyLogo: {
-            fileId: "string",
-            fileUrl: "string",
-            fileType: "FileType",
-            extension: "string",
-            fileName: "string",
-            companyNumber: "string",
-            companyFileClassificationType: "CompanyFileClassificationType",
-          },
-          companyPhotoList: [
-            {
-              fileId: "string",
-              fileUrl: "string",
-              fileType: "FileType",
-              extension: "string",
-              fileName: "string",
-              companyNumber: "string",
-              companyFileClassificationType: "CompanyFileClassificationType",
-            },
-          ],
-        },
-      },
-    ],
-    number: 0,
-    sort: {
-      empty: true,
-      sorted: true,
-      unsorted: true,
-    },
-    numberOfElements: 0,
-    pageable: {
-      offset: 0,
-      sort: {
-        empty: true,
-        sorted: true,
-        unsorted: true,
-      },
-      paged: true,
-      pageNumber: 0,
-      pageSize: 0,
-      unpaged: true,
-    },
-    first: true,
-    last: true,
-    empty: true,
-  });
+  const [IC_data, set_IC] = useState();
+
   const [search_string, set_search] = useState("");
   const navigate = useNavigate();
-  let accessToken = sessionStorage.getItem("accessToken");
 
   const load_companys = () => {
-    // if (search_string === "") {
-    //   axios({
-    //     method: "get",
-    //     url: BaseUrl + "/company/list",
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //     },
-    //     params: {
-    //       size: 4,
-    //       idx: page - 1,
-    //     },
-    //   })
-    //     .then((res) => {
-    //       console.log("companys sccess!");
-    //       set_IC(res.data.content);
-    //       setMaxPage(res.data.totalPages);
-    //     })
-    //     .catch(() => {
-    //       console.log("companys error...");
-    //     });
-    // } else {
-    //   axios({
-    //     method: "get",
-    //     url: BaseUrl + "/company/search",
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //     },
-    //     params: {
-    //       query: search_string,
-    //     },
-    //   })
-    //     .then((res) => {
-    //       set_IC(res.data.content);
-    //       setMaxPage(res.data.totalPages);
-    //     })
-    //     .catch(() => {
-    //       navigate(-1);
-    //     });
-    // }
+    if (search_string === "") {
+      axios({
+        method: "get",
+        url: BaseUrl + "/company/list/",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+        params: {
+          size: 4,
+          idx: page - 1,
+        },
+      })
+        .then((res) => {
+          if (res.data.message !== "프레임워크 내부적인 오류가 발생했습니다.") {
+            set_IC(res.data);
+            setMaxPage(res.data.totalPages);
+          } else {
+            set_IC({ content: [initialCompany] });
+          }
+        })
+        .catch((err) => {
+          set_IC({ content: [initialCompany] });
+        });
+    } else {
+      // axios({
+      //   method: "get",
+      //   url: BaseUrl + "/company/search",
+      //   headers: {
+      //     Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      //   },
+      //   params: {
+      //     query: search_string,
+      //   },
+      // })
+      //   .then((res) => {
+      //     set_IC(res.data.content);
+      //     setMaxPage(res.data.totalPages);
+      //   })
+      //   .catch(() => {
+      //     navigate(-1);
+      //   });
+    }
   };
 
   useEffect(() => {
@@ -186,6 +96,7 @@ const CompanyView = () => {
 
   return (
     <>
+      <Sortation id="main">ㅤ</Sortation>
       <Header
         title={"회사 정보"}
         description={"찾으시는 회사의 정보를 확인해 보세요"}
@@ -209,8 +120,11 @@ const CompanyView = () => {
         </Grid_box>
         {search_string === "" && (
           <Page_bar>
-            <Page_btn onClick={() => setPage(1)}>First Page</Page_btn>
+            <Page_btn href="#main" onClick={() => setPage(1)}>
+              First Page
+            </Page_btn>
             <Small_box
+              href="#main"
               onClick={() => {
                 if (page > 1) setPage(page - 1);
               }}
@@ -221,14 +135,23 @@ const CompanyView = () => {
               Click_page().map((data) => {
                 if (data.circle) {
                   return (
-                    <Circle_btn onClick={() => setPage(data.id)} key={data.id}>
+                    <Circle_btn
+                      href="#1"
+                      onClick={() => {
+                        setPage(data.id);
+                      }}
+                      key={data.id}
+                    >
                       {data.id}
                     </Circle_btn>
                   );
                 } else {
                   return (
                     <UnCircle_btn
-                      onClick={() => setPage(data.id)}
+                      href="#main"
+                      onClick={() => {
+                        setPage(data.id);
+                      }}
                       key={data.id}
                     >
                       {data.id}
@@ -240,13 +163,21 @@ const CompanyView = () => {
               <></>
             )}
             <Small_box
+              href="#main"
               onClick={() => {
                 if (page < maxPage) setPage(page + 1);
               }}
             >
               <Small_page_right_btn color="#000" top="5px" />
             </Small_box>
-            <Page_btn onClick={() => setPage(maxPage)}>Last Page</Page_btn>
+            <Page_btn
+              href="#main"
+              onClick={() => {
+                setPage(maxPage);
+              }}
+            >
+              Last Page
+            </Page_btn>
           </Page_bar>
         )}
       </Out_box>
@@ -255,6 +186,10 @@ const CompanyView = () => {
 };
 
 export default CompanyView;
+
+const Sortation = styled.div`
+  position: absolute;
+`;
 
 const Out_box = styled.div`
   display: flex;
@@ -270,7 +205,7 @@ const Grid_box = styled.div`
   grid-template-columns: 1fr 1fr;
 `;
 
-const Small_box = styled.div`
+const Small_box = styled.a`
   width: 60px;
   height: 60px;
   border-radius: 100px;
@@ -341,7 +276,7 @@ const Page_bar = styled.div`
   line-height: 23px;
 `;
 
-const Page_btn = styled.div`
+const Page_btn = styled.a`
   width: 160px;
   height: 60px;
 
@@ -363,7 +298,7 @@ const Page_btn = styled.div`
   }
 `;
 
-const UnCircle_btn = styled.div`
+const UnCircle_btn = styled.a`
   width: 60px;
   height: 60px;
   border-radius: 100px;

@@ -7,7 +7,7 @@ import { store } from "./redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import RequstResistration from "./components/pages/companyPage/requestResistration";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Redirect } from "react-router-dom";
 import RecruitmentList from "./components/pages/companyPage/recruitmentList";
 import RequstManage from "./components/pages/teacherPage/manage";
 import TeacherList from "./components/pages/teacherPage/list";
@@ -37,6 +37,17 @@ function App() {
           <BrowserRouter>
             <GlobalStyle />
             <Routes>
+              <Route
+                exact
+                path="/"
+                element={
+                  sessionStorage.getItem("accessToken") ? (
+                    <MainView />
+                  ) : (
+                    <StudentSignIn />
+                  )
+                }
+              />
               <Route path="*" element={<ErrorPage />} />
               <Route path="/company/login" element={<CompanySignIn />} />
               <Route path="/company/signup" element={<CompanySignUp />} />
@@ -89,11 +100,17 @@ const GlobalStyle = createGlobalStyle`
     -moz-user-select:none;
     -ms-user-select:none;
     overflow-x: hidden;
+    scroll-behavior: smooth;
   }
 
   * {
     outline: none;
     box-sizing: border-box;
-    
+  }
+
+  
+  .scrollban {
+    overflow: hidden;
+    overflow-y: hidden;
   }
 `;
