@@ -115,3 +115,323 @@ export const CompanyData2 = [
     name: "모집의뢰 정보",
   },
 ];
+export const initialCompany = {
+  companyNumber: "123-45-67890",
+  contactorEmail: "email@dsm.hs.kr",
+  companyName: "INFO",
+  homeAddressInfo: {
+    fullAddress: "대전광역시 유성구 가정북로 76",
+    addressNumber: "34111",
+  },
+  businessTagged: [
+    {
+      name: "산업보안",
+    },
+    {
+      name: "정보통신업",
+    },
+  ],
+  workerCount: 97,
+  annualSales: 1000000000,
+  isLeading: true,
+  isAssociated: true,
+  latestNoticeYear: 0,
+  totalEmployedCount: 0,
+  companyIntroductionResponse: {
+    introduction:
+      "INFO 프로젝트는 기존 직접 담당자와 연락하여 이루어지던 대덕sw마이스터고 현장 실습생 채용 의뢰를 전산화하여 소통 과정에서 발생하는 불필요한 연락을 제거하고, 웹 어플리케이션으로 전환하여 학교 산학부 담당자 부재 시에도 원활한 채용 프로세스 진행이 가능하게 하여  가용성 및 안정성 확보를 기대할 수 있습니다.",
+    businessCertificate: {
+      fileId: "string",
+      fileUrl: "string",
+      fileType: "FileType",
+      extension: "string",
+      fileName: "사업자 등록증",
+      companyNumber: "string",
+      companyFileClassificationType: "CompanyFileClassificationType",
+    },
+    companyIntroductionFile: [
+      {
+        fileId: "string",
+        fileUrl: "string",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "정보처리기능사",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl: "string",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "워드프로세서",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+    ],
+    companyLogo: {
+      fileId: "string",
+      fileUrl:
+        "https://cdn.discordapp.com/attachments/872481713949917228/1047896135374741565/image.png",
+      fileType: "FileType",
+      extension: "string",
+      fileName: "string",
+      companyNumber: "string",
+      companyFileClassificationType: "CompanyFileClassificationType",
+    },
+    companyPhotoList: [
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047896544994664478/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047896784699142174/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+    ],
+  },
+};
+export const initialCompanyDetail = {
+  companyNumber: "123-45-67890",
+  companyName: "INFO",
+  contactor: {
+    name: "이동현",
+    email: "ldh7228@gmail.com",
+    rank: "웹 개발 부서",
+    phoneNumber: "010-5742-7228",
+    passwordHint: "hint",
+    companyNumber: "010-5742-7228",
+  },
+  companyInformation: {
+    homeAddressInfo: {
+      fullAddress: "대전광역시 유성구 가정북로 76",
+      addressNumber: "34111",
+    },
+    agentAddress: {
+      fullAddress: "대전 서구 가수원로 5 (가수원동, 은아아파트5단지)",
+      addressNumber: "35389",
+    },
+    representativeName: "안진우",
+    establishedAt: 2015,
+    workerCount: 13,
+    annualSales: 100000000,
+    companyPhone: "010-5742-7228",
+  },
+  businessTagged: [
+    {
+      name: "산업보안",
+    },
+    {
+      name: "정보통신업",
+    },
+  ],
+  isLeading: true,
+  isAssociated: true,
+  latestNoticeYear: 0,
+  totalEmployedCount: 0,
+  companyIntroductionResponse: {
+    introduction:
+      "INFO 프로젝트는 기존 직접 담당자와 연락하여 이루어지던 대덕sw마이스터고 현장 실습생 채용 의뢰를 전산화하여 소통 과정에서 발생하는 불필요한 연락을 제거하고, 웹 어플리케이션으로 전환하여 학교 산학부 담당자 부재 시에도 원활한 채용 프로세스 진행이 가능하게 하여  가용성 및 안정성 확보를 기대할 수 있습니다.",
+    businessCertificate: {
+      fileId: "string",
+      fileUrl: "string",
+      fileType: "FileType",
+      extension: "string",
+      fileName: "사업자 등록증",
+      companyNumber: "string",
+      companyFileClassificationType: "CompanyFileClassificationType",
+    },
+    companyIntroductionFile: [
+      {
+        fileId: "string",
+        fileUrl: "string",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "정보처리기능사",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl: "string",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "워드프로세서",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+    ],
+    companyLogo: {
+      fileId: "string",
+      fileUrl:
+        "https://cdn.discordapp.com/attachments/872481713949917228/1047896135374741565/image.png",
+      fileType: "FileType",
+      extension: "string",
+      fileName: "string",
+      companyNumber: "string",
+      companyFileClassificationType: "CompanyFileClassificationType",
+    },
+    companyPhotoList: [
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047912633459814471/b5daae0658da3445fe74871b3ffdc540.jpg",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047912633141055608/abdcad6d457953cf7b27414eca389337.jpg",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632914554920/648d064683f16838178075b92bd48d3a.jpg",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632637739028/14e1d9713c5b4c605892a46ab30a15c2.jpg",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632411234364/2d6f3315e8bc0050339a5a695e09c2c9.jpg",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632172163092/f77c7e2afc0d2ccca4945157b3970f68.jpg",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+    ],
+  },
+};
+export const initialNotice = {
+  noticeId: "[INFO] 프론트엔드 엔지니어",
+  company: {
+    companyNumber: "123-45-67890",
+    companyName: "[INFO] 프론트엔드 엔지니어",
+  },
+  classificationResponse: {
+    bigClassifiction: {
+      bigClassification: "전공동아리",
+    },
+    name: "보안동아리",
+  },
+  detailBusinessDescription:
+    "이상적인 지원자는 웹 프론트엔드 개발 경험을 지닌 분으로, React 기반의 프레임워크 및 디자인과의 협업에 능숙한 분입니다. 사용자 경험에 큰 임팩트를 주는 역할인 만큼, 디자인에 관한 디테일을 놓치지 않는 분이길 기대합니다.",
+  numberOfEmployee: 5,
+  gradeCutLine: 25,
+  applicantCount: 9,
+  isPersonalContact: false,
+};
+export const initialNoticeDetail = {
+  noticeId: "string",
+  company: {
+    companyNumber: "[INFO] 프론트엔드 엔지니어",
+  },
+  classificationResponse: [
+    {
+      bigClassification: {
+        bigClassification: "전공동아리",
+      },
+      name: "보안동아리",
+    },
+  ],
+  detailBusinessDescription:
+    "이상적인 지원자는 웹 프론트엔드 개발 경험을 지닌 분으로, React 기반의 프레임워크 및 디자인과의 협업에 능숙한 분입니다. 사용자 경험에 큰 임팩트를 주는 역할인 만큼, 디자인에 관한 디테일을 놓치지 않는 분이길 기대합니다.",
+  numberOfEmployee: 5,
+  gradeCutLine: 25,
+  interviewProcessList: {
+    1: "지원서 제출",
+    2: "1차 면접",
+    3: "2차 면접",
+  },
+  languageList: [
+    { languageName: "Javascript" },
+    { languageName: "Typescript" },
+  ],
+  technologyList: [{ technologyName: "React" }, { technologyName: "Next" }],
+  certificteList: [{ certificateName: "정보처리기능사" }],
+  workTime: {
+    untilCommuteStartTime: 0,
+    isFlexible: false,
+  },
+  mealSupport: {
+    mealSupportPay: 0,
+    breakfast: true,
+    lunch: true,
+    dinner: false,
+  },
+  welfare: {
+    dormitorySupport: true,
+    selfDevelopmentPay: true,
+    equipmentSupport: true,
+    youthTomorrowChaeumDeduction: false,
+    alternativeMilitaryPlan: false,
+    elseSupport: "string?",
+  },
+  noticeOpenPeriod: {
+    startDate: "2022-12-1",
+    endDate: "2022-12-20",
+  },
+  needDocuments: "string?",
+  otherFeatures: "string?",
+  workPlace: {
+    isSameWithCompanyAddress: false,
+    otherPlace: "string?",
+  },
+  applicantCount: 0,
+  attachmentFileList: [
+    {
+      fileId: "string",
+      fileUrl: "string",
+      fileType: "FileType",
+      extension: "string",
+      fileName: "string",
+      noticeId: "string",
+    },
+  ],
+  isPersonalContact: false,
+};
