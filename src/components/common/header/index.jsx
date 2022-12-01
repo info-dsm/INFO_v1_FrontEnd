@@ -3,26 +3,11 @@ import LogoImage from "../../../images/Logo.png";
 import styled from "styled-components";
 const Header = (props) => {
   const { title, description } = props;
-  const menu = [
-    { menu: "회사" },
-    { menu: "모집공고" },
-    { menu: "개발팀" },
-    { menu: "취업현황" },
-    { menu: "내 정보" },
-    { menu: "Support" },
-  ];
   return (
     <>
       <HeaderImg>
         <Nav>
           <LogoImg src={LogoImage} alt="로고이미지입니다." />
-          <MenuProps>
-            {menu.map((nav) => (
-              <>
-                <Menu>{nav.menu}</Menu>
-              </>
-            ))}
-          </MenuProps>
         </Nav>
         <Title>
           <h1>{title}</h1>

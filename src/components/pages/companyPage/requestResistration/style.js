@@ -34,8 +34,8 @@ export const Button = styled.button`
   position: relative;
   width: 100px;
   height: 40px;
-  left: 460px;
-  margin-top: 38px;
+  left: 183px;
+  top: -60px;
   font-family: "NanumGothic", sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -204,6 +204,22 @@ export const CheckText = styled.div`
   font-size: 24px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.black};
+`;
+export const GitaBokli = styled.input`
+  margin-left: 20px;
+  width: 1070px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: "NanumGothic", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: ${(props) => props.theme.colors.black};
+  background-color: ${(props) => props.theme.colors.mediumGray};
 `;
 export const InputQualifi = styled.input`
   margin-left: 20px;
@@ -617,7 +633,6 @@ export const BoxPropsUl = styled.ul`
   padding: 0px;
   width: 1156px;
   height: auto;
-  margin-top: 50px;
 `;
 export const AsdfProps = styled.li`
   font: 700 normal 24px "NanumGothic", sans-serif;

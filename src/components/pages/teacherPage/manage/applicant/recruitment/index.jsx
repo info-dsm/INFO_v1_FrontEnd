@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { TitleData } from "../../../../../../export/data";
-const Recruitment = ({ data, count }) => {
+const Recruitment = ({ data }) => {
   return (
     <>
       <BoxPropsUl>
@@ -20,29 +20,19 @@ const Recruitment = ({ data, count }) => {
           <UlContent>
             <LiContent width={212}>
               {
-                data.recruitmentBusinessResponse[count].classificationResponse
-                  .bigClassification.bigClassificationName
+                data.classificationResponse.bigClassification
+                  .bigClassificationName
               }
             </LiContent>
             <LiContent width={167}>
-              {
-                data.recruitmentBusinessResponse[count].classificationResponse
-                  .name
-              }
+              {data.classificationResponse.name}
             </LiContent>
-            <LiContent width={191}>
-              {data.recruitmentBusinessResponse[count].numberOfEmployee}
-            </LiContent>
-            <LiContent width={566}>
-              {
-                data.recruitmentBusinessResponse[count]
-                  .detailBusinessDescription
-              }
-            </LiContent>
+            <LiContent width={191}>{data.numberOfEmployee}</LiContent>
+            <LiContent width={566}>{data.detailBusinessDescription}</LiContent>
           </UlContent>
           <SubTitle>필요언어</SubTitle>
           <EssentialUl>
-            {data.recruitmentBusinessResponse[count].languageSet.map((user) => (
+            {data.languageList.map((user) => (
               <EssentialLi>
                 <ButtonProps>{user.languageName}</ButtonProps>
               </EssentialLi>
@@ -56,30 +46,26 @@ const Recruitment = ({ data, count }) => {
               <GradesUl>
                 <AsdfProps>성적(커트라인)</AsdfProps>
                 <GradesLi>
-                  상위 {data.recruitmentBusinessResponse[count].gradeCutLine}
+                  상위 {data.gradeCutLine}
                   %이내
                 </GradesLi>
               </GradesUl>
             </li>
           </GradeUl>
           <EssentialUl>
-            {data.recruitmentBusinessResponse[count].technologySet.map(
-              (user) => (
-                <EssentialLi>
-                  <ButtonProps>{user.technologyName}</ButtonProps>
-                </EssentialLi>
-              )
-            )}
+            {data.technologyList.map((user) => (
+              <EssentialLi>
+                <ButtonProps>{user.technologyName}</ButtonProps>
+              </EssentialLi>
+            ))}
           </EssentialUl>
           <SubTitle>국가자격증</SubTitle>
           <EssentialUl>
-            {data.recruitmentBusinessResponse[count].certificateList.map(
-              (user) => (
-                <EssentialLi>
-                  <ButtonProps>{user.certificateName}</ButtonProps>
-                </EssentialLi>
-              )
-            )}
+            {data.certificateList.map((user) => (
+              <EssentialLi>
+                <ButtonProps>{user.certificateName}</ButtonProps>
+              </EssentialLi>
+            ))}
           </EssentialUl>
         </BoxPropsLi>
       </BoxPropsUl>
