@@ -107,4 +107,10 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     box-sizing: border-box;
   }
+
+  
+  .scrollban {
+    overflow: hidden;
+    overflow-y: hidden;
+  }
 `;
