@@ -8,41 +8,37 @@ const IC_View = ({ IC_data }) => {
   console.log(IC_data);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  let Data = {
-    id: "",
-    title: "회사가 이상하네요.",
-    number: "000-00-00000",
-    year: "아직 모집공고를 올리지 않았네요.",
-    isLeading: false,
-    isAssociated: false,
-    src: undefined,
-    text: "회사 설명에 문제가 생긴 것 같아요!",
-    table: [
-      { title: "E-mail", data: "Error@error.com" },
-      { title: "근로자 수", data: "0명" },
-      { title: "연 매출액", data: "0,000,000 원" },
-      { title: "사업 분야", data: "오류 만들기" },
-      { title: "주소", data: "우리은하 태양계 지구행성 어딘가" },
-    ],
-  };
+  let Data;
 
   if (IC_data !== undefined) {
     Data = {
-      ...Data,
-      id: IC_data.companyId,
-      title: IC_data.companyName,
-      number: IC_data.companyNumber,
-      year: IC_data.latestNoticeYear || "아직 모집공고를 올리지 않았네요.",
-      isLeading: IC_data.isLeading,
-      isAssociated: IC_data.isAssociated,
-      src: IC_data.companyIntroductionResponse.companyPhotoList[0].fileUrl,
-      text: IC_data.companyIntroductionResponse.introduction,
+      id: IC_data.companyNumber || "000-00-00000",
+      title: IC_data.companyName || "이동현컴퍼니",
+      number: IC_data.companyNumber || "000-00-00000",
+      year: IC_data.latestNoticeYear || "아직 모집공고를 올리지 않았네요..",
+      isLeading: IC_data.isLeading || false,
+      isAssociated: IC_data.isAssociated || false,
+      src:
+        IC_data.companyIntroductionResponse.companyPhotoList[0] !== {}
+          ? IC_data.companyIntroductionResponse.companyPhotoList[0].fileUrl
+          : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png",
+      text:
+        IC_data.companyIntroductionResponse.introduction ||
+        "소개글이 없습니다..",
       table: [
-        { title: "E-mail", data: IC_data.contactorEmail },
-        { title: "근로자 수", data: `${IC_data.workerCount}명` },
-        { title: "연 매출액", data: `${IC_data.annualSales}원` },
-        { title: "사업 분야", data: IC_data.businessTagged },
-        { title: "주소", data: IC_data.homeAddressInfo.fullAddress },
+        { title: "E-mail", data: IC_data.contactorEmail || "email.dsm.hs.kr" },
+        { title: "근로자 수", data: `${IC_data.workerCount || 0}명` },
+        { title: "연 매출액", data: `${IC_data.annualSales || 0}원` },
+        {
+          title: "사업 분야",
+          data: IC_data.businessTagged || [{ name: "사업체수" }],
+        },
+        {
+          title: "주소",
+          data:
+            IC_data.homeAddressInfo.fullAddress ||
+            "대전광역시 유성구 가정북로 76",
+        },
       ],
     };
   }
@@ -71,7 +67,7 @@ const IC_View = ({ IC_data }) => {
                 ) : (
                   <>
                     {data.data.map((str) => (
-                      <td>{str.name}</td>
+                      <td>{str.id}</td>
                     ))}
                   </>
                 )}
@@ -81,7 +77,7 @@ const IC_View = ({ IC_data }) => {
         </Table>
         <Page_moving_btn
           width="400px"
-          onClick={() => navigate("/student/company/" + Data.title)}
+          onClick={() => navigate("/student/company/" + IC_data.companyNumber)}
         >
           자세히 보기
         </Page_moving_btn>
@@ -120,6 +116,10 @@ const IC_box = styled.div`
   flex-direction: column;
   padding: 50px;
   margin: 0 25px 100px 25px;
+  position: relative;
+  img {
+    object-fit: contain;
+  }
 `;
 
 const IC_title = styled.span`
@@ -187,11 +187,11 @@ const Table = styled.table`
       line-height: 160%;
       color: ${(props) => props.theme.colors.blue};
     }
-
-    width: 50px;
+    max-width: 250px;
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
+    margin-right: 10px;
     color: ${(props) => props.theme.colors.black};
   }
 `;
