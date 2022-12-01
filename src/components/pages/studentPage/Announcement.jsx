@@ -1,78 +1,104 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Page_moving_btn, Image } from "./styled.jsx";
 import { useNavigate } from "react-router-dom";
-const CA_View = ({ CA_data }) => {
+import axios from "axios";
+import { BaseUrl } from "../../../export/base.js";
+import { initialCompanyDetail } from "../../../export/data.js";
+const CA_View = ({ CA_data, setNoticeID, detail }) => {
   const navigate = useNavigate();
+  const [companyInfo, setCompanyInfo] = useState({});
   console.log(CA_data);
-  let Data = {
-    title: "최신 공고가 없네요",
-    sub_title: "INFO",
-    src: undefined,
-    tag: ["자격증이", "없네요"],
-    person: [0, 0],
-    work: "저도 모르겠는데요...?",
-    certificate: ["무슨 자격증이", "있으신가요?"],
-    spec: "0",
-    skills: ["뭘 잘하시나요?"],
-    link: "/",
-  };
+
+  useEffect(() => {
+    axios({
+      url: BaseUrl + `/company/${CA_data.company.companyNumber}`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => {
+        if (res.data.message === "프레임워크 내부적인 오류가 발생했습니다.") {
+          setCompanyInfo(initialCompanyDetail);
+        } else setCompanyInfo(res.data);
+      })
+      .catch((err) => {
+        setCompanyInfo(initialCompanyDetail);
+      });
+  }, []);
+
   return (
     <>
-      <CA_box>
-        <CA_title>{CA_data.company.companyName}</CA_title>
-        <CA_sub_title>{CA_data.company.companyName}</CA_sub_title>
-        <Image
-          src={CA_data.company.companyIntroductionResponse.companyLogo.fileUrl}
-          width="600px"
-          height="300px"
-          alt="회사 공고 이미지"
-        />
-        <Tag_box>
-          {CA_data.company.businessTagged.map((data) => (
-            <Tag>{data.tagName}</Tag>
-          ))}
-        </Tag_box>
-        <Work_title_box>
-          <Subheading>업무 내용</Subheading>
-          <Work_title_sub_out_box>
-            <Work_title_sub_box>
-              <span>채용인원</span>
-              <span>
-                {CA_data.recruitmentBusinessResponse[0].numberOfEmployee}
-              </span>
-            </Work_title_sub_box>
-          </Work_title_sub_out_box>
-        </Work_title_box>
-        <Work_box>
-          {CA_data.recruitmentBusinessResponse[0].detailBusinessDescription}
-        </Work_box>
-        <Subheading>자격 요건</Subheading>
-        <Spec_box>
-          <Spec_title>자격증</Spec_title>
+      {companyInfo.companyName ? (
+        <CA_box>
+          <CA_title>{companyInfo.companyName}</CA_title>
+          <CA_sub_title>{companyInfo.companyNumber}</CA_sub_title>
+          <Image
+            // src="https://papago.naver.com/static/img/papago_og.png"
+            src={
+              companyInfo.companyIntroductionResponse.companyLogo !== {}
+                ? companyInfo.companyIntroductionResponse.companyLogo.fileUrl
+                : ""
+            }
+            width="600px"
+            height="300px"
+            alt="회사 공고 이미지"
+          />
+          <Tag_box>
+            {companyInfo.businessTagged.map((data) => (
+              <Tag>{data.name}</Tag>
+            ))}
+          </Tag_box>
+          <Work_title_box>
+            <Subheading>업무 내용</Subheading>
+            <Work_title_sub_out_box>
+              <Work_title_sub_box>
+                <span>채용인원</span>
+                <span>{CA_data.numberOfEmployee}명</span>
+              </Work_title_sub_box>
+            </Work_title_sub_out_box>
+          </Work_title_box>
+          <Work_box>{CA_data.detailBusinessDescription}</Work_box>
+          <Subheading>자격 요건</Subheading>
+          <Spec_box>
+            {/* <Spec_title>자격증</Spec_title>
           <Spec_ul>
             {CA_data.recruitmentBusinessResponse[0].certificateList.map(
               (data) => (
                 <li>{data.certificateName}</li>
               )
             )}
-          </Spec_ul>
-          <Spec_title>성적</Spec_title>
-          <div>
-            <Spec_in_spec>
-              {CA_data.recruitmentBusinessResponse[0].gradeCutLine}%
-            </Spec_in_spec>
-            <span>이내</span>
-          </div>
-          <Spec_title>사용언어</Spec_title>
+          </Spec_ul> */}
+            <Spec_title>성적</Spec_title>
+            <div>
+              <Spec_in_spec>{CA_data.gradeCutLine}</Spec_in_spec>
+              <span>%이내</span>
+            </div>
+            {/* <Spec_title>사용언어</Spec_title>
           <span>
             {CA_data.recruitmentBusinessResponse[0].languageSet
               .map((data) => data.languageName)
               .join(",")}
-          </span>
-        </Spec_box>
-        <Page_moving_btn>자세히 알아보기</Page_moving_btn>
-      </CA_box>
+          </span> */}
+          </Spec_box>
+          {detail ? (
+            <Page_moving_btn
+              href="#main"
+              onClick={() => {
+                document.querySelector("html").classList.add("scrollban");
+                setNoticeID({ id: CA_data.noticeId, company: companyInfo });
+              }}
+            >
+              자세히 알아보기
+            </Page_moving_btn>
+          ) : (
+            <></>
+          )}
+        </CA_box>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
@@ -81,7 +107,8 @@ export default CA_View;
 
 const CA_box = styled.div`
   width: 700px;
-  height: auto;
+  height: 900px;
+  position: relative;
   background: linear-gradient(
     180deg,
     ${(props) => props.theme.colors.white} 0%,
@@ -96,6 +123,9 @@ const CA_box = styled.div`
   flex-direction: column;
   padding: 50px;
   margin-bottom: 100px;
+  img {
+    object-fit: contain;
+  }
 `;
 
 const CA_title = styled.span`
@@ -130,14 +160,14 @@ const Tag_box = styled.div`
 `;
 
 const Tag = styled.span`
-  height: 22px;
+  height: 40px;
   background: #e5dcff;
   border-radius: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 160%;
   padding: 4px 17px;
   color: ${(props) => props.theme.colors.blue};
@@ -158,7 +188,7 @@ const Work_title_sub_out_box = styled.div`
 `;
 
 const Work_title_sub_box = styled.div`
-  width: 75px;
+  width: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
