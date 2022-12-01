@@ -1,28 +1,21 @@
 import HeaderImage from "../../../images/Header.png";
 import LogoImage from "../../../images/Logo.png";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 const Header = (props) => {
   const { title, description } = props;
-  const menu = [
-    { menu: "회사" },
-    { menu: "모집공고" },
-    { menu: "개발팀" },
-    { menu: "취업현황" },
-    { menu: "내 정보" },
-    { menu: "Support" },
-  ];
+  const navigate = useNavigate();
   return (
     <>
       <HeaderImg>
         <Nav>
-          <LogoImg src={LogoImage} alt="로고이미지입니다." />
-          <MenuProps>
-            {menu.map((nav) => (
-              <>
-                <Menu>{nav.menu}</Menu>
-              </>
-            ))}
-          </MenuProps>
+          <LogoImg
+            onClick={() => {
+              navigate("/");
+            }}
+            src={LogoImage}
+            alt="로고이미지입니다."
+          />
         </Nav>
         <Title>
           <h1>{title}</h1>
@@ -40,24 +33,9 @@ const HeaderImg = styled.div`
   padding: 40px 300px;
 `;
 const LogoImg = styled.img`
+  cursor: pointer;
   width: 115px;
   height: 43px;
-`;
-const MenuProps = styled.ul`
-  width: 509px;
-  height: 18px;
-  display: flex;
-  justify-content: space-between;
-`;
-const Menu = styled.li`
-  font-family: "Nanum Gothic", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 16px;
-  list-style: none;
-  position: relative;
-  color: ${(props) => props.theme.colors.white};
-  filter: drop-shadow(0px 0px 25px rgba(0, 0, 0, 0.75));
 `;
 const Nav = styled.div`
   width: 100%;
