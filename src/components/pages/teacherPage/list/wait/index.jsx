@@ -99,7 +99,7 @@ const Wait = ({ path }) => {
                             state: data.content[i],
                           })
                         }
-                        onMouseEnter={() => PreFech(user.id)}
+                        onMouseEnter={() => PreFech(user.id, user.num)}
                       >
                         지원자 리스트
                       </div>

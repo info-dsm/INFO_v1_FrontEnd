@@ -1,10 +1,10 @@
 import * as s from "../style";
-const GeunMu = ({ company, address }) => {
+const GeunMu = ({ address }) => {
   let ad;
-  if (!address.isSameWithCompanyAddress) {
+  if (!address.company.isSameWithCompanyAddress) {
     ad = address.otherPlace;
   } else {
-    ad = company;
+    ad = "회사 정보 근무지와 같습니다.";
   }
 
   return (

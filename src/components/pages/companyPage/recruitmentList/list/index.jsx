@@ -3,7 +3,6 @@ import { StyledLink } from "../../../../../style/theme";
 
 import ImageProps from "./Status";
 const ResistrationList = ({ data }) => {
-  console.log(data);
   return (
     <>
       <Ul>

@@ -103,7 +103,6 @@ const NoticeView = () => {
             </SearchDiv>
           </Location>
           <Location2>
-            {" "}
             {data.content.map((item) => (
               <>
                 <CA_View CA_data={item} />

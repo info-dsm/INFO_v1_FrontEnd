@@ -1,11 +1,7 @@
-import { useDispatch } from "react-redux";
-import { stateModalManage } from "../../../../redux/store/modal";
-import { useSelector } from "react-redux";
 import { TitleData, TeacherData } from "../../../../export/data";
 import Header from "../../../common/header";
 import { useState } from "react";
 import * as s from "./style";
-import ModalManage from "./modal";
 import { getNoticeItem, noticeRequest } from "../../../api/teacher";
 import { SubmitData } from "../../../../export/data";
 import BokLi from "./Bokli";
@@ -21,14 +17,7 @@ import NavProps from "../../../common/nav";
 const RequstManage = () => {
   const { noticeId } = useParams();
   const { status, data } = getNoticeItem(noticeId);
-  const modal = useSelector((state) => state.modal.state.modalmanage);
-  const count = useSelector((count) => count.count.count.manageCount);
   const [file] = useState([]);
-
-  const dispatch = useDispatch();
-  const ShowModal = () => {
-    dispatch(stateModalManage(true));
-  };
   return (
     <>
       {status === "loading" ? (
@@ -44,7 +33,6 @@ const RequstManage = () => {
           <NavProps props={TeacherData} idx={1} />
           <s.Table>
             <s.Title>채용직무</s.Title>
-            <s.Button onClick={() => ShowModal()}>선택</s.Button>
             <s.BoxPropsUl>
               <s.BoxPropsLi>
                 <s.UlSubTitle>
@@ -62,36 +50,25 @@ const RequstManage = () => {
                 <s.UlContent>
                   <s.LiContent width={212}>
                     {
-                      data.recruitmentBusinessResponse[count]
-                        .classificationResponse.bigClassification
+                      data.classificationResponse.bigClassification
                         .bigClassificationName
                     }
                   </s.LiContent>
                   <s.LiContent width={167}>
-                    {
-                      data.recruitmentBusinessResponse[count]
-                        .classificationResponse.name
-                    }
+                    {data.classificationResponse.name}
                   </s.LiContent>
-                  <s.LiContent width={191}>
-                    {data.recruitmentBusinessResponse[count].numberOfEmployee}
-                  </s.LiContent>
+                  <s.LiContent width={191}>{data.numberOfEmployee}</s.LiContent>
                   <s.LiContent width={566}>
-                    {
-                      data.recruitmentBusinessResponse[count]
-                        .detailBusinessDescription
-                    }
+                    {data.detailBusinessDescription}
                   </s.LiContent>
                 </s.UlContent>
                 <s.SubTitle>필요언어</s.SubTitle>
                 <s.EssentialUl>
-                  {data.recruitmentBusinessResponse[count].languageSet.map(
-                    (user) => (
-                      <s.EssentialLi>
-                        <s.ButtonProps>{user.languageName}</s.ButtonProps>
-                      </s.EssentialLi>
-                    )
-                  )}
+                  {data.languageList.map((user) => (
+                    <s.EssentialLi>
+                      <s.ButtonProps>{user.languageName}</s.ButtonProps>
+                    </s.EssentialLi>
+                  ))}
                 </s.EssentialUl>
                 <s.GradeUl>
                   <li>
@@ -101,31 +78,26 @@ const RequstManage = () => {
                     <s.GradesUl>
                       <s.AsdfProps>성적(커트라인)</s.AsdfProps>
                       <s.GradesLi>
-                        상위{" "}
-                        {data.recruitmentBusinessResponse[count].gradeCutLine}
+                        상위 {data.gradeCutLine}
                         %이내
                       </s.GradesLi>
                     </s.GradesUl>
                   </li>
                 </s.GradeUl>
                 <s.EssentialUl>
-                  {data.recruitmentBusinessResponse[count].technologySet.map(
-                    (user) => (
-                      <s.EssentialLi>
-                        <s.ButtonProps>{user.technologyName}</s.ButtonProps>
-                      </s.EssentialLi>
-                    )
-                  )}
+                  {data.technologyList.map((user) => (
+                    <s.EssentialLi>
+                      <s.ButtonProps>{user.technologyName}</s.ButtonProps>
+                    </s.EssentialLi>
+                  ))}
                 </s.EssentialUl>
                 <s.SubTitle>국가자격증</s.SubTitle>
                 <s.EssentialUl>
-                  {data.recruitmentBusinessResponse[count].certificateList.map(
-                    (user) => (
-                      <s.EssentialLi>
-                        <s.ButtonProps>{user.certificateName}</s.ButtonProps>
-                      </s.EssentialLi>
-                    )
-                  )}
+                  {data.certificateList.map((user) => (
+                    <s.EssentialLi>
+                      <s.ButtonProps>{user.certificateName}</s.ButtonProps>
+                    </s.EssentialLi>
+                  ))}
                 </s.EssentialUl>
               </s.BoxPropsLi>
             </s.BoxPropsUl>
@@ -187,7 +159,7 @@ const RequstManage = () => {
               </s.LiMoney>
             </s.UlMoney>
             <s.Ring top={60} />
-            <BokLi meal={data.mealSupport} />
+            <BokLi meal={data.mealSupport.mealSupportPay} />
             <BokliAfter wel={data.welfare} />
             <s.Ring top={50} />
             <s.Titlet>출•퇴근시간</s.Titlet>
@@ -232,7 +204,7 @@ const RequstManage = () => {
             <s.Ring top={50} />
             <s.Titlet>참고서류</s.Titlet>
             <s.UlSubmitted>
-              {data.formAttachmentList.map((item) => (
+              {data.attachmentFileList.map((item) => (
                 <>
                   <s.EssentialLi>
                     <s.ButtonProps>
@@ -267,21 +239,8 @@ const RequstManage = () => {
             <s.TextGeun>{data.otherFeatures}</s.TextGeun>
             <s.Ring top={50} />
             <s.Titlet>근무지</s.Titlet>
-            <GeunMu
-              company={data.company.companyInformation.homeAddress.fullAddress}
-              address={data.workPlace}
-            />
+            <GeunMu address={data.workPlace} />
             <s.Ring top={50} />
-            {/* <s.Titlet>개별등록</s.Titlet>
-            <s.UlDirectProps>
-              <s.LiProps></s.LiProps>
-              <s.LiProps>
-                <s.WonText>
-                  {<>개인컨택 등록</>: <>개인컨택 미등록</>}
-                </s.WonText>
-              </s.LiProps>
-            </s.UlDirectProps>
-            <s.Ring top={50} /> */}
             <s.UlPross>
               {SubmitData.map((item) => (
                 <s.LiProps>
@@ -304,11 +263,6 @@ const RequstManage = () => {
             </s.UlPross>
           </s.Table>
           <s.TableTwo></s.TableTwo>
-          {modal ? (
-            <ModalManage Data={data.recruitmentBusinessResponse} />
-          ) : (
-            <></>
-          )}
         </>
       )}
     </>

@@ -12,9 +12,11 @@ const TeacherList = () => {
       />
       <NavProps props={TeacherData} idx={1} />
       <Title top={100}>대기중인 모집 공고</Title>
-      <Wait path="/notice/waiting-notice/list" />
-      <Title top={0}>승인된 모집 공고</Title>
-      <Wait path="/notice/list" />
+      <Wait path="/notice/waiting-list" />
+      <Title top={0}>모집 중인 모집 공고</Title>
+      <Wait path="/notice/list/on" />
+      <Title top={0}>종료된 모집 공고</Title>
+      <Wait path="/notice/list/end" />
     </>
   );
 };

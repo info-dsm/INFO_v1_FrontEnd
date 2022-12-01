@@ -2,38 +2,49 @@ import * as s from "../style";
 import { workData } from "../../../../../export/data";
 import { useState, useEffect } from "react";
 const ClockWork = ({ data }) => {
-  const [work, setWork] = useState(workData);
-  useEffect(() => {
-    let state = workData;
-    state[0].workTime = data.untilCommuteStartTime;
-    state[1].workTime = data.untilCommuteEndTime;
-    state[2].workTime = data.workTimeForWeek;
-    setWork(state);
-  }, [
-    data.untilCommuteStartTime,
-    data.untilCommuteEndTime,
-    data.workTimeForWeek,
-  ]);
-
+  // "commuteStartTime": Int?,
+  // 		"commuteEndTime": Int?,
+  // 		"isFlexible": Boolean
   return (
     <>
-      {work.map((user) => (
+      {data.isFlexible ? (
         <>
-          <s.UlPropss>
+          <s.LiProps>
+            <s.TenWon>유연 근무제</s.TenWon>
+          </s.LiProps>
+        </>
+      ) : (
+        <>
+          <s.UlDirectProps>
             <s.LiProps>
-              <s.ClockTexts>{user.clock}</s.ClockTexts>
+              <s.TenWon>고정 출근시간</s.TenWon>
             </s.LiProps>
             <s.LiProps>
-              <s.WonText>{user.workTime}</s.WonText>
-            </s.LiProps>
-            <s.LiProps>
-              <s.TenWon width={51} left={5}>
-                {user.si}
+              <s.TenWon width={51} left={20}>
+                시
               </s.TenWon>
             </s.LiProps>
-          </s.UlPropss>
+            <s.LiProps>
+              <s.TenWon width={51} left={20}>
+                시
+              </s.TenWon>
+            </s.LiProps>
+            <s.LiProps>
+              <s.TenWon width={51} left={20}>
+                ~
+              </s.TenWon>
+            </s.LiProps>
+            <s.LiProps>
+              <s.TenWon></s.TenWon>
+            </s.LiProps>
+            <s.LiProps>
+              <s.TenWon width={51} left={20}>
+                시
+              </s.TenWon>
+            </s.LiProps>
+          </s.UlDirectProps>
         </>
-      ))}
+      )}
     </>
   );
 };
