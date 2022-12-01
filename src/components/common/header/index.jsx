@@ -4,14 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 const Header = (props) => {
   const { title, description } = props;
-  const menu = [
-    { menu: "회사" },
-    { menu: "모집공고" },
-    { menu: "개발팀" },
-    { menu: "취업현황" },
-    { menu: "내 정보" },
-    { menu: "Support" },
-  ];
+  const navigate = useNavigate();
   return (
     <>
       <HeaderImg>
