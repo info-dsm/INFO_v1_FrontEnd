@@ -7,6 +7,8 @@ import { Page_moving_btn, Image } from "../styled.jsx";
 import Header from "../../../common/header/index.jsx";
 import { StyledLink } from "../../../../style/theme.js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import NoticeModal from "../NoticeModal.jsx";
+import { initialNotice } from "../../../../export/data.js";
 
 const NoticeView = () => {
   const [inputState, setInputState] = useState("");
@@ -14,9 +16,14 @@ const NoticeView = () => {
   const [count, setCount] = useState(0);
   const [arr, setArr] = useState([]);
   const queryClient = useQueryClient();
+  const [noticeID, setNoticeID] = useState({
+    id: "",
+    company: "",
+  });
   const { status, data } = useQuery(["studentNoticeList", count], () =>
     getNotices()
   );
+
   useEffect(() => {
     if (data?.totalPages > 5) {
       if (data.totalPages % 5 !== 0) {
@@ -49,24 +56,37 @@ const NoticeView = () => {
         getNotices(count + 1)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, count, queryClient]);
   const Click = useCallback((e) => {
     setCount(e);
   }, []);
+
   const getNotices = async () => {
-    const { data } = await axios({
+    await axios({
       method: "get",
-      url: BaseUrl + "/notice/list",
+      url: BaseUrl + "/notice/list/on",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
       params: {
         size: 4,
         idx: count,
+        status: "APPROVE",
       },
-    });
-    return data;
+    })
+      .then((res) => {
+        if (res.data.message === "프레임워크 내부적인 오류가 발생했습니다.") {
+          return { content: [initialNotice] };
+        } else {
+          if (res.data.content[0] === undefined)
+            return { content: [initialNotice] };
+          else return res.data;
+        }
+      })
+      .catch(() => {
+        return { content: [initialNotice] };
+      });
+    return { content: [initialNotice] };
   };
 
   //   const Search = (props) => {
@@ -87,11 +107,17 @@ const NoticeView = () => {
         <></>
       ) : (
         <>
+          <Sortation id="main">ㅤ</Sortation>
+          {noticeID.id !== "" ? (
+            <NoticeModal datum={noticeID} setNoticeID={setNoticeID} />
+          ) : (
+            <></>
+          )}
           <Header
             title={"모집공고"}
             description={"자신이 원하는 직군의 채용 공고를 찾아보세요"}
           />
-          <Location>
+          {/* <Location>
             <SearchDiv>
               <Search
                 placeholder="회사이름"
@@ -101,57 +127,65 @@ const NoticeView = () => {
                 <SearchButton>검색</SearchButton>
               </StyledLink>
             </SearchDiv>
-          </Location>
+          </Location> */}
           <Location2>
-            {" "}
             {data.content.map((item) => (
               <>
-                <CA_View CA_data={item} />
+                <CA_View
+                  CA_data={item}
+                  setNoticeID={setNoticeID}
+                  detail={true}
+                />
               </>
             ))}
           </Location2>
-
           <Ul top={0}>
-            <Li>
-              <Button onClick={() => setCount(0)}>First Page</Button>
-            </Li>
-            <Li>
-              <Text
-                onClick={() => {
-                  if (count > 4) {
-                    setCount((parseInt(count / 5) - 1) * 5 + 4);
-                  }
-                }}
-              >
-                &lt;
-              </Text>
-            </Li>
-            {arr.map((item) => (
-              <Li id={item} onClick={() => Click(item - 1)}>
-                <Text state={item === count + 1}>{item}</Text>
-              </Li>
-            ))}
-            <Li>
-              <Text
-                onClick={() => {
-                  if (
-                    data.totalPages % 5 === 0
-                      ? data.totalPages / 5 + 1 !== parseInt(count / 5) + 1
-                      : parseInt(data.totalPages / 5) + 1 !==
-                        parseInt(count / 5) + 1
-                  ) {
-                    setCount((parseInt(count / 5) + 1) * 5);
-                  }
-                }}
-              >
-                &gt;
-              </Text>
-            </Li>
-            <Li>
-              <Button onClick={() => setCount(data.totalPages - 1)}>
-                Last Page
-              </Button>
-            </Li>
+            {data.content.length === 1 ? (
+              <>
+                <Li>
+                  <Button onClick={() => setCount(0)}>First Page</Button>
+                </Li>
+                <Li>
+                  <Text
+                    onClick={() => {
+                      if (count > 4) {
+                        setCount((parseInt(count / 5) - 1) * 5 + 4);
+                      }
+                    }}
+                  >
+                    &lt;
+                  </Text>
+                </Li>
+                {arr.map((item) => (
+                  <Li id={item} onClick={() => Click(item - 1)}>
+                    <Text state={item === count + 1}>{item}</Text>
+                  </Li>
+                ))}
+                <Li>
+                  <Text
+                    onClick={() => {
+                      if (
+                        data.totalPages % 5 === 0
+                          ? data.totalPages / 5 + 1 !== parseInt(count / 5) + 1
+                          : parseInt(data.totalPages / 5) + 1 !==
+                            parseInt(count / 5) + 1
+                      ) {
+                        setCount((parseInt(count / 5) + 1) * 5);
+                      }
+                    }}
+                  >
+                    &gt;
+                  </Text>
+                </Li>
+                <Li>
+                  <Button onClick={() => setCount(data.totalPages - 1)}>
+                    Last Page
+                  </Button>
+                </Li>
+              </>
+            ) : (
+              <></>
+            )}
           </Ul>
         </>
       )}
@@ -160,6 +194,12 @@ const NoticeView = () => {
 };
 
 export default NoticeView;
+
+const Sortation = styled.div`
+  position: absolute;
+  top: 0;
+`;
+
 const Location = styled.div`
   position: relative;
   display: flex;
