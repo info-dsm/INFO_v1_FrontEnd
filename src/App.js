@@ -27,6 +27,7 @@ import CompanyDetailView from "./components/pages/studentPage/Company/detail";
 import NoticeView from "./components/pages/studentPage/Notice";
 import CompanyView from "./components/pages/studentPage/Company/index";
 import EmploymentStatus from "./components/pages/studentPage/employmentStatus";
+import Select from "./components/pages/studentPage/auth/Select";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -83,6 +84,10 @@ function App() {
               <Route
                 path="/company/manage/user/:teacherId"
                 element={<Applicant />}
+              />
+              <Route
+                path="/auth/select"
+                element={<Select/>}
               />
             </Routes>
             <Footer />

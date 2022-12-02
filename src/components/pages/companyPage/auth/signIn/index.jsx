@@ -182,12 +182,12 @@ const CompanySignIn = () => {
               {hint.show ? <>{hint.str}</> : <>{"비밀번호 힌트 보기 >"}</>}
             </AdditionalElm>
             <HighlightDiv>
-              <HighlightText cursor={"auto"} color={"#9B9EA0"}>
+              {/* <HighlightText cursor={"auto"} color={"#9B9EA0"}>
                 Forgot
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 Password?
-              </HighlightText>
+              </HighlightText> */}
             </HighlightDiv>
             <Submit>
               <button onClick={() => submit()}>Login</button>
@@ -196,7 +196,7 @@ const CompanySignIn = () => {
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 <Link to={"/company/signup"}>
-                  <a>기업 등록</a>
+                  <a>Company Register</a>
                 </Link>
               </HighlightText>
             </Submit>
@@ -318,7 +318,7 @@ const HighlightText = styled.span`
   cursor: ${(props) => props.cursor};
   margin-left: 10px;
 
-  div {
+  a {
     text-decoration: none;
     color: #7243ff;
   }

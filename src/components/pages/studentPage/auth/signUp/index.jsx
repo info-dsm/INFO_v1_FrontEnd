@@ -228,14 +228,16 @@ const StudentSignUp = () => {
               ))}
             </>
             <HighlightDiv>
-              <HighlightText cursor={"auto"} color={"#9B9EA0"}>
-                Are you a
-              </HighlightText>
-              <HighlightText cursor={"pointer"} color={"#7243FF"}>
-                <Link to={"/teacher/login"}>
-                  <a>Teacher?</a>
-                </Link>
-              </HighlightText>
+              <p>
+                <HighlightText cursor={"auto"} color={"#9B9EA0"}>
+                  Are not you a
+                </HighlightText>
+                <HighlightText cursor={"pointer"} color={"#7243FF"}>
+                  <Link to={"/auth/select"}>
+                    <a>Student?</a>
+                  </Link>
+                </HighlightText>
+              </p>
             </HighlightDiv>
             <Submit>
               <button onClick={() => submit()}>SignUp</button>
@@ -369,10 +371,13 @@ const HighlightDiv = styled.span`
   justify-content: flex-end;
   margin-top: 5px;
   font-weight: 600;
+  p {
+    text-align: end;
+  }
 `;
 
 const Submit = styled.div`
-  margin-top: 37px;
+  margin-top: 10px;
   font-size: 18px;
   font-weight: 500;
   button {
