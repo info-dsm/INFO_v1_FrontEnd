@@ -39,7 +39,7 @@ const TeacherSignIn = () => {
   const submit = () => {
     if (!Object.values(data).includes("")) {
       axios({
-        url: BaseUrl + "/auth/login",
+        url: BaseUrl + "/auth/login/user",
         method: "post",
         data: {
           email: data.email,
