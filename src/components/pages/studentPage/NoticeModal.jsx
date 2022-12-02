@@ -28,8 +28,6 @@ const NoticeModal = ({ datum, setNoticeID }) => {
 
   const [data, setData] = useState(initialNoticeDetail);
 
-  console.log(datum);
-
   useEffect(() => {
     axios({
       url: BaseUrl + `/notice/${datum.id}`,
@@ -107,13 +105,15 @@ const NoticeModal = ({ datum, setNoticeID }) => {
   ];
 
   return (
-    <Background>
-      <Blur
-        onClick={() => {
+    <Background
+      onClick={(e) => {
+        if (e.target.id === "background") {
           document.querySelector("html").classList.remove("scrollban");
           setNoticeID({ id: "", company: "" });
-        }}
-      >
+        }
+      }}
+    >
+      <Blur id="background">
         <Notice>
           <DelBtn
             onClick={() => {
@@ -129,7 +129,16 @@ const NoticeModal = ({ datum, setNoticeID }) => {
             <ImageList>
               <CompanyImg
                 src={
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                  datum.company.companyIntroductionResponse.companyLogo !==
+                    {} &&
+                  datum.company.companyIntroductionResponse.companyLogo !==
+                    null &&
+                  datum.company.companyIntroductionResponse.companyLogo !==
+                    undefined
+                    ? datum.company.companyIntroductionResponse.companyLogo
+                        .fileUrl ||
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
                 }
                 alt="회사이미지입니다"
               ></CompanyImg>
@@ -290,7 +299,7 @@ const NoticeModal = ({ datum, setNoticeID }) => {
             {data.attachmentFileList.map((info) => (
               <File>
                 <FileImg src={info.fileUrl} alt="파일아이콘입니다"></FileImg>
-                <FileName href={info.fileUrl} download>
+                <FileName href={info.extension} download>
                   {info.fileName}
                 </FileName>
               </File>
@@ -312,6 +321,7 @@ const DelBtn = styled.div`
   position: absolute;
   right: 30px;
   font-size: 50px;
+  cursor: pointer;
   font-weight: 700;
 `;
 
@@ -519,6 +529,7 @@ const CompanyImg = styled.img`
   height: 100%;
   object-fit: contain;
   border-radius: 10px;
+  background-color: #fff;
 `; // 이미지
 const ImageList = styled.div`
   width: 100%;
@@ -571,6 +582,7 @@ const Notice = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 100px;
+  z-index: 99;
 `; // 모달창 배경
 const Blur = styled.div`
   position: absolute;

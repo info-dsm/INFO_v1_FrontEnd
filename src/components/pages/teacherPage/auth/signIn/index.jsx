@@ -39,7 +39,7 @@ const TeacherSignIn = () => {
   const submit = () => {
     if (!Object.values(data).includes("")) {
       axios({
-        url: BaseUrl + "/auth/login",
+        url: BaseUrl + "/auth/login/user",
         method: "post",
         data: {
           email: data.email,
@@ -116,12 +116,12 @@ const TeacherSignIn = () => {
               ))}
             </>
             <HighlightDiv>
-              <HighlightText cursor={"auto"} color={"#9B9EA0"}>
+              {/* <HighlightText cursor={"auto"} color={"#9B9EA0"}>
                 Forgot
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 Password?
-              </HighlightText>
+              </HighlightText> */}
             </HighlightDiv>
             <Submit>
               <button onClick={() => submit()}>Login</button>

@@ -171,7 +171,7 @@ export const initialCompany = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047896544994664478/image.png",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048056364045443162/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -181,7 +181,77 @@ export const initialCompany = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047896784699142174/image.png",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048056756762312714/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048056994919104542/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048058046523379782/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060414921015417/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060859798274048/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060964714578014/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060676381356042/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060715606478980/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -264,7 +334,7 @@ export const initialCompanyDetail = {
     companyLogo: {
       fileId: "string",
       fileUrl:
-        "https://cdn.discordapp.com/attachments/872481713949917228/1047896135374741565/image.png",
+        "https://cdn.discordapp.com/attachments/872481713949917228/1048056889407189012/image.png",
       fileType: "FileType",
       extension: "string",
       fileName: "string",
@@ -275,7 +345,7 @@ export const initialCompanyDetail = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047912633459814471/b5daae0658da3445fe74871b3ffdc540.jpg",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048056364045443162/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -285,7 +355,7 @@ export const initialCompanyDetail = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047912633141055608/abdcad6d457953cf7b27414eca389337.jpg",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048056756762312714/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -295,7 +365,7 @@ export const initialCompanyDetail = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632914554920/648d064683f16838178075b92bd48d3a.jpg",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048056994919104542/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -305,7 +375,7 @@ export const initialCompanyDetail = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632637739028/14e1d9713c5b4c605892a46ab30a15c2.jpg",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048058046523379782/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -315,7 +385,7 @@ export const initialCompanyDetail = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632411234364/2d6f3315e8bc0050339a5a695e09c2c9.jpg",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060414921015417/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -325,7 +395,37 @@ export const initialCompanyDetail = {
       {
         fileId: "string",
         fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1047912632172163092/f77c7e2afc0d2ccca4945157b3970f68.jpg",
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060859798274048/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060964714578014/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060676381356042/image.png",
+        fileType: "FileType",
+        extension: "string",
+        fileName: "string",
+        companyNumber: "string",
+        companyFileClassificationType: "CompanyFileClassificationType",
+      },
+      {
+        fileId: "string",
+        fileUrl:
+          "https://cdn.discordapp.com/attachments/872481713949917228/1048060715606478980/image.png",
         fileType: "FileType",
         extension: "string",
         fileName: "string",
@@ -408,16 +508,16 @@ export const initialNoticeDetail = {
   otherFeatures: "string?",
   workPlace: {
     isSameWithCompanyAddress: false,
-    otherPlace: "string?",
+    otherPlace: "대전 유성구 가정북로 76 (대덕소프트웨어마이스터고등학교)",
   },
   applicantCount: 0,
   attachmentFileList: [
     {
       fileId: "string",
-      fileUrl: "string",
+      fileUrl: "https://cdn-icons-png.flaticon.com/512/1388/1388902.png",
       fileType: "FileType",
-      extension: "string",
-      fileName: "string",
+      extension: "https://cdn.discordapp.com/attachments/872481713949917228/1048065150265069628/Self-introduction_form.hwp",
+      fileName: "지원서 양식",
       noticeId: "string",
     },
   ],
