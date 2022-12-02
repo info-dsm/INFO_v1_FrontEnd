@@ -116,12 +116,12 @@ const TeacherSignIn = () => {
               ))}
             </>
             <HighlightDiv>
-              <HighlightText cursor={"auto"} color={"#9B9EA0"}>
+              {/* <HighlightText cursor={"auto"} color={"#9B9EA0"}>
                 Forgot
               </HighlightText>
               <HighlightText cursor={"pointer"} color={"#7243FF"}>
                 Password?
-              </HighlightText>
+              </HighlightText> */}
             </HighlightDiv>
             <Submit>
               <button onClick={() => submit()}>Login</button>

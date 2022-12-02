@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import axios from "axios";
 import CA_View from "../Announcement.jsx";
@@ -12,10 +12,8 @@ import LoadingPage from "../../../common/loading";
 import ErrorPage from "../../../common/error";
 import { useNavigate } from "react-router-dom";
 import { initialCompany, initialNotice } from "../../../../export/data.js";
-import NoticeModal from "../NoticeModal.jsx";
 const MainView = () => {
   const accessToken = sessionStorage.getItem("accessToken");
-  const [noticeID, setNoticeID] = useState("");
 
   const { status, data } = useQuery(["mainData", accessToken], async () => {
     let res = [{}, {}];
@@ -95,7 +93,7 @@ const MainView = () => {
                 }}
               >
                 <Sub_Title
-                  text="더 다양한 모집공고를 원하시나요?"
+                  text="더 다양한ㅤ모집공고를 원하시나요?"
                   button="모집공고"
                 />
               </div>

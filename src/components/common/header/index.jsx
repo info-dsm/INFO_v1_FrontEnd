@@ -5,6 +5,13 @@ import { useNavigate } from "react-router-dom";
 const Header = (props) => {
   const { title, description } = props;
   const navigate = useNavigate();
+  const menu = [
+    { menu: "메인페이지", url: "/student" },
+    { menu: "모집공고", url: "/student/notice" },
+    { menu: "기업 목록", url: "/student/company" },
+    { menu: "로그인", url: "/student/login" },
+    { menu: "회원가입", url: "/student/signup" },
+  ];
   return (
     <>
       <HeaderImg>
@@ -16,6 +23,19 @@ const Header = (props) => {
             src={LogoImage}
             alt="로고이미지입니다."
           />
+          <MenuProps>
+            {menu.map((nav) => (
+              <>
+                <Menu
+                  onClick={() => {
+                    navigate(nav.url);
+                  }}
+                >
+                  {nav.menu}
+                </Menu>
+              </>
+            ))}
+          </MenuProps>
         </Nav>
         <Title>
           <h1>{title}</h1>
@@ -36,6 +56,22 @@ const LogoImg = styled.img`
   cursor: pointer;
   width: 115px;
   height: 43px;
+`;
+const MenuProps = styled.ul`
+  width: 509px;
+  height: 18px;
+  display: flex;
+  justify-content: space-between;
+`;
+const Menu = styled.li`
+  font-family: "Nanum Gothic", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  list-style: none;
+  position: relative;
+  color: ${(props) => props.theme.colors.white};
+  filter: drop-shadow(0px 0px 25px rgba(0, 0, 0, 0.75));
 `;
 const Nav = styled.div`
   width: 100%;

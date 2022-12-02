@@ -129,7 +129,7 @@ const CompanyDetailView = () => {
     <>
       {data ? (
         <>
-          <Header title={data.companyName} description={"..."} />
+          <Header title={data.companyName} description={data.companyNumber} />
           <Out_box>
             <Flex_box>
               <Image
@@ -215,12 +215,12 @@ const CompanyDetailView = () => {
                   <div>
                     <span>특기사항</span>
                     <span>
-                      ㅓㅗ머ㅗ나ㅓ롸ㅣㅓㅁㄴ오ㅓㅏㅣㄻ놔ㅣㅓㅇㅁㄴ롸ㅣㄴㅁㅇ뢀ㅇ노ㅓㅏ나ㅓ롸ㅣㅓㅁㄴ오ㅓㅏㅣㄻ놔ㅣㅓㅇㅁㄴ롸ㅣㄴㅁㅇ뢀ㅇ노ㅓㅏ
+                      프론트엔드 뽑고 있습니다.
                     </span>
                   </div>
                   <span>
                     <span>인원 수</span>
-                    <span>10명</span>
+                    <span>5명</span>
                   </span>
                 </App_box>
               </div>
@@ -233,13 +233,13 @@ const CompanyDetailView = () => {
               <div>
                 <Interview_box>
                   <div>
-                    <img src="" alt="" />
+                    <img src="https://avatars.githubusercontent.com/u/80964727?v=4" alt="" />
                     <span>
-                      ㅓㅗ머ㅗ나ㅓ롸ㅣㅓㅁㄴ오ㅓㅏㅣㄻ놔ㅣㅓㅇㅁㄴ롸ㅣㄴㅁㅇ뢀ㅇ노ㅓㅏ나ㅓ롸ㅣㅓㅁㄴ오ㅓㅏㅣㄻ놔ㅣㅓㅇㅁㄴ롸ㅣㄴㅁㅇ뢀ㅇ노ㅓㅏ
+                      면접 내내 직원들이 정말 상냥하고 편하게 대해주셔서 정말 뜻깊은 시간이었던 것 같아요!
                     </span>
                   </div>
                   <span>
-                    <span>2022-10-03</span>
+                    <span>2022-12-14</span>
                     <span>5.0</span>
                     <div />
                   </span>

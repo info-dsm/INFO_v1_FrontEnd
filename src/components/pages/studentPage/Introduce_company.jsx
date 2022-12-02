@@ -49,7 +49,7 @@ const IC_View = ({ IC_data }) => {
         <IC_title>{Data.title}</IC_title>
         <Flex_box justify="space-between">
           <IC_sub_title>{Data.number}</IC_sub_title>
-          <IC_sub_title color="#868686">{Data.year}</IC_sub_title>
+          {/* <IC_sub_title color="#868686">{Data.year}</IC_sub_title> */}
         </Flex_box>
         <Flex_box margin="19px" height="26px">
           {Data.isLeading && <IC_company_point text="선도기업" />}
@@ -142,15 +142,15 @@ const Flex_box = styled.div`
 
 const IC_sub_title = styled.span`
   font-family: "NanumGothic";
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 24px;
   line-height: 18px;
   color: ${(props) => props.color || "#000000"};
 `;
 
 const Introduce_box = styled.span`
   width: 400px;
-  height: 52px;
+  height:60px;
   font-weight: 400;
   font-size: 16px;
   line-height: 160%;
