@@ -5,6 +5,9 @@ import axios from "axios";
 // import {useAsync} from 'react-async';
 import { useQuery } from "@tanstack/react-query";
 import { BaseUrl } from "../../../export/base";
+import { useEffect } from "react";
+import { initialNoticeDetail } from "../../../export/data";
+import { useState } from "react";
 
 const PrtCategory = ({ Title }) => {
   return (
@@ -17,102 +20,125 @@ const PrtCategory = ({ Title }) => {
   );
 };
 
-const myToken =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTY2ODc2OTgzMCwiZXhwIjoxNjY4ODU2MjMwfQ.Pwss-Q4yTXsOTF7IQJXutWIbaZxQC8w-CfTieL4lxSM";
+const NoticeModal = ({ datum, setNoticeID }) => {
+  // const { isLoading, error, data, isRefetching } = useQuery(
+  //   ["CompanyInfo"],
+  //   () => getUsers()
+  // );
 
-async function getUsers() {
-  const token = sessionStorage.getItem("accessToken");
-  const response = await axios({
-    method: "get",
-    url: BaseUrl + "/notice",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    params: {
-      id: 134953727,
-    },
-  });
-  return response.data;
-}
+  const [data, setData] = useState(initialNoticeDetail);
 
-const NoticeModal = () => {
-  const { isLoading, error, data, isRefetching } = useQuery(
-    ["CompanyInfo"],
-    () => getUsers()
-  );
+  console.log(datum);
 
-  if (isLoading) return <div>로딩중..</div>;
-  if (error) return <div>에러가 발생했습니다</div>;
-  if (!data) return <button>불러오기</button>;
-  console.log(data.company.businessAreaResponseList);
-  const DC = data.company;
-  const CI = data.company.companyInformation;
+  useEffect(() => {
+    axios({
+      url: BaseUrl + `/notice/${datum.id}`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => {
+        if (res.data.message === "프레임워크 내부적인 오류가 발생했습니다.") {
+          setData(initialNoticeDetail);
+        } else setData(res.data);
+      })
+      .catch(() => {
+        setData(initialNoticeDetail);
+      });
+  }, []);
+
+  // if (isLoading) return <div>로딩중..</div>;
+  // if (error) return <div>에러가 발생했습니다</div>;
+  // if (!data) return <button>불러오기</button>;
+  // console.log(data.company.businessAreaResponseList);
+
   const companyInfo = [
-    { title: "사업자 번호", list: DC.companyNumber },
-    { title: "대표", list: CI.representative },
-    { title: "설립 일자", list: CI.establishedAt + "년" },
-    { title: "E-mail", list: DC.companyContact.email },
+    { title: "사업자 번호", list: datum.company.companyNumber },
+    {
+      title: "대표",
+      list: datum.company.companyInformation.representativeName,
+    },
+    {
+      title: "설립 일자",
+      list: datum.company.companyInformation.establishedAt,
+    },
+    { title: "E-mail", list: datum.company.contactor.email },
     {
       title: "근로자 수",
-      list: CI.workerCount.toLocaleString("ko-KR") + " 명",
+      list: datum.company.companyInformation.workerCount,
     },
     {
       title: "연 매출액",
-      list: CI.annualSales.toLocaleString("ko-KR") + " 원",
+      list: datum.company.companyInformation.annualSales,
     },
-    { title: "사업 분야", list: DC.businessAreaResponseList[0].tagName },
-    { title: "본사 주소", list: CI.homeAddress.fullAddress },
-    { title: "지점 주소", list: CI.agentAddress || "지점 주소가 엄서요" },
+    { title: "사업 분야", list: datum.company.businessTagged },
+    {
+      title: "본사 주소",
+      list: datum.company.companyInformation.homeAddressInfo.fullAddress,
+    },
+    {
+      title: "지점 주소",
+      list: datum.company.companyInformation.agentAddress.fullAddress,
+    },
   ];
+
   const employmentInfo = [
-    { title: "대분류", list: "웹프로그래밍" },
-    { title: "소분류", list: "풀스택" },
-    { title: "채용인원", list: "2명" },
-  ];
-  const needLang = [
-    { name: "Java" },
-    { name: "Java Script" },
-    { name: "HTML" },
-    { name: "CSS" },
-  ];
-  const ectTech = [{ name: "Vue.js" }, { name: "React" }];
-  const file = [
     {
-      name: data.formAttachmentList[0].fileName,
-      url: data.formAttachmentList[0].fileUrl,
+      title: "대분류",
+      list: data.classificationResponse[0].bigClassification.bigClassification,
     },
-    {
-      name: data.formAttachmentList[1].fileName,
-      url: data.formAttachmentList[1].fileUrl,
-    },
-    {
-      name: data.formAttachmentList[2].fileName,
-      url: data.formAttachmentList[2].fileUrl,
-    },
+    { title: "소분류", list: data.classificationResponse[0].name },
+    { title: "채용인원", list: data.numberOfEmployee },
   ];
+
+  const mealSupport = [
+    { title: "breakfast", str: "조식 제공" },
+    { title: "lunch", str: "중식 제공" },
+    { title: "dinner", str: "석식 제공" },
+  ];
+
+  const welfare = [
+    { title: "dormitorySupport", str: "기숙사 지원" },
+    { title: "selfDevelopmentPay", str: "자기개발비" },
+    { title: "equipmentSupport", str: "장비지원" },
+    { title: "youthTomorrowChaeumDeduction", str: "청년내일채움공제" },
+    { title: "alternativeMilitaryPla", str: "병역특례" },
+  ];
+
   return (
     <Background>
-      <Blur>
+      <Blur
+        onClick={() => {
+          document.querySelector("html").classList.remove("scrollban");
+          setNoticeID({ id: "", company: "" });
+        }}
+      >
         <Notice>
+          <DelBtn
+            onClick={() => {
+              document.querySelector("html").classList.remove("scrollban");
+              setNoticeID({ id: "", company: "" });
+            }}
+          >
+            ×
+          </DelBtn>
           <SlideBox>
-            <LeftSlide>(</LeftSlide>
-            <RightSlide>)</RightSlide>
+            {/* <LeftSlide>{"<"}</LeftSlide>
+            <RightSlide>{">"}</RightSlide> */}
             <ImageList>
               <CompanyImg
-                src={CompanyImage}
+                src={
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                }
                 alt="회사이미지입니다"
               ></CompanyImg>
             </ImageList>
           </SlideBox>
-          {/*슬라이드이미지*/}
           <Table>
             <Tr Height="111px">
-              <PText Color="black" Width="162px" Size="36px">
-                {data.company.companyName}
-              </PText>
               <PText Color="black" Size="36px">
-                INFO
+                {datum.company.companyName}
               </PText>
             </Tr>
             {companyInfo.map((info) => (
@@ -121,31 +147,32 @@ const NoticeModal = () => {
                   {info.title}
                 </PText>
                 <PText Weight="400" Size="14px" Color="black">
-                  {info.list}
+                  {typeof info.list === "object" ? (
+                    <>
+                      {info.list.map((str) => (
+                        <>{str.id} ㅤ</>
+                      ))}
+                    </>
+                  ) : (
+                    <>{info.list}</>
+                  )}
                 </PText>
               </Tr>
             ))}
           </Table>
           {/*회사정보*/}
-          <Applicant>
-            <Now>현재 지원자 수</Now>
-            <PText Weight="700" Size="24px">
-              {data.applicantCount}
-            </PText>
-          </Applicant>
-          {/*지원자 수*/}
           <WorkTitle>
             <PText Weight="700" Size="20px">
               업무 내용
             </PText>
             <End>
               <EndText>마감일자</EndText>
-              <EndDate>{DC.lastNoticeDate}</EndDate>
+              <EndDate>{data.noticeOpenPeriod.endDate}</EndDate>
             </End>
           </WorkTitle>
           {/*업무내용*/}
           <WorkInfo>
-            <Info>이런 저런 일을 합니다.</Info>
+            <Info>{data.detailBusinessDescription || ""}</Info>
           </WorkInfo>
           {/*업무내용*/}
           <PrtCategory Title="채용직무" />
@@ -157,34 +184,79 @@ const NoticeModal = () => {
                   <Td>{info.list}</Td>
                 </Tbr>
               ))}
-              <Tor>
-                <PText>상세직무</PText>
-                <Td>
-                  백엔드백엔드프론드백엔드 백엔드풀스택웹 프로그래밍
-                  웹프로그래밍
-                </Td>
-              </Tor>
+              <Tbr>
+                <PText Width="160px">성적</PText>
+                <Td>{data.gradeCutLine}%이내</Td>
+              </Tbr>
               <Tor>
                 <PText>필요언어</PText>
                 <TagList>
-                  {needLang.map((info) => (
-                    <Tag>{info.name}</Tag>
+                  {data.languageList.map((info) => (
+                    <Tag>{info.languageName}</Tag>
                   ))}
                 </TagList>
               </Tor>
               <Tor>
                 <PText>기타기술</PText>
                 <TagList>
-                  {ectTech.map((info) => (
-                    <Tag>{info.name}</Tag>
+                  {data.technologyList.map((info) => (
+                    <Tag>{info.technologyName}</Tag>
+                  ))}
+                </TagList>
+              </Tor>
+              <Tor>
+                <PText>자격증</PText>
+                <TagList>
+                  {data.certificteList.map((info) => (
+                    <Tag>{info.certificateName}</Tag>
                   ))}
                 </TagList>
               </Tor>
             </EmploymentBox>
           </Employment>
-          <PrtCategory Title="지원자격" />
+          {/* <PrtCategory Title="지원자격" /> */}
           <PrtCategory Title="복리후생" />
-          <PrtCategory Title="출•퇴근시간" />
+          <EnterTime>
+            <ED>
+              <ET>식사</ET>
+              <p>
+                {mealSupport.map((item) => (
+                  <>
+                    {data.mealSupport[item.title] === true ? (
+                      <ED>
+                        • {item.str} <br />
+                        <br />
+                      </ED>
+                    ) : (
+                      ""
+                    )}
+                  </>
+                ))}
+              </p>
+            </ED>
+            <ED>
+              <ET>복리후생</ET>
+              <p>
+                {welfare.map((item) => (
+                  <>
+                    {data.welfare[item.title] === true ? (
+                      <ED>
+                        • {item.str} <br />
+                        <br />
+                      </ED>
+                    ) : (
+                      ""
+                    )}
+                  </>
+                ))}
+              </p>
+            </ED>
+            <ED>
+              <ET>기타</ET>
+              <EI>• {data.otherFeatures}</EI>
+            </ED>
+          </EnterTime>
+          {/* <PrtCategory Title="출•퇴근시간" />
           <EnterTime>
             <ED>
               <ET>출근시간</ET>
@@ -198,22 +270,35 @@ const NoticeModal = () => {
               <ET>근무시간 (주)</ET>
               <EI>18시간</EI>
             </ED>
-          </EnterTime>
+          </EnterTime> */}
           <PrtCategory Title="전형절차" />
+          <EnterTime>
+            <ED>
+              <ET>전형절차</ET>
+              <p>
+                {Object.values(data.interviewProcessList).map((str, i) => (
+                  <ED>
+                    {i + 1}. {str} <br />
+                    <br />
+                  </ED>
+                ))}
+              </p>
+            </ED>
+          </EnterTime>
           <PrtCategory Title="제출서류" />
           <Document>
-            {file.map((info) => (
+            {data.attachmentFileList.map((info) => (
               <File>
-                <FileImg src={FileImage} alt="파일아이콘입니다"></FileImg>
-                <FileName href={info.url} download>
-                  {info.name}
+                <FileImg src={info.fileUrl} alt="파일아이콘입니다"></FileImg>
+                <FileName href={info.fileUrl} download>
+                  {info.fileName}
                 </FileName>
               </File>
             ))}
           </Document>
           <PrtCategory Title="근무지" />
           <PText Size="16px" Width="936px" Color="black">
-            대전 유성구 가정북로 76
+            {data.workPlace.otherPlace}
           </PText>
         </Notice>
       </Blur>
@@ -222,6 +307,13 @@ const NoticeModal = () => {
 };
 
 export default NoticeModal;
+
+const DelBtn = styled.div`
+  position: absolute;
+  right: 30px;
+  font-size: 50px;
+  font-weight: 700;
+`;
 
 const FileImg = styled.img`
   height: 20px;
@@ -256,6 +348,7 @@ const ET = styled.p`
   line-height: 23px;
   color: #4000ff;
   padding-right: 20px;
+  white-space: nowrap;
 `; // 시간 타이틀
 const EI = styled.p`
   font-weight: 400;
@@ -263,16 +356,16 @@ const EI = styled.p`
   line-height: 160%;
 `; // 시간 내용
 const ED = styled.div`
+  margin-top: 5px;
   display: flex;
   justify-content: start;
-  align-items: center;
-  width: 200px;
+  width: 350px;
 `; // 출퇴근무시간 div
 const EnterTime = styled.div`
   width: 936px;
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 40px;
 `; // 출퇴근시간 div
 
@@ -286,7 +379,6 @@ const Tag = styled.div`
 `; // 태그
 const TagList = styled.tr`
   width: 936px;
-  margin-top: 20px;
   display: flex;
   height: 30px;
 `; // 태그 나열 tr
@@ -382,6 +474,7 @@ const End = styled.div`
 const WorkTitle = styled.div`
   width: 936px;
   height: 32px;
+  margin-top: 100px;
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
@@ -424,7 +517,7 @@ const Table = styled.div`
 const CompanyImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 10px;
 `; // 이미지
 const ImageList = styled.div`
@@ -435,7 +528,7 @@ const ImageList = styled.div`
 const LeftSlide = styled.button`
   color: white;
   position: absolute;
-  left: 528px;
+  left: 50px;
   width: 28px;
   height: 46px;
   border: none;
@@ -446,7 +539,7 @@ const LeftSlide = styled.button`
 const RightSlide = styled.button`
   width: 28px;
   color: white;
-  right: 528px;
+  right: 50px;
   height: 46px;
   border: none;
   cursor: pointer;
@@ -463,32 +556,40 @@ const SlideBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `; // 이미지 슬라이드 박스
 
 const Notice = styled.div`
+  position: absolute;
   font-family: "NanumGothic", sans-serif;
   background: linear-gradient(180deg, #ffffff, #f5f2ff);
   border-radius: 20px;
-  height: 3203px;
   width: 1136px;
+  top: 100px;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 100px;
 `; // 모달창 배경
 const Blur = styled.div`
   position: absolute;
-  top: 0;
-  height: 4503px;
+  height: 100vh;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
   z-index: 1;
+  top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  overflow-y: scroll;
 `; // 모달 뒤 블러
 const Background = styled.div`
-  height: 3803px;
+  height: 400vh;
   width: 100%;
-  background: white;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  position: absolute;
+  top: 0;
 `; // 모달 뒷배경

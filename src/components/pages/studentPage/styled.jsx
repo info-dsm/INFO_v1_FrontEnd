@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
-export const Page_moving_btn = styled.button`
+export const Page_moving_btn = styled.a`
   width: ${(props) => props.width || "600px"};
   height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration:none;
   background: #4000ff;
   font-weight: 600;
   font-size: 18px;
@@ -24,7 +28,7 @@ export const Image = styled.img.attrs({
 })`
   width: ${(props) => props.width || "0px"};
   height: ${(props) => props.height || "0px"};
-  background-size: cover;
+  background-size: contain;
   /* object-fit: scale-down; */
   border-radius: 10px;
 `;

@@ -49,7 +49,7 @@ const CompanySignIn = () => {
     if (Object.values(success).includes(true)) {
       if (!Object.values(data).includes("")) {
         axios({
-          url: BaseUrl + "/company/login",
+          url: BaseUrl + "/auth/login/company",
           method: "post",
           data: {
             companyNumber: data.companyNumber,
