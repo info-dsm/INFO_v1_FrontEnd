@@ -104,162 +104,396 @@ export const CompanyData2 = [
   },
 ];
 export const initialCompany = {
-  companyNumber: "123-45-67890",
-  contactorEmail: "email@dsm.hs.kr",
-  companyName: "INFO",
-  homeAddressInfo: {
-    fullAddress: "대전광역시 유성구 가정북로 76",
-    addressNumber: "34111",
-  },
-  businessTagged: [
+  content: [
     {
-      name: "산업보안",
+      companyNumber: "123-45-67890",
+      contactorEmail: "email@dsm.hs.kr",
+      companyName: "INFO",
+      homeAddressInfo: {
+        fullAddress: "대전광역시 유성구 가정북로 76",
+        addressNumber: "34111",
+      },
+      businessTagged: [
+        {
+          name: "산업보안",
+        },
+        {
+          name: "정보통신업",
+        },
+      ],
+      workerCount: 97,
+      annualSales: 1000000000,
+      isLeading: true,
+      isAssociated: true,
+      latestNoticeYear: 0,
+      totalEmployedCount: 0,
+      companyIntroductionResponse: {
+        introduction:
+          "INFO 프로젝트는 기존 직접 담당자와 연락하여 이루어지던 대덕sw마이스터고 현장 실습생 채용 의뢰를 전산화하여 소통 과정에서 발생하는 불필요한 연락을 제거하고, 웹 어플리케이션으로 전환하여 학교 산학부 담당자 부재 시에도 원활한 채용 프로세스 진행이 가능하게 하여  가용성 및 안정성 확보를 기대할 수 있습니다.",
+        businessCertificate: {
+          fileId: "string",
+          fileUrl: "string",
+          fileType: "FileType",
+          extension: "string",
+          fileName: "사업자 등록증",
+          companyNumber: "string",
+          companyFileClassificationType: "CompanyFileClassificationType",
+        },
+        companyIntroductionFile: [
+          {
+            fileId: "string",
+            fileUrl: "string",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "정보처리기능사",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl: "string",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "워드프로세서",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+        ],
+        companyLogo: {
+          fileId: "string",
+          fileUrl:
+            "https://cdn.discordapp.com/attachments/872481713949917228/1047896135374741565/image.png",
+          fileType: "FileType",
+          extension: "string",
+          fileName: "string",
+          companyNumber: "string",
+          companyFileClassificationType: "CompanyFileClassificationType",
+        },
+        companyPhotoList: [
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048056364045443162/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048056756762312714/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048056994919104542/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048058046523379782/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048060414921015417/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048060859798274048/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048060964714578014/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048060676381356042/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+          {
+            fileId: "string",
+            fileUrl:
+              "https://cdn.discordapp.com/attachments/872481713949917228/1048060715606478980/image.png",
+            fileType: "FileType",
+            extension: "string",
+            fileName: "string",
+            companyNumber: "string",
+            companyFileClassificationType: "CompanyFileClassificationType",
+          },
+        ],
+      },
     },
     {
-      name: "정보통신업",
+      companyNumber: "000-00-00000",
+      contactorEmail: "bugyejeong7228@gmail.com",
+      companyName: "이동현컴퍼니",
+      homeAddressInfo: {
+        fullAddress: "대전 서구 가수원로 5 (가수원동, 은아아파트5단지)",
+        addressNumber: 35389,
+      },
+      businessTagged: [
+        {
+          id: "금융 및 보험업",
+        },
+        {
+          id: "부동산업",
+        },
+        {
+          id: "전기‧가스/수도/건설업",
+        },
+      ],
+      workerCount: 123,
+      annualSales: 100000000,
+      isLeading: false,
+      isAssociated: false,
+      latestNoticeYear: null,
+      totalEmployedCount: 0,
+      companyIntroductionResponse: {
+        introduction:
+          "ㄱ챃푀ㅠ;ㅐㅑㅓㅔㅔ래쇼ㅑㅓㅎ로ㅠ;ㅓ'ㄱ챃푀ㅠ;ㅐㅑㅓㅔㅔ래쇼ㅑㅓㅎ로ㅠ;ㅓ'ㄱ챃푀ㅠ;ㅐㅑㅓㅔㅔ래쇼ㅑㅓㅎ로ㅠ;ㅓ'ㄱ챃푀ㅠ;ㅐㅑㅓㅔㅔ래쇼ㅑㅓㅎ로ㅠ;ㅓ'ㄱ챃푀ㅠ;ㅐㅑㅓㅔㅔ",
+        businessCertificate: null,
+        companyIntroductionFile: [],
+        companyLogo: null,
+        companyPhotoList: [],
+      },
+    },
+    {
+      companyNumber: "000-00-00001",
+      contactorEmail: "steambugye7228@gmail.com",
+      companyName: "string",
+      homeAddressInfo: {
+        fullAddress: "대전 서구 가수원로 5 (가수원동, 은아아파트5단지)",
+        addressNumber: 35389,
+      },
+      businessTagged: [
+        {
+          id: "사업체 수",
+        },
+      ],
+      workerCount: 123,
+      annualSales: 1000,
+      isLeading: false,
+      isAssociated: false,
+      latestNoticeYear: null,
+      totalEmployedCount: 0,
+      companyIntroductionResponse: {
+        introduction: "string",
+        businessCertificate: null,
+        companyIntroductionFile: [],
+        companyLogo: null,
+        companyPhotoList: [],
+      },
+    },
+    {
+      companyNumber: "000-00-00002",
+      contactorEmail: "artgyejeong7228@gmail.com",
+      companyName: "string",
+      homeAddressInfo: {
+        fullAddress: "대전 서구 가수원로 5 (가수원동, 은아아파트5단지)",
+        addressNumber: 35389,
+      },
+      businessTagged: [
+        {
+          id: "사업체 수",
+        },
+      ],
+      workerCount: 123,
+      annualSales: 1000,
+      isLeading: false,
+      isAssociated: false,
+      latestNoticeYear: null,
+      totalEmployedCount: 0,
+      companyIntroductionResponse: {
+        introduction: "string",
+        businessCertificate: null,
+        companyIntroductionFile: [],
+        companyLogo: null,
+        companyPhotoList: [],
+      },
+    },
+    {
+      companyNumber: "000-00-00005",
+      contactorEmail: "o.deng7228@gmail.com",
+      companyName: "이동현코퍼레이션",
+      homeAddressInfo: {
+        fullAddress: "대전 서구 갈마역로25번길 70 (갈마동, 대전둔산중학교)",
+        addressNumber: 35231,
+      },
+      businessTagged: [
+        {
+          id: "금융 및 보험업",
+        },
+        {
+          id: "부동산업",
+        },
+        {
+          id: "전기‧가스/수도/건설업",
+        },
+      ],
+      workerCount: 6238,
+      annualSales: 100000000,
+      isLeading: false,
+      isAssociated: false,
+      latestNoticeYear: null,
+      totalEmployedCount: 0,
+      companyIntroductionResponse: {
+        introduction:
+          "결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ결혀ㅛㅙㅑ여교솔첳패ㅓㅔ",
+        businessCertificate: {
+          fileId: "0841d497-9ef4-47a5-819b-19eab4d47f14",
+          fileUrl:
+            "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/COMPANY/000-00-00005/BUSINESS_CERTIFICATE/0841d497-9ef4-47a5-819b-19eab4d47f14/Welcome%20to%20Hwp.hwp",
+          fileType: "DOCS",
+          extension: "hwp",
+          fileName: "Welcome to Hwp.hwp",
+          companyNumber: "000-00-00005",
+          companyFileClassificationType: "BUSINESS_CERTIFICATE",
+        },
+        companyIntroductionFile: [],
+        companyLogo: null,
+        companyPhotoList: [],
+      },
+    },
+    {
+      companyNumber: "000-00-00006",
+      contactorEmail: "bbbugyejeong1234@gmail.com",
+      companyName: "이동현회사",
+      homeAddressInfo: {
+        fullAddress: "울산 울주군 온산읍 삼평길 16 (강양리)",
+        addressNumber: 45008,
+      },
+      businessTagged: [
+        {
+          id: "금융 및 보험업",
+        },
+        {
+          id: "부동산업",
+        },
+        {
+          id: "운수 및 창고업",
+        },
+      ],
+      workerCount: 234567,
+      annualSales: 1267892461,
+      isLeading: false,
+      isAssociated: false,
+      latestNoticeYear: null,
+      totalEmployedCount: 0,
+      companyIntroductionResponse: {
+        introduction:
+          "셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ셭ㄹ쵸호ㅑㅐㅓㅔㅑㅕㅛㅑㄽㅇㅅ",
+        businessCertificate: null,
+        companyIntroductionFile: [],
+        companyLogo: null,
+        companyPhotoList: [],
+      },
+    },
+    {
+      companyNumber: "100-00-00000",
+      contactorEmail: "explosion8280@gmail.com",
+      companyName: "프로젝트 이동현",
+      homeAddressInfo: {
+        fullAddress: "대전 서구 가수원로 5 (가수원동, 은아아파트5단지)",
+        addressNumber: 35389,
+      },
+      businessTagged: [
+        {
+          id: "부동산업",
+        },
+        {
+          id: "전기‧가스/수도/건설업",
+        },
+      ],
+      workerCount: 123,
+      annualSales: 1000000000,
+      isLeading: false,
+      isAssociated: false,
+      latestNoticeYear: null,
+      totalEmployedCount: 0,
+      companyIntroductionResponse: {
+        introduction:
+          "ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어ㄴㅇ러ㅏㅣㅏ;ㄹ어",
+        businessCertificate: {
+          fileId: "6476d38d-f3dc-4935-a827-057db62fa7c6",
+          fileUrl:
+            "https://info-dsm.s3.ap-northeast-2.amazonaws.com/info-dsm/COMPANY/100-00-00000/BUSINESS_CERTIFICATE/6476d38d-f3dc-4935-a827-057db62fa7c6/Welcome%20to%20Hwp.hwp",
+          fileType: "DOCS",
+          extension: "hwp",
+          fileName: "Welcome to Hwp.hwp",
+          companyNumber: "100-00-00000",
+          companyFileClassificationType: "BUSINESS_CERTIFICATE",
+        },
+        companyIntroductionFile: [],
+        companyLogo: null,
+        companyPhotoList: [],
+      },
     },
   ],
-  workerCount: 97,
-  annualSales: 1000000000,
-  isLeading: true,
-  isAssociated: true,
-  latestNoticeYear: 0,
-  totalEmployedCount: 0,
-  companyIntroductionResponse: {
-    introduction:
-      "INFO 프로젝트는 기존 직접 담당자와 연락하여 이루어지던 대덕sw마이스터고 현장 실습생 채용 의뢰를 전산화하여 소통 과정에서 발생하는 불필요한 연락을 제거하고, 웹 어플리케이션으로 전환하여 학교 산학부 담당자 부재 시에도 원활한 채용 프로세스 진행이 가능하게 하여  가용성 및 안정성 확보를 기대할 수 있습니다.",
-    businessCertificate: {
-      fileId: "string",
-      fileUrl: "string",
-      fileType: "FileType",
-      extension: "string",
-      fileName: "사업자 등록증",
-      companyNumber: "string",
-      companyFileClassificationType: "CompanyFileClassificationType",
+  pageable: {
+    sort: {
+      empty: false,
+      sorted: true,
+      unsorted: false,
     },
-    companyIntroductionFile: [
-      {
-        fileId: "string",
-        fileUrl: "string",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "정보처리기능사",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl: "string",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "워드프로세서",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-    ],
-    companyLogo: {
-      fileId: "string",
-      fileUrl:
-        "https://cdn.discordapp.com/attachments/872481713949917228/1047896135374741565/image.png",
-      fileType: "FileType",
-      extension: "string",
-      fileName: "string",
-      companyNumber: "string",
-      companyFileClassificationType: "CompanyFileClassificationType",
-    },
-    companyPhotoList: [
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048056364045443162/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048056756762312714/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048056994919104542/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048058046523379782/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048060414921015417/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048060859798274048/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048060964714578014/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048060676381356042/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-      {
-        fileId: "string",
-        fileUrl:
-          "https://cdn.discordapp.com/attachments/872481713949917228/1048060715606478980/image.png",
-        fileType: "FileType",
-        extension: "string",
-        fileName: "string",
-        companyNumber: "string",
-        companyFileClassificationType: "CompanyFileClassificationType",
-      },
-    ],
+    offset: 0,
+    pageNumber: 0,
+    pageSize: 10,
+    paged: true,
+    unpaged: false,
   },
+  last: true,
+  totalPages: 1,
+  totalElements: 6,
+  size: 10,
+  number: 0,
+  sort: {
+    empty: false,
+    sorted: true,
+    unsorted: false,
+  },
+  first: true,
+  numberOfElements: 6,
+  empty: false,
 };
 export const initialCompanyDetail = {
   companyNumber: "123-45-67890",
@@ -516,7 +750,8 @@ export const initialNoticeDetail = {
       fileId: "string",
       fileUrl: "https://cdn-icons-png.flaticon.com/512/1388/1388902.png",
       fileType: "FileType",
-      extension: "https://cdn.discordapp.com/attachments/872481713949917228/1048065150265069628/Self-introduction_form.hwp",
+      extension:
+        "https://cdn.discordapp.com/attachments/872481713949917228/1048065150265069628/Self-introduction_form.hwp",
       fileName: "지원서 양식",
       noticeId: "string",
     },

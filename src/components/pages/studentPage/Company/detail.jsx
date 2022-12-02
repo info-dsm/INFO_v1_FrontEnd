@@ -80,6 +80,7 @@ const CompanyDetailView = () => {
     })
       .then((res) => {
         if (res.data.message !== "프레임워크 내부적인 오류가 발생했습니다.") {
+          console.log(res.data);
           settingData(res.data);
         } else {
           settingData(initialCompanyDetail);
@@ -109,10 +110,10 @@ const CompanyDetailView = () => {
         title: "연 매출액",
         data: res.companyInformation.annualSales,
       },
-      { title: "사업 분야", data: res.businessTagged },
+    //   { title: "사업 분야", data: res.businessTagged },
       {
         title: "본사 주소",
-        data: res.companyInformation.homeAddressInfo.fullAddress,
+        data: res.companyInformation.homeAddress.fullAddress,
       },
       {
         title: "지점 주소",
@@ -214,9 +215,7 @@ const CompanyDetailView = () => {
                 <App_box>
                   <div>
                     <span>특기사항</span>
-                    <span>
-                      프론트엔드 뽑고 있습니다.
-                    </span>
+                    <span>프론트엔드 뽑고 있습니다.</span>
                   </div>
                   <span>
                     <span>인원 수</span>
@@ -233,9 +232,13 @@ const CompanyDetailView = () => {
               <div>
                 <Interview_box>
                   <div>
-                    <img src="https://avatars.githubusercontent.com/u/80964727?v=4" alt="" />
+                    <img
+                      src="https://avatars.githubusercontent.com/u/80964727?v=4"
+                      alt=""
+                    />
                     <span>
-                      면접 내내 직원들이 정말 상냥하고 편하게 대해주셔서 정말 뜻깊은 시간이었던 것 같아요!
+                      면접 내내 직원들이 정말 상냥하고 편하게 대해주셔서 정말
+                      뜻깊은 시간이었던 것 같아요!
                     </span>
                   </div>
                   <span>

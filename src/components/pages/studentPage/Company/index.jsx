@@ -37,7 +37,9 @@ const CompanyView = () => {
           }
         })
         .catch((err) => {
-          set_IC({ content: [initialCompany] });
+          set_IC(initialCompany);
+          setMaxPage(initialCompany.totalPages);
+          console.log(initialCompany);
         });
     } else {
       // axios({
@@ -136,7 +138,7 @@ const CompanyView = () => {
                 if (data.circle) {
                   return (
                     <Circle_btn
-                      href="#1"
+                      href="#main"
                       onClick={() => {
                         setPage(data.id);
                       }}

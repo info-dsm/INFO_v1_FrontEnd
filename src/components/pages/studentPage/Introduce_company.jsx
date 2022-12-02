@@ -19,7 +19,9 @@ const IC_View = ({ IC_data }) => {
       isLeading: IC_data.isLeading || false,
       isAssociated: IC_data.isAssociated || false,
       src:
-        IC_data.companyIntroductionResponse.companyPhotoList[0] !== {}
+        IC_data.companyIntroductionResponse.companyPhotoList[0] !== {} &&
+        IC_data.companyIntroductionResponse.companyPhotoList[0] !== undefined &&
+        IC_data.companyIntroductionResponse.companyPhotoList[0] !== null
           ? IC_data.companyIntroductionResponse.companyPhotoList[0].fileUrl
           : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png",
       text:
@@ -150,7 +152,7 @@ const IC_sub_title = styled.span`
 
 const Introduce_box = styled.span`
   width: 400px;
-  height:60px;
+  height: 60px;
   font-weight: 400;
   font-size: 16px;
   line-height: 160%;

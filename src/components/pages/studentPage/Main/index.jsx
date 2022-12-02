@@ -44,6 +44,7 @@ const MainView = () => {
       ])
       .then(
         axios.spread((res1, res2) => {
+          console.log(res1, res2);
           if (
             res1.data.message === "프레임워크 내부적인 오류가 발생했습니다." ||
             res2.data.message === "프레임워크 내부적인 오류가 발생했습니다."
@@ -56,12 +57,12 @@ const MainView = () => {
 
             if (res2.data.content[0] !== undefined)
               res[1] = res2.data.content[0];
-            else res[1] = initialCompany;
+            else res[1] = initialCompany.content[0];
           }
         })
       )
       .catch(() => {
-        res = [initialNotice, initialCompany];
+        res = [initialNotice, initialCompany.content[0]];
       });
     return res;
   });
