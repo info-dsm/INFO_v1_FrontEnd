@@ -97,7 +97,7 @@ const TeacherSignUp = () => {
               state: "success",
               message: "계정이 성공적으로 생성되었습니다.",
             }).then(() => {
-              window.location.href = "/student/login";
+              window.location.href = "/teacher/login";
             });
           })
           .catch(() => {
