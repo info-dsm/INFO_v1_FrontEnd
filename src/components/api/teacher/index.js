@@ -128,13 +128,13 @@ export const getCompanyName = (id) => {
 };
 export const getCompanyInfo = async (id) => {
   const { data } = await axios({
-    url: BaseUrl + "/company",
+    url: BaseUrl + "/company/" + id,
     method: "get",
-    params: { id: id },
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   });
+  console.log(data);
   return data;
 };
 export const getUseCompanyInfo = (id) => {

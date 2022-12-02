@@ -27,18 +27,15 @@ const CompanyInfo = () => {
             <ContainerDiv>
               <Title>
                 <img
-                  src={data.companyIntroduction.companyLogo.fileUrl}
+                  src={data.companyIntroductionResponse.companyLogo?.fileUrl}
                   alt=""
                 />
                 <h2>회사 정보</h2>
-                <CheckInput
-                  type="checkbox"
-                  checked={data.isLeading}
-                ></CheckInput>
-                <span>선도 기업</span>
               </Title>
               <BannerImg
-                src={data.companyIntroduction.companyPhotoList[0].fileUrl}
+                src={
+                  data.companyIntroductionResponse.companyPhotoList[0]?.fileUrl
+                }
                 alt=""
               />
               <ContentDiv>
@@ -53,7 +50,7 @@ const CompanyInfo = () => {
                   <InputForm>{data.companyNumber}</InputForm>
                   <Category>대표자</Category>
                   <InputForm>
-                    {data.companyInformation.representative}
+                    {data.companyInformation.represntativeName}
                   </InputForm>
                   <Category>근로자 수</Category>
                   <InputForm>{data.companyInformation.workerCount}</InputForm>
@@ -95,13 +92,13 @@ const CompanyInfo = () => {
               <ContentDiv>
                 <GridDiv>
                   <Category>대표자</Category>
-                  <InputForm>{data.companyContact.contactorName}</InputForm>
+                  <InputForm>{data.contactor.name}</InputForm>
                   <Category>소속 부서</Category>
-                  <InputForm>{data.companyContact.contactorRank}</InputForm>
+                  <InputForm>{data.contactor.rank}</InputForm>
                   <Category>전화번호</Category>
-                  <InputForm>{data.companyContact.phoneNumber}</InputForm>
+                  <InputForm>{data.contactor.phoneNumber}</InputForm>
                   <Category>휴대전화</Category>
-                  <InputForm>{data.companyContact.contactorPhone}</InputForm>
+                  <InputForm>{data.contactor.contactorNumber}</InputForm>
                 </GridDiv>
               </ContentDiv>
               <hr />
@@ -111,9 +108,9 @@ const CompanyInfo = () => {
                 <h2>사업 분야</h2>
               </Title>
               <InputUl>
-                {data.businessAreaResponseList.map((item, i) => (
+                {data.businessTagged.map((item, i) => (
                   <>
-                    <InputLi>{item.tagName}</InputLi>
+                    <InputLi>{item.id}</InputLi>
                   </>
                 ))}
               </InputUl>
@@ -124,7 +121,9 @@ const CompanyInfo = () => {
                 <h2>Contect</h2>
               </Title>
               <ContentDiv />
-              <Description>{data.companyIntroduction.introduction}</Description>
+              <Description>
+                {data.companyIntroductionResponse.introduction}
+              </Description>
             </ContainerDiv>
           </MainDiv>
         </>

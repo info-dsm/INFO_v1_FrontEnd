@@ -85,13 +85,13 @@ const ShowCompany = () => {
           <Table>
             <Ulbox>
               {data.content.map((user, i) => (
-                <Libox onMouseDown={() => PreFetching(user.companyId)}>
+                <Libox onMouseDown={() => PreFetching(user.companyNumber)}>
                   <Box>
-                    <Title>{user.companyId}</Title>
+                    <Title>{(count + 1) * i + 1}</Title>
                     <ImgDiv>
                       <Img
                         src={
-                          user.companyIntroductionResponse.companyLogo.fileUrl
+                          user.companyIntroductionResponse.companyLogo?.fileUrl
                         }
                         alt="잉기모링"
                         style={{ width: "50px", height: "50px" }}
@@ -106,7 +106,7 @@ const ShowCompany = () => {
                       <div>email</div>
                       <div>{user.contactorEmail}</div>
                     </Category>
-                    <StyledLink to={`/teacher/company/${user.companyId}`}>
+                    <StyledLink to={`/teacher/company/${user.companyNumber}`}>
                       <ButtonProps>자세히보기</ButtonProps>
                     </StyledLink>
                   </Box>
