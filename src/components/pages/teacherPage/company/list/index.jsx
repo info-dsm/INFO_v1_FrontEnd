@@ -14,12 +14,14 @@ import Header from "../../../../common/header";
 import { StyledLink } from "../../../../../style/theme";
 import NavProps from "../../../../common/nav";
 import { TeacherData } from "../../../../../export/data";
+import { useNavigate } from "react-router-dom";
 const ShowCompany = () => {
   const [count, setCount] = useState(0);
   const [arr, setArr] = useState([]);
   const queryClient = useQueryClient();
   const { status, data } = getCompany(count);
   const [input, setInput] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     if (data?.totalPages > 5) {
       if (data.totalPages % 5 !== 0) {
@@ -76,28 +78,29 @@ const ShowCompany = () => {
             <Search
               placeholder="회사이름"
               onInput={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") navigate(`/teacher/${input}`);
+              }}
             />
             <StyledLink to={`/teacher/${input}`}>
               <SearchButton>검색</SearchButton>
             </StyledLink>
           </SearchDiv>
-
           <Table>
             <Ulbox>
               {data.content.map((user, i) => (
-                <Libox onMouseDown={() => PreFetching(user.companyId)}>
+                <Libox onMouseDown={() => PreFetching(user.companyNumber)}>
                   <Box>
-                    <Title>{user.companyId}</Title>
+                    <Title>{count * 5 + (i + 1)}</Title>
                     <ImgDiv>
                       <Img
                         src={
-                          user.companyIntroductionResponse.companyLogo.fileUrl
+                          user.companyIntroductionResponse.companyLogo?.fileUrl
                         }
-                        alt="잉기모링"
+                        alt="noneimage"
                         style={{ width: "50px", height: "50px" }}
                       />
                     </ImgDiv>
-
                     <Category>
                       <div>{user.companyName}</div>
                       <div>회사명</div>
@@ -106,7 +109,7 @@ const ShowCompany = () => {
                       <div>email</div>
                       <div>{user.contactorEmail}</div>
                     </Category>
-                    <StyledLink to={`/teacher/company/${user.companyId}`}>
+                    <StyledLink to={`/teacher/company/${user.companyNumber}`}>
                       <ButtonProps>자세히보기</ButtonProps>
                     </StyledLink>
                   </Box>
@@ -180,6 +183,7 @@ const ImgDiv = styled.div`
 const Img = styled.img`
   width: 60px;
   height: 60px;
+  object-fit: contain;
 `;
 const SearchDiv = styled.div`
   position: relative;

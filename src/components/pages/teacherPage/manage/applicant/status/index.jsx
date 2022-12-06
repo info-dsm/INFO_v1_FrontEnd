@@ -22,191 +22,201 @@ import ApplicantPortal from "../modal/portal";
 const StatusManageComponent = ({ props }) => {
   const { teacherId } = useParams();
   const dispatch = useDispatch();
-  // const { status, data } = useQuery(
-  //   ["teacherGetUser", teacherId, props.company.companyNumber],
-  //   () => getUserCompany(teacherId, props.company.companyNumber, "")
-  // );
+  console.log(props.company.companyNumber, teacherId);
+  const { status, data } = useQuery(
+    ["teacherGetUser", teacherId, props.company.companyNumber],
+    () => getUserCompany(props.company.companyNumber, teacherId, "")
+  );
   const modal = useSelector((state) => state.userData.data.modal);
-  const status = "success";
-  const data = [
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "APPROVE",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "REJECT",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "WAITING",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "APPROVE",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "REJECT",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "WAITING",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "APPROVE",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "REJECT",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-    {
-      appliesId: "string",
-      applier: {
-        email: "jingeon27@gmail.com",
-        name: "string",
-      },
-      noticeId: "string",
-      status: "WAITING",
-      resumeList: [
-        {
-          fileId: "string",
-          fileUrl: "string",
-          fileType: "FileType",
-          extension: "string",
-          fileName: "string",
-        },
-      ],
-    },
-  ];
+  // const status = "success";
+  // const data = [
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "APPROVE",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "REJECT",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "WAITING",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "APPROVE",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "REJECT",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "WAITING",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "APPROVE",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "REJECT",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     appliesId: "string",
+  //     applier: {
+  //       email: "jingeon27@gmail.com",
+  //       name: "string",
+  //     },
+  //     noticeId: "string",
+  //     status: "WAITING",
+  //     resumeList: [
+  //       {
+  //         fileId: "string",
+  //         fileUrl: "string",
+  //         fileType: "FileType",
+  //         extension: "string",
+  //         fileName: "string",
+  //       },
+  //     ],
+  //   },
+  // ];
   return (
     <>
       {status === "loading" ? (
-        <LoadingPage />
+        <>
+          <Table>
+            <Ulbox></Ulbox>
+          </Table>
+        </>
       ) : status === "error" ? (
-        <ErrorPage />
+        <>
+          <Table>
+            <Ulbox></Ulbox>
+          </Table>
+        </>
       ) : (
         <>
           <Table>
             <Ulbox>
+              {data === [] ? <></> : <></>}
               {data.map((user, i) => (
                 <Libox>
                   <Box>
                     <Category>
-                      <div className="asdf">1404</div>
+                      <div className="asdf">{user.appliersId}</div>
                       <div className="asdf">{user.applier.name}</div>
                       <div className="email">{user.applier.email}</div>
                     </Category>
@@ -289,7 +299,7 @@ const StatusManageComponent = ({ props }) => {
 export default StatusManageComponent;
 const Table = styled.div`
   margin: 0px auto;
-  margin-bottom: 200px;
+  margin-bottom: 100px;
   width: 1190px;
   height: 663px;
   background-color: ${(props) => props.theme.colors.mediumPurple};

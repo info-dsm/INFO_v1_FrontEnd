@@ -10,12 +10,12 @@ const AutoComplete = forwardRef(({ Data }, ref) => {
     console.log(data);
     // eslint-disable-next-line array-callback-return
     const same = Data.filter((el) => {
-      if (el.skill.indexOf(write) !== -1) {
+      if (el.indexOf(write) !== -1) {
         return el;
       }
     });
     const content = same.sort((a, b) => {
-      return a.skill.indexOf(write) - b.skill.indexOf(write);
+      return a.indexOf(write) - b.indexOf(write);
     });
     setData(content);
     if (start === -1) {
@@ -68,6 +68,9 @@ const AutoComplete = forwardRef(({ Data }, ref) => {
             setStatee(true);
           }
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") RemoveEvent(e);
+        }}
         onBlur={(e) => {
           RemoveEvent(e);
         }}
@@ -75,9 +78,7 @@ const AutoComplete = forwardRef(({ Data }, ref) => {
       <DataList state={state}>
         <ul>
           {data.map((user) => (
-            <li onMouseDown={() => AddValuePropsFunc(user.skill)}>
-              {user.skill}
-            </li>
+            <li onMouseDown={() => AddValuePropsFunc(user)}>{user}</li>
           ))}
         </ul>
       </DataList>

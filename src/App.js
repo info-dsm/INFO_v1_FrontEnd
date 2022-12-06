@@ -85,10 +85,7 @@ function App() {
                 path="/company/manage/user/:teacherId"
                 element={<Applicant />}
               />
-              <Route
-                path="/auth/select"
-                element={<Select/>}
-              />
+              <Route path="/auth/select" element={<Select />} />
             </Routes>
             <Footer />
           </BrowserRouter>
