@@ -18,7 +18,7 @@ const Applicant = () => {
       <NavProps props={qwer} idx={1} />
       <Table>
         <Title>채용직무</Title>
-        <Recruitment data={content} count={count}></Recruitment>
+        <Recruitment Data={content} count={count}></Recruitment>
       </Table>
       <BoxLocate>
         <Live>지원 현황</Live>
@@ -47,13 +47,14 @@ const Title = styled.h1`
   font-weight: 700;
   font-size: 40px;
   color: ${(props) => props.theme.colors.black};
+  margin-bottom: 70px;
 `;
 const BoxLocate = styled.div`
   position: relative;
   width: 1190px;
   margin: 0 auto;
   height: auto;
-  margin-bottom: 300px;
+  margin-bottom: 100px;
 `;
 const Live = styled.div`
   margin-left: 20px;

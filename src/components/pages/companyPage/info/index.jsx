@@ -48,10 +48,10 @@ const CompanyInfo = () => {
                     등록번호
                   </Category>
                   <InputForm>{data.companyNumber}</InputForm>
-                  <Category>대표자</Category>
+                  {/* <Category>대표자</Category>
                   <InputForm>
                     {data.companyInformation.represntativeName}
-                  </InputForm>
+                  </InputForm> */}
                   <Category>근로자 수</Category>
                   <InputForm>{data.companyInformation.workerCount}</InputForm>
                   <Category>설립연도</Category>
@@ -71,15 +71,21 @@ const CompanyInfo = () => {
                         {data.companyInformation.homeAddress.addressNumber}
                       </AddressForm>
                     </div>
-                    <div>
-                      <span>연구소/지점</span>
-                      <AddressForm>
-                        {data.companyInformation.agentAddress.fullAddress}
-                      </AddressForm>
-                      <AddressForm style={{ width: "100px" }}>
-                        {data.companyInformation.agentAddress.addressNumber}
-                      </AddressForm>
-                    </div>
+                    {data.companyInformation?.agentAddress ? (
+                      <>
+                        <div>
+                          <span>연구소/지점</span>
+                          <AddressForm>
+                            {data.companyInformation.agentAddress.fullAddress}
+                          </AddressForm>
+                          <AddressForm style={{ width: "100px" }}>
+                            {data.companyInformation.agentAddress.addressNumber}
+                          </AddressForm>
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </Address>
               </ContentDiv>
@@ -97,8 +103,8 @@ const CompanyInfo = () => {
                   <InputForm>{data.contactor.rank}</InputForm>
                   <Category>전화번호</Category>
                   <InputForm>{data.contactor.phoneNumber}</InputForm>
-                  <Category>휴대전화</Category>
-                  <InputForm>{data.contactor.contactorNumber}</InputForm>
+                  {/* <Category>휴대전화</Category>
+                  <InputForm>{data.contactor.contactorNumber}</InputForm> */}
                 </GridDiv>
               </ContentDiv>
               <hr />
@@ -118,7 +124,7 @@ const CompanyInfo = () => {
             </ContainerDiv>
             <ContainerDiv>
               <Title>
-                <h2>Contect</h2>
+                <h2>회사 설명</h2>
               </Title>
               <ContentDiv />
               <Description>
@@ -228,14 +234,14 @@ const InputForm = styled.div`
 
 const AddressForm = styled.div`
   border: none;
-  width: 220px;
+  width: max-content;
   height: 50px;
   border-radius: 100px;
   font-size: 20px;
   display: flex;
   align-items: center;
   margin-right: 30px;
-  padding-left: 24px;
+  padding: 0px 20px;
   font-weight: 700;
   background-color: #f3eeff;
 `;
@@ -361,7 +367,8 @@ export const InputLi = styled.li`
   margin-right: 60px;
   list-style: none;
   margin-left: -40px;
-  width: 150px;
+  padding: 0px 20px;
+  width: max-content;
   background-color: #f3eeff;
   border-radius: 100px;
   height: 50px;

@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { stateModal } from "../../../../redux/store/modal";
+import { value } from "../../../../redux/store/selectValue";
 import { useSelector } from "react-redux";
 import SelectModal from "./modal";
 import { CompanyData2, TitleData } from "../../../../export/data";
@@ -22,7 +23,7 @@ import LoadingPage from "../../../common/loading";
 import ErrorPage from "../../../common/error";
 const RequstResistration = () => {
   const modal = useSelector((state) => state.modal.state.modalrequest);
-  const Data = useSelector((stack) => stack.selectValue);
+  const Data = useSelector((stack) => stack.selectValue.state);
   const { status, data } = useQuery(["getInterviewData"], () =>
     InterviewProcess()
   );
@@ -30,12 +31,17 @@ const RequstResistration = () => {
   const [file, setFile] = useState([]);
   const [locate, setLocate] = useState({ set: 1, text: "" });
   const [mealState, setMealState] = useState(0);
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(0);
   const [special, setSpecial] = useState("");
-  const [dateState, setDateState] = useState({ startDate: "", endDate: "" });
+  const [dateState, setDateState] = useState({
+    startDate: new Date().toISOString().substring(0, 10),
+    endDate: "",
+  });
   const [, setReRender] = useState({});
   const [clockState, setClockState] = useState(false);
-  const [chulGeun, setChulGeun] = useState("");
+  const [chulGeun, setChulGeun] = useState(0);
+  const [today, setToday] = useState(0);
+  const [week, setWeek] = useState(0);
   const BokRef = useRef([]);
   const MealRef = useRef([]);
   const MoneyRef = useRef([]);
@@ -103,25 +109,42 @@ const RequstResistration = () => {
   );
   const submit = () => {
     let arr = [];
+    const Recruitment = {
+      smallClassificationList: [Data.smallClassification],
+      numberOfEmployee: parseInt(Data.numberOfEmployee),
+      detailBusinessDescription: Data.detailBusinessDescription,
+      gradeCutLine: parseInt(Data.gradeCutLine),
+      needCertificateList: Data.needCertificateList,
+      languageList: Data.languageList,
+      technologyList: Data.technologyList,
+    };
+    console.log(Recruitment);
+    console.log(data);
     for (let i = 0; i < admission.length; i++) {
       const find = (e) => {
-        // console.log(e.skill);
-        if (e.skill === admission) {
+        if (e.meaning === admission[i]) {
           return true;
         }
       };
-      arr.push(data[data.findIndex(find)].request);
+      console.log(data.findIndex(find));
+      arr.push(data[data.findIndex(find)].process);
     }
+    let qwer = {};
+    for (let key in arr) {
+      qwer[`${parseInt(key) + 1}`] = arr[key];
+    }
+    console.log(qwer);
+    console.log(Recruitment);
     let ad = {
       pay: {
-        fieldTrainingPayPerMonth: MoneyRef.current[0].value,
+        fieldTrainingPayPerMonth: parseInt(MoneyRef.current[0].value),
         fullTimeEmploymentPay: {
-          yearPayStart: MoneyRef.current[1].value,
-          yearPayEnd: MoneyRef.current[2].value,
+          yearPayStart: parseInt(MoneyRef.current[1].value),
+          yearPayEnd: parseInt(MoneyRef.current[2].value),
         },
       },
       mealSupport: {
-        mealSupportPay: mealState,
+        mealSupportPay: parseInt(mealState),
         breakfast: MealRef.current[0].checked,
         lunch: MealRef.current[1].checked,
         dinner: MealRef.current[2].checked,
@@ -137,12 +160,12 @@ const RequstResistration = () => {
         startDate: dateState.startDate,
         endDate: dateState.endDate,
       },
-      interviewProcessMap: arr,
+      interviewProcessMap: qwer,
       otherFeatures: special,
     };
-    if (clockState) {
+    if (!clockState) {
       ad = {
-        Data,
+        ...Recruitment,
         workTime: {
           isFlexible: true,
         },
@@ -150,9 +173,12 @@ const RequstResistration = () => {
       };
     } else {
       ad = {
-        Data,
+        ...Recruitment,
         workTime: {
-          untilCommuteStartTime: chulGeun,
+          commuteStartTime: chulGeun,
+          commuteEndTime: state,
+          workTimePerDay: today,
+          workTimePerWeek: week,
           isFlexible: false,
         },
         ...ad,
@@ -166,6 +192,7 @@ const RequstResistration = () => {
           isSameWithCompanyAddress: false,
           otherPlace: locate.text,
         },
+        isPersonalContact: false,
       };
     } else {
       as = {
@@ -173,9 +200,23 @@ const RequstResistration = () => {
         workPlace: {
           isSameWithCompanyAddress: true,
         },
+        isPersonalContact: false,
       };
     }
+    console.log(as);
     postNotice(file, as);
+    dispatch(
+      value({
+        bigClassification: "",
+        smallClassification: "",
+        numberOfEmployee: 0,
+        detailBusinessDescription: "",
+        gradeCutLine: 0,
+        needCertificateList: [],
+        languageList: [],
+        technologyList: [],
+      })
+    );
     navigate("/company/list");
   };
   return (
@@ -340,6 +381,7 @@ const RequstResistration = () => {
               <s.LiProps>
                 <s.InputMoney
                   type="text"
+                  value={mealState}
                   onInput={(e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
                     setMealState(e.target.value);
@@ -410,7 +452,7 @@ const RequstResistration = () => {
                 ></s.CheckInput>
               </s.LiProps>
               <s.LiProps>
-                <s.TenWon> &nbsp; &nbsp;고정 출근시간</s.TenWon>
+                <s.TenWon> &nbsp; &nbsp;고정 근무시간</s.TenWon>
               </s.LiProps>
               <s.LiProps>
                 <s.InputMoney
@@ -437,10 +479,52 @@ const RequstResistration = () => {
                 <s.InputMoney
                   type="text"
                   readOnly={!clockState}
-                  value={chulGeun}
+                  value={state}
                   onInput={(e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                    setChulGeun(e.target.value);
+                    setState(e.target.value);
+                  }}
+                ></s.InputMoney>
+              </s.LiProps>
+              <s.LiProps>
+                <s.TenWon width={51} left={20}>
+                  시
+                </s.TenWon>
+              </s.LiProps>
+            </s.UlDirectProps>
+            <s.UlDirectProps>
+              <s.LiProps>
+                <s.TenWon> &nbsp; &nbsp; 하루 근무시간</s.TenWon>
+              </s.LiProps>
+              <s.LiProps>
+                <s.InputMoney
+                  type="text"
+                  readOnly={!clockState}
+                  value={today}
+                  onInput={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    setToday(e.target.value);
+                  }}
+                ></s.InputMoney>
+              </s.LiProps>
+              <s.LiProps>
+                <s.TenWon width={51} left={20}>
+                  시
+                </s.TenWon>
+              </s.LiProps>
+            </s.UlDirectProps>
+            <s.UlDirectProps>
+              <s.LiProps>
+                <s.TenWon> &nbsp; &nbsp; 주당 근무시간</s.TenWon>
+              </s.LiProps>
+              <s.LiProps>
+                <s.InputMoney
+                  type="text"
+                  readOnly={!clockState}
+                  value={week}
+                  onInput={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    setWeek(e.target.value);
                   }}
                 ></s.InputMoney>
               </s.LiProps>
@@ -460,6 +544,7 @@ const RequstResistration = () => {
                   onClick={() => {
                     setClockState(false);
                     setChulGeun("");
+                    setState("");
                   }}
                 ></s.CheckInput>
               </s.LiProps>
@@ -487,6 +572,8 @@ const RequstResistration = () => {
                       endDate: dateState.endDate,
                     })
                   }
+                  value={dateState.startDate}
+                  min={new Date().toISOString().substring(0, 10)}
                 ></s.InputQualifi>
               </s.LiProps>
               <s.LiProps>
@@ -506,6 +593,7 @@ const RequstResistration = () => {
                       endDate: e.target.value,
                     })
                   }
+                  min={dateState.startDate}
                 ></s.InputQualifi>
               </s.LiProps>
             </s.DailyUl>

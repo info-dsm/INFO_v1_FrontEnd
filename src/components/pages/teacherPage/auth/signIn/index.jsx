@@ -9,7 +9,7 @@ import { PostReissue } from "../../../../api/reisue";
 const TeacherSignIn = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    email: "",
+    email: localStorage.getItem("key"),
     password: "",
   });
 
@@ -51,8 +51,10 @@ const TeacherSignIn = () => {
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${accessToken}`;
+          console.log(res);
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("refreshToken", refreshToken);
+          localStorage.setItem("key", data.email);
           setTimeout(() => {
             PostReissue();
           }, 171800000);
@@ -65,7 +67,7 @@ const TeacherSignIn = () => {
             navigate("/teacher");
           });
         })
-        .catch(() => {
+        .catch((err) => {
           Alert({
             state: "error",
             message: "이메일이나 비밀번호를 다시 확인해주세요.",
@@ -105,6 +107,7 @@ const TeacherSignIn = () => {
                   <input
                     placeholder={item.placeholder}
                     onChange={(e) => changeInput(e, item.key)}
+                    value={data[item.key]}
                     type={
                       item.name.substring(0, 4) === "비밀번호"
                         ? "password"

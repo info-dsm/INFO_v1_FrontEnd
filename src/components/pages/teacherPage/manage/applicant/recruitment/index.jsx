@@ -1,74 +1,87 @@
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { TitleData } from "../../../../../../export/data";
-const Recruitment = ({ data }) => {
+import { getNoticeItem } from "../../../../../api/teacher";
+const Recruitment = ({ Data }) => {
+  const { status, data } = getNoticeItem(Data.noticeId);
   return (
     <>
-      <BoxPropsUl>
-        <BoxPropsLi>
-          <UlSubTitle>
-            {TitleData.map((user) => (
-              <>
-                <LiSubTitle width={user.width} margin={user.margin}>
-                  {user.data}
-                </LiSubTitle>
-                <LiSubTitle width={user.width} margin={user.margin}>
-                  {user.data1}
-                </LiSubTitle>
-              </>
-            ))}
-          </UlSubTitle>
-          <UlContent>
-            <LiContent width={212}>
-              {
-                data.classificationResponse.bigClassification
-                  .bigClassificationName
-              }
-            </LiContent>
-            <LiContent width={167}>
-              {data.classificationResponse.name}
-            </LiContent>
-            <LiContent width={191}>{data.numberOfEmployee}</LiContent>
-            <LiContent width={566}>{data.detailBusinessDescription}</LiContent>
-          </UlContent>
-          <SubTitle>필요언어</SubTitle>
-          <EssentialUl>
-            {data.languageList.map((user) => (
-              <EssentialLi>
-                <ButtonProps>{user.languageName}</ButtonProps>
-              </EssentialLi>
-            ))}
-          </EssentialUl>
-          <GradeUl>
-            <li>
-              <SubTitle>기타기술</SubTitle>
-            </li>
-            <li>
-              <GradesUl>
-                <AsdfProps>성적(커트라인)</AsdfProps>
-                <GradesLi>
-                  상위 {data.gradeCutLine}
-                  %이내
-                </GradesLi>
-              </GradesUl>
-            </li>
-          </GradeUl>
-          <EssentialUl>
-            {data.technologyList.map((user) => (
-              <EssentialLi>
-                <ButtonProps>{user.technologyName}</ButtonProps>
-              </EssentialLi>
-            ))}
-          </EssentialUl>
-          <SubTitle>국가자격증</SubTitle>
-          <EssentialUl>
-            {data.certificateList.map((user) => (
-              <EssentialLi>
-                <ButtonProps>{user.certificateName}</ButtonProps>
-              </EssentialLi>
-            ))}
-          </EssentialUl>
-        </BoxPropsLi>
-      </BoxPropsUl>
+      {status === "loading" ? (
+        <></>
+      ) : status === "error" ? (
+        <></>
+      ) : (
+        <>
+          <BoxPropsUl>
+            <BoxPropsLi>
+              <UlSubTitle>
+                {TitleData.map((user) => (
+                  <>
+                    <LiSubTitle width={user.width} margin={user.margin}>
+                      {user.data}
+                    </LiSubTitle>
+                    <LiSubTitle width={user.width} margin={user.margin}>
+                      {user.data1}
+                    </LiSubTitle>
+                  </>
+                ))}
+              </UlSubTitle>
+              <UlContent>
+                <LiContent width={212}>
+                  {
+                    data.classificationResponse[0].bigClassification
+                      .bigClassificationName
+                  }
+                </LiContent>
+                <LiContent width={167}>
+                  {data.classificationResponse[0].name}
+                </LiContent>
+                <LiContent width={191}>{data.numberOfEmployee}</LiContent>
+                <LiContent width={566}>
+                  {data.detailBusinessDescription}
+                </LiContent>
+              </UlContent>
+              <SubTitle>필요언어</SubTitle>
+              <EssentialUl>
+                {data.languageList.map((user) => (
+                  <EssentialLi>
+                    <ButtonProps>{user.languageName}</ButtonProps>
+                  </EssentialLi>
+                ))}
+              </EssentialUl>
+              <GradeUl>
+                <li>
+                  <SubTitle>기타기술</SubTitle>
+                </li>
+                <li>
+                  <GradesUl>
+                    <AsdfProps>성적(커트라인)</AsdfProps>
+                    <GradesLi>
+                      상위 {data.gradeCutLine}
+                      %이내
+                    </GradesLi>
+                  </GradesUl>
+                </li>
+              </GradeUl>
+              <EssentialUl>
+                {data.technologyList.map((user) => (
+                  <EssentialLi>
+                    <ButtonProps>{user.technologyName}</ButtonProps>
+                  </EssentialLi>
+                ))}
+              </EssentialUl>
+              <SubTitle>국가자격증</SubTitle>
+              <EssentialUl>
+                {data.certificateList.map((user) => (
+                  <EssentialLi>
+                    <ButtonProps>{user.certificateName}</ButtonProps>
+                  </EssentialLi>
+                ))}
+              </EssentialUl>
+            </BoxPropsLi>
+          </BoxPropsUl>
+        </>
+      )}
     </>
   );
 };

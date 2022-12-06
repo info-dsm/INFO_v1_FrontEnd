@@ -441,7 +441,7 @@ export const DailyUl = styled.ul`
 export const UlAddmision = styled.ul`
   position: relative;
   margin-top: 60px;
-  width: 1036px;
+  width: 936px;
   height: auto;
   display: flex;
   flex-wrap: wrap;

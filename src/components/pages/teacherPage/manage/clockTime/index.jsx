@@ -10,23 +10,22 @@ const ClockWork = ({ data }) => {
       {data.isFlexible ? (
         <>
           <s.LiProps>
-            <s.TenWon>유연 근무제</s.TenWon>
+            <s.TenWon left={40}>유연 근무제</s.TenWon>
           </s.LiProps>
+        </>
+      ) : data?.workTimePerDay === undefined ? (
+        <>
+          <div>설정된 근무 시간이 없습니다.</div>
         </>
       ) : (
         <>
           <s.UlDirectProps>
             <s.LiProps>
-              <s.TenWon>고정 출근시간</s.TenWon>
+              <s.ClockText>기본 근무시간</s.ClockText>
             </s.LiProps>
             <s.LiProps>
               <s.TenWon width={51} left={20}>
-                시
-              </s.TenWon>
-            </s.LiProps>
-            <s.LiProps>
-              <s.TenWon width={51} left={20}>
-                시
+                {data.commuteStartTime}시
               </s.TenWon>
             </s.LiProps>
             <s.LiProps>
@@ -39,7 +38,27 @@ const ClockWork = ({ data }) => {
             </s.LiProps>
             <s.LiProps>
               <s.TenWon width={51} left={20}>
-                시
+                {data.commuteEndTime}시
+              </s.TenWon>
+            </s.LiProps>
+          </s.UlDirectProps>
+          <s.UlDirectProps>
+            <s.LiProps>
+              <s.ClockText>하루 근무시간</s.ClockText>
+            </s.LiProps>
+            <s.LiProps>
+              <s.TenWon width={51} left={20}>
+                {data.workTimePerDay}시
+              </s.TenWon>
+            </s.LiProps>
+          </s.UlDirectProps>
+          <s.UlDirectProps>
+            <s.LiProps>
+              <s.ClockText>주당 근무시간</s.ClockText>
+            </s.LiProps>
+            <s.LiProps>
+              <s.TenWon width={51} left={20}>
+                {data.workTimePerWeek}시
               </s.TenWon>
             </s.LiProps>
           </s.UlDirectProps>

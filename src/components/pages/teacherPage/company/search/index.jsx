@@ -1,28 +1,71 @@
 import { useParams } from "react-router-dom";
-import { getCompanyInfo, getCompanyName } from "../../../../api/teacher";
+import {
+  getCompanyInfo,
+  getCompanyName,
+  getSearchCompanyRequest,
+} from "../../../../api/teacher";
 import ErrorPage from "../../../../common/error";
 import LoadingPage from "../../../../common/loading";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Header from "../../../../common/header";
 import { ArrowBack } from "../../../../../images";
 import { StyledLink } from "../../../../../style/theme";
 import { useQueryClient } from "@tanstack/react-query";
 import NavProps from "../../../../common/nav";
 import { TeacherData } from "../../../../../export/data";
+import { useNavigate } from "react-router-dom";
 const SearchProps = () => {
+  const navigate = useNavigate();
   const { companyId } = useParams();
-  const [state, setState] = useState(companyId);
   const InputRef = useRef();
+  const [arr, setArr] = useState([]);
   const queryClient = useQueryClient();
-  const { status, data } = getCompanyName(state);
-  const GetCompany = useCallback(() => {
-    setState(InputRef.current.value);
-  }, []);
+  const [count, setCount] = useState(0);
+  const { status, data } = getCompanyName(companyId);
   const PreFetching = async (id) => {
-    queryClient.prefetchQuery(["companyInfo", id], () => getCompanyInfo(id));
+    queryClient.prefetchQuery(["companyInfo", id, count], () =>
+      getCompanyInfo(id, count)
+    );
   };
+
+  useEffect(() => {
+    if (data?.totalPages > 5) {
+      if (data.totalPages % 5 !== 0) {
+        if (parseInt(count / 5) === parseInt(data.totalPages / 5)) {
+          const asd = parseInt(data.totalPages % 5);
+          let aq = new Array(asd).fill(0);
+          for (let i = 0; i < asd; i++) {
+            aq[i] = 5 * (asd + 1) + 1 + i;
+          }
+          setArr(aq);
+        }
+      }
+      if (count % 5 === 0 && count / 5 < data.totalPages / 5 - 1) {
+        setArr([count + 1, count + 2, count + 3, count + 4, count + 5]);
+      } else if (count % 5 === 4) {
+        setArr([count - 3, count - 2, count - 1, count, count + 1]);
+      }
+    } else if (data?.totalPages) {
+      console.log(data.totalPages);
+      let ad = new Array(data?.totalPages).fill(0);
+      for (let i = 0; i < data.totalPages; i++) {
+        ad[i] = i + 1;
+      }
+      setArr(ad);
+    }
+  }, [count, data]);
+  useEffect(() => {
+    if (data?.last && data.totalPages - 1 > count) {
+      queryClient.prefetchQuery(["list", count + 1], () =>
+        getSearchCompanyRequest(count + 1)
+      );
+    }
+  }, [data, count, queryClient]);
+  const Click = useCallback((e) => {
+    setCount(e);
+  }, []);
   return (
     <>
       {status === "loading" ? (
@@ -38,28 +81,42 @@ const SearchProps = () => {
           <NavProps props={TeacherData} idx={0} />
 
           <SearchDiv>
-            <Search placeholder="회사이름" ref={InputRef} />
-            <SearchButton onClick={() => GetCompany()}>검색</SearchButton>
+            <Search
+              placeholder="회사이름"
+              ref={InputRef}
+              onKeyDown={(e) => {
+                if (e.key === "Enter")
+                  navigate(`/teacher/company/${InputRef.current.value}`);
+              }}
+            />
+            <SearchButton
+              onClick={() =>
+                navigate(`/teacher/company/${InputRef.current.value}`)
+              }
+            >
+              검색
+            </SearchButton>
           </SearchDiv>
 
           <Ulbox>
             <Libox>
               <DivText>
-                <span>{state}</span>의 검색결과입니다.
+                <span>{companyId}</span>의 검색결과입니다.
               </DivText>
             </Libox>
             {data.content.map((user, i) => (
               <Libox>
                 <Box>
-                  <Title>{user.companyId}</Title>
+                  <Title>{i + 1}</Title>
                   <ImgDiv>
                     <Img
-                      src={user.companyIntroductionResponse.companyLogo.fileUrl}
-                      alt="잉기모링"
+                      src={
+                        user.companyIntroductionResponse.companyLogo?.fileUrl
+                      }
+                      alt="noneimage"
                       style={{ width: "50px", height: "50px" }}
                     />
                   </ImgDiv>
-
                   <Category>
                     <div>{user.companyName}</div>
                     <div>회사명</div>
@@ -68,9 +125,9 @@ const SearchProps = () => {
                     <div>email</div>
                     <div>{user.contactorEmail}</div>
                   </Category>
-                  <StyledLink to={`/teacher/company/${user.companyId}`}>
+                  <StyledLink to={`/teacher/company/${user.companyNumber}`}>
                     <ButtonProps
-                      onMouseDown={() => PreFetching(user.companyId)}
+                      onMouseDown={() => PreFetching(user.companyNumber)}
                     >
                       자세히보기
                     </ButtonProps>
@@ -79,6 +136,48 @@ const SearchProps = () => {
               </Libox>
             ))}
           </Ulbox>
+          <Ul top={100 * (8 - data.content.length) + 50}>
+            <Li>
+              <Button onClick={() => setCount(0)}>First Page</Button>
+            </Li>
+            <Li>
+              <Text
+                onClick={() => {
+                  if (count > 4) {
+                    setCount((parseInt(count / 5) - 1) * 5 + 4);
+                  }
+                }}
+              >
+                &lt;
+              </Text>
+            </Li>
+            {arr.map((item) => (
+              <Li id={item} onClick={() => Click(item - 1)}>
+                <Text state={item === count + 1}>{item}</Text>
+              </Li>
+            ))}
+            <Li>
+              <Text
+                onClick={() => {
+                  if (
+                    data.totalPages % 5 === 0
+                      ? data.totalPages / 5 + 1 !== parseInt(count / 5) + 1
+                      : parseInt(data.totalPages / 5) + 1 !==
+                        parseInt(count / 5) + 1
+                  ) {
+                    setCount((parseInt(count / 5) + 1) * 5);
+                  }
+                }}
+              >
+                &gt;
+              </Text>
+            </Li>
+            <Li>
+              <Button onClick={() => setCount(data.totalPages - 1)}>
+                Last Page
+              </Button>
+            </Li>
+          </Ul>
         </>
       )}
     </>
@@ -92,6 +191,7 @@ const ImgDiv = styled.div`
   margin-right: 40px;
 `;
 const Img = styled.img`
+  object-fit: contain;
   width: 60px;
   height: 60px;
 `;
@@ -193,4 +293,44 @@ const DivText = styled.div`
   span {
     color: ${(props) => props.theme.colors.blue};
   }
+`;
+const Li = styled.li`
+  margin-left: -40px;
+`;
+const Text = styled.div`
+  position: relative;
+  font: 700 normal 23px "Roboto";
+  color: ${(props) => props.theme.colors.black};
+  width: 60px;
+  height: 60px;
+  padding-top: 15px;
+  text-align: center;
+  background-color: ${(props) =>
+    props.state ? props.theme.colors.blue : props.theme.colors.white};
+  cursor: pointer;
+  border-radius: 100%;
+  :hover {
+    background-color: ${(props) => props.theme.colors.blue};
+    border-radius: 100%;
+  }
+`;
+const Button = styled.div`
+  width: 160px;
+  height: 60px;
+  border-radius: 100px;
+  background-color: ${(props) => props.theme.colors.blue};
+  color: ${(props) => props.theme.colors.white};
+  text-align: center;
+  padding-top: 17px;
+  cursor: pointer;
+`;
+const Ul = styled.ul`
+  position: relative;
+  top: ${(props) => props.top}px;
+  width: 836px;
+  height: 60px;
+  list-style-type: none;
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
 `;
