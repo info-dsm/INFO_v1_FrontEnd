@@ -12,9 +12,9 @@ import LoadingPage from "../../../common/loading";
 import ErrorPage from "../../../common/error";
 import { useNavigate } from "react-router-dom";
 import { initialCompany, initialNotice } from "../../../../export/data.js";
+import mainPageDeco from "../../../../images/mainPageDeco.png";
 const MainView = () => {
   const accessToken = sessionStorage.getItem("accessToken");
-
   const { status, data } = useQuery(["mainData", accessToken], async () => {
     let res = [{}, {}];
     await axios
@@ -48,20 +48,20 @@ const MainView = () => {
             res1.data.message === "프레임워크 내부적인 오류가 발생했습니다." ||
             res2.data.message === "프레임워크 내부적인 오류가 발생했습니다."
           ) {
-            res = [initialNotice, initialCompany];
+            res = [initialNotice.content[0], initialCompany.content[0]];
           } else {
             if (res1.data.content[0] !== undefined)
               res[0] = res1.data.content[0];
-            else res[0] = initialNotice;
+            else res[0] = initialNotice.content[0];
 
             if (res2.data.content[0] !== undefined)
               res[1] = res2.data.content[0];
-            else res[1] = initialCompany;
+            else res[1] = initialCompany.content[0];
           }
         })
       )
       .catch(() => {
-        res = [initialNotice, initialCompany];
+        res = [initialNotice.content[0], initialCompany.content[0]];
       });
     return res;
   });
@@ -78,13 +78,19 @@ const MainView = () => {
         </>
       ) : (
         <>
+          <Deco src={mainPageDeco} alt="" />
           <Header />
           <Triangle_box>
             <Triangle />
           </Triangle_box>
           <Center>
             <Content>
-              <CA_View CA_data={data[0]} detail={false} />
+              <CA_View
+                height={"900px"}
+                CA_data={data[0]}
+                detail={false}
+                idx={0}
+              />
               <div
                 style={{
                   height: "500px",
@@ -107,7 +113,7 @@ const MainView = () => {
                   top="50px"
                 />
               </div>
-              <IC_View IC_data={data[1]} />
+              <IC_View IC_data={data[1]} idx={0} />
             </Content>
           </Center>
           <SubImg />
@@ -119,6 +125,13 @@ const MainView = () => {
 
 export default MainView;
 
+const Deco = styled.img`
+  width: 65%;
+  position: absolute;
+  top: 900px;
+  left: 300px;
+`;
+
 const Sub_Title = ({ text, button, color, top }) => {
   const navigate = useNavigate();
   return (
@@ -129,8 +142,8 @@ const Sub_Title = ({ text, button, color, top }) => {
       <Page_moving_btn
         width="200px"
         onClick={() => {
-          if (button === "모집공고") navigate("/student/notice");
-          else navigate("/student/company");
+          if (button === "모집공고") navigate("/student/notice/#main");
+          else navigate("/student/company/#main");
         }}
       >
         {button}

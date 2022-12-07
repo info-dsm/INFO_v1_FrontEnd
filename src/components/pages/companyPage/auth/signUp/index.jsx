@@ -120,11 +120,11 @@ const CompanySignUp = () => {
       companyInformation: {
         homeAddress: {
           fullAddress: homeFullAddress,
-          addressNumber: parseInt(homeAddressNumber),
+          addressNumber: homeAddressNumber,
         },
         agentAddress: {
           fullAddress: agentFullAddress,
-          addressNumber: parseInt(agentAddressNumber),
+          addressNumber: agentAddressNumber,
         },
         representativeName: representative,
         establishedAt: parseInt(establishedAt),
@@ -158,7 +158,6 @@ const CompanySignUp = () => {
     }
 
     console.log(body);
-
     if (
       success.checkSuccess &&
       success.passwordSuccess &&
@@ -179,7 +178,10 @@ const CompanySignUp = () => {
       axios({
         url: BaseUrl + "/company/signup",
         method: "POST",
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
         data: formData,
         params: {
           emailCheckCode: emailCheckCode,
@@ -219,7 +221,6 @@ const CompanySignUp = () => {
         title={"기업 등록"}
         description={"채용 의뢰 전, 회사를 등록해주세요!"}
       />
-
       {/* <NavProps props={CompanyData} idx={0} /> */}
       <S.MainDiv>
         <S.ContainerDiv>

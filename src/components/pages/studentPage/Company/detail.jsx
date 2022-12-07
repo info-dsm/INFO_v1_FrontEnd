@@ -3,15 +3,25 @@ import styled from "styled-components";
 import axios from "axios";
 import { BaseUrl } from "../../../../export/base.js";
 import chack from "../../../../images/chack.png";
-import { Page_moving_btn, Image, Search_bar } from "../styled.jsx";
+import { Page_moving_btn, Image, Search_bar, Sortation } from "../styled.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../../common/header/index.jsx";
 import LoadingPage from "../../../common/loading/index.jsx";
-import { initialCompanyDetail } from "../../../../export/data.js";
+import {
+  initialCompany,
+  initialCompanyDetail,
+  initialNotice,
+} from "../../../../export/data.js";
+import NoticeModal from "../NoticeModal.jsx";
 
 const CompanyDetailView = () => {
   const { id } = useParams();
   const [data, setData] = useState();
+  // const comInfo = initialCompany.content[parseInt(id)];
+  const [noticeID, setNoticeID] = useState({
+    id: "",
+    company: "",
+  });
   const [IC_data, set_IC_data] = useState([
     { title: "사업자 번호", data: "000-00-00000" },
     { title: "설립 일자", data: "0000년 00월 00일" },
@@ -22,6 +32,8 @@ const CompanyDetailView = () => {
     { title: "본사 주소", data: "우리은하 태양계 지구행성 어딘가" },
     { title: "지점 주소", data: "리은하 태양계 지구행성 어딘가" },
   ]);
+  // const notice = initialNotice.content[id];
+  const [notice, setNotice] = useState();
   const [imgArr, setImgArr] = useState([
     {
       fileId: "string",
@@ -80,26 +92,48 @@ const CompanyDetailView = () => {
     })
       .then((res) => {
         if (res.data.message !== "프레임워크 내부적인 오류가 발생했습니다.") {
+          console.log(res.data);
           settingData(res.data);
         } else {
           settingData(initialCompanyDetail);
         }
       })
-      .catch(() => {
-        settingData(initialCompanyDetail);
+      .catch((err) => {
+        // settingData(initialCompany.content[id]);
+        // settingData(initialCompanyDetail);
+        // navigate(-1);
+      });
+
+    axios({
+      url: BaseUrl + `notice/list/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.data.message !== "프레임워크 내부적인 오류가 발생했습니다.") {
+          if (res.data.content[0] === undefined) {
+            setNotice(initialNotice);
+          } else setNotice(res.data);
+        } else {
+          setNotice(initialNotice);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setNotice(initialNotice);
         // navigate(-1);
       });
   };
 
   const settingData = (res) => {
+    console.log(res);
     setData(res);
     setImgArr(res.companyIntroductionResponse.companyPhotoList);
     set_IC_data([
       { title: "사업자 번호", data: res.companyNumber },
-      {
-        title: "설립 일자",
-        data: res.companyInformation.establishedAt,
-      },
       { title: "E-mail", data: res.contactor.email },
       {
         title: "근로자 수",
@@ -109,16 +143,32 @@ const CompanyDetailView = () => {
         title: "연 매출액",
         data: res.companyInformation.annualSales,
       },
-      { title: "사업 분야", data: res.businessTagged },
+      {
+        title: "사업 분야",
+        data: res.businessTagged,
+      },
       {
         title: "본사 주소",
-        data: res.companyInformation.homeAddressInfo.fullAddress,
-      },
-      {
-        title: "지점 주소",
-        data: res.companyInformation.agentAddress.fullAddress,
+        data: res.companyInformation.homeAddress.fullAddress,
       },
     ]);
+    // set_IC_data([
+    //   { title: "사업자 번호", data: res.companyNumber },
+    //   { title: "E-mail", data: res.contactorEmail },
+    //   {
+    //     title: "근로자 수",
+    //     data: res.workerCount,
+    //   },
+    //   {
+    //     title: "연 매출액",
+    //     data: res.annualSales,
+    //   },
+    //   { title: "사업 분야", data: res.businessTagged },
+    //   {
+    //     title: "본사 주소",
+    //     data: res.homeAddressInfo.fullAddress,
+    //   },
+    // ]);
   };
 
   useEffect(() => {
@@ -127,6 +177,12 @@ const CompanyDetailView = () => {
 
   return (
     <>
+      <Sortation id="main">ㅤ</Sortation>
+      {noticeID.id !== "" ? (
+        <NoticeModal datum={noticeID} setNoticeID={setNoticeID} />
+      ) : (
+        <></>
+      )}
       {data ? (
         <>
           <Header title={data.companyName} description={data.companyNumber} />
@@ -135,7 +191,7 @@ const CompanyDetailView = () => {
               <Image
                 width="500px"
                 height="400px"
-                alt={imgArr[0].fileName}
+                alt=""
                 src={imgArr[0].fileUrl}
               />
               <Explanation>
@@ -144,7 +200,12 @@ const CompanyDetailView = () => {
                     width="85px"
                     height="85px"
                     alt="로고 이미지"
-                    src={data.companyIntroductionResponse.companyLogo.fileUrl}
+                    src={
+                      data.companyIntroductionResponse.companyLogo
+                        ? data.companyIntroductionResponse.companyLogo.fileUrl
+                        : data.companyIntroductionResponse.companyPhotoList[0]
+                            .fileUrl
+                    }
                   />
                   <Header_Title_box>
                     <Header_title>{data.companyName}</Header_title>
@@ -177,7 +238,6 @@ const CompanyDetailView = () => {
                       ...imgArr.filter((item, i) => i !== 0),
                       imgArr[0],
                     ]);
-                    console.log(imgArr);
                   }}
                 >
                   <div />
@@ -192,7 +252,7 @@ const CompanyDetailView = () => {
                     {typeof data.data === "object" ? (
                       <>
                         {data.data.map((str) => (
-                          <td>{str.name}</td>
+                          <td>{str.id}</td>
                         ))}
                       </>
                     ) : (
@@ -202,30 +262,39 @@ const CompanyDetailView = () => {
                 ))}
               </tbody>
             </Table>
-            <Flex_box width="936px" justify="space-between" align="flex-end">
+            {/* <Flex_box width="936px" justify="space-between" align="flex-end">
               <Sub_title>모집공고</Sub_title>
               <Sub_text>
                 <span>마지막 모집공고</span>
                 <span>2022년</span>
               </Sub_text>
-            </Flex_box>
-            <App_out_box>
-              <div>
-                <App_box>
-                  <div>
-                    <span>특기사항</span>
+            </Flex_box> */}
+            {/* <App_out_box>
+              {notice.content.map((item) => (
+                <a
+                  href="#main"
+                  onClick={() => {
+                    setNoticeID({
+                      id: item.noticeId,
+                      company: data,
+                      CA_data: item,
+                    });
+                  }}
+                >
+                  <App_box>
+                    <div>
+                      <span>특기사항</span>
+                      <span>{item.detailBusinessDescription}</span>
+                    </div>
                     <span>
-                      프론트엔드 뽑고 있습니다.
+                      <span>인원 수</span>
+                      <span>5명</span>
                     </span>
-                  </div>
-                  <span>
-                    <span>인원 수</span>
-                    <span>5명</span>
-                  </span>
-                </App_box>
-              </div>
+                  </App_box>
+                </a>
+              ))} */}
               {/* <Page_moving_btn width="896px">더 알아보기</Page_moving_btn> */}
-            </App_out_box>
+            {/* </App_out_box> */}
             <Flex_box width="936px" justify="flex-start" align="flex-end">
               <Sub_title>면접 후기</Sub_title>
             </Flex_box>
@@ -233,9 +302,13 @@ const CompanyDetailView = () => {
               <div>
                 <Interview_box>
                   <div>
-                    <img src="https://avatars.githubusercontent.com/u/80964727?v=4" alt="" />
+                    <img
+                      src="https://avatars.githubusercontent.com/u/80964727?v=4"
+                      alt=""
+                    />
                     <span>
-                      면접 내내 직원들이 정말 상냥하고 편하게 대해주셔서 정말 뜻깊은 시간이었던 것 같아요!
+                      면접 내내 직원들이 정말 상냥하고 편하게 대해주셔서 정말
+                      뜻깊은 시간이었던 것 같아요!
                     </span>
                   </div>
                   <span>
@@ -289,6 +362,9 @@ const Header_out_box = styled.div`
   width: auto;
   height: 85px;
   display: flex;
+  img {
+    object-fit: contain;
+  }
 `;
 
 const Header_Title_box = styled.div`
@@ -463,6 +539,12 @@ const Sub_text = styled.div`
 `;
 
 const App_out_box = styled.div`
+  overflow-y: scroll;
+  overflow-x: hidden;
+  a {
+    text-decoration: none;
+    color: #000;
+  }
   width: 936px;
   height: ${(props) => props.height || "400px"};
   padding: 20px;
@@ -476,21 +558,6 @@ const App_out_box = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-
-    overflow: hidden;
-    overflow: scroll;
-    overflow-x: hidden;
-
-    &::-webkit-scrollbar {
-      background-color: #fff;
-      border-radius: 100px;
-      width: 14px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: ${(props) => props.theme.colors.blue};
-      border-radius: 3px;
-      width: 14px;
-    }
   }
 `;
 

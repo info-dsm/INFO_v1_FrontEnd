@@ -6,7 +6,7 @@ export const Page_moving_btn = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  text-decoration:none;
+  text-decoration: none;
   background: #4000ff;
   font-weight: 600;
   font-size: 18px;
@@ -21,6 +21,11 @@ export const Page_moving_btn = styled.a`
   &:hover {
     transform: scale(1.03);
   }
+`;
+
+export const Sortation = styled.div`
+  position: absolute;
+  top: 0;
 `;
 
 export const Image = styled.img.attrs({
