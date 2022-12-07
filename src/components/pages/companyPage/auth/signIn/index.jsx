@@ -11,7 +11,7 @@ import { PostReissue } from "../../../../api/reisue";
 const CompanySignIn = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    companyNumber: "",
+    companyNumber: localStorage.getItem("companyNumber"),
     password: "",
   });
   const [hint, setHint] = useState({ str: "", show: false });
@@ -19,9 +19,9 @@ const CompanySignIn = () => {
   const str = [
     {
       name: "사업자번호",
-      additionalElm: "기업 조회",
+      additionalElm: "",
       placeholder: "ex) 000-00-00000",
-      check: "inquiry",
+      check: "",
       func: () => {
         getPasswordHint();
       },
@@ -37,60 +37,54 @@ const CompanySignIn = () => {
     },
   ];
 
-  const [success, setSuccess] = useState({
-    inquiry: "",
-  });
+  const [success, setSuccess] = useState({});
 
   const changeInput = (e, props) => {
     setData({ ...data, [props]: e.target.value });
   };
 
   const submit = () => {
-    if (Object.values(success).includes(true)) {
-      if (!Object.values(data).includes("")) {
-        axios({
-          url: BaseUrl + "/auth/login/company",
-          method: "post",
-          data: {
-            companyNumber: data.companyNumber,
-            password: data.password,
-          },
-        })
-          .then((res) => {
-            const { accessToken, refreshToken } = res.data;
-            axios.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${accessToken}`;
-            sessionStorage.setItem("accessToken", accessToken);
-            sessionStorage.setItem("refreshToken", refreshToken);
-            setTimeout(() => {
-              PostReissue();
-            }, 171800000);
-            clearTimeout();
-            Alert({
-              state: "success",
-              message: "성공적으로 로그인되었습니다.",
-            }).then(() => {
-              // url 이동
-              navigate("/company/list");
-            });
-          })
-          .catch(() => {
-            Alert({
-              state: "error",
-              message: "사업자번호나 비밀번호를 확인해주세요.",
-            });
+    if (!Object.values(data).includes("")) {
+      axios({
+        url: BaseUrl + "/auth/login/company",
+        method: "post",
+        data: {
+          companyNumber: data.companyNumber,
+          password: data.password,
+        },
+      })
+        .then((res) => {
+          const { accessToken, refreshToken } = res.data;
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+          console.log(res);
+          localStorage.setItem("companyNumber", data.companyNumber);
+          sessionStorage.setItem("accessToken", accessToken);
+          sessionStorage.setItem("refreshToken", refreshToken);
+          setTimeout(() => {
+            PostReissue();
+          }, 171800000);
+          clearTimeout();
+          Alert({
+            state: "success",
+            message: "성공적으로 로그인되었습니다.",
+          }).then(() => {
+            // url 이동
+            navigate("/company/list");
           });
-      } else {
-        Notice({
-          state: "error",
-          message: "내용을 모두 입력해주세요",
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert({
+            state: "error",
+            message: "사업자번호나 비밀번호를 확인해주세요.",
+          });
         });
-      }
     } else {
       Notice({
         state: "error",
-        message: "기업을 조회해주세요",
+        message: "내용을 모두 입력해주세요",
       });
     }
   };
@@ -164,6 +158,7 @@ const CompanySignIn = () => {
                   <input
                     placeholder={item.placeholder}
                     onChange={(e) => changeInput(e, item.key)}
+                    value={data[item.key]}
                     type={
                       item.name.substring(0, 4) === "비밀번호"
                         ? "password"

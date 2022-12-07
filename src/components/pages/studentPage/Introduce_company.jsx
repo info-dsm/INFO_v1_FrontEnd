@@ -4,7 +4,7 @@ import { Page_moving_btn, Image } from "./styled.jsx";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-const IC_View = ({ IC_data }) => {
+const IC_View = ({ IC_data, idx }) => {
   console.log(IC_data);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -22,7 +22,10 @@ const IC_View = ({ IC_data }) => {
         IC_data.companyIntroductionResponse.companyPhotoList[0] !== {} &&
         IC_data.companyIntroductionResponse.companyPhotoList[0] !== undefined &&
         IC_data.companyIntroductionResponse.companyPhotoList[0] !== null
-          ? IC_data.companyIntroductionResponse.companyPhotoList[0].fileUrl
+          ? IC_data.companyIntroductionResponse.companyPhotoList[0].fileUrl ===
+            "https://cdn.discordapp.com/attachments/872481713949917228/1048056364045443162/image.png"
+            ? "https://cdn.discordapp.com/attachments/872481713949917228/1047896135374741565/image.png"
+            : IC_data.companyIntroductionResponse.companyPhotoList[0].fileUrl
           : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png",
       text:
         IC_data.companyIntroductionResponse.introduction ||
@@ -80,6 +83,7 @@ const IC_View = ({ IC_data }) => {
         <Page_moving_btn
           width="400px"
           onClick={() => navigate("/student/company/" + IC_data.companyNumber)}
+          // onClick={() => navigate("/student/company/" + idx)}
         >
           자세히 보기
         </Page_moving_btn>
@@ -120,7 +124,7 @@ const IC_box = styled.div`
   margin: 0 25px 100px 25px;
   position: relative;
   img {
-    object-fit: contain;
+    object-fit: cover;
   }
 `;
 
@@ -152,7 +156,7 @@ const IC_sub_title = styled.span`
 
 const Introduce_box = styled.span`
   width: 400px;
-  height: 60px;
+  height: 54px;
   font-weight: 400;
   font-size: 16px;
   line-height: 160%;

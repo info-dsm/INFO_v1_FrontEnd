@@ -4,193 +4,243 @@ import axios from "axios";
 import { BaseUrl } from "../../../../export/base.js";
 import IC_View from "../Introduce_company.jsx";
 import Header from "../../../common/header/index.jsx";
-import { useNavigate } from "react-router-dom";
 import { initialCompany } from "../../../../export/data.js";
-
+import companyDeco from "../../../../images/companyDeco.png";
+import { Sortation } from "../styled.jsx";
+import { useQuery } from "@tanstack/react-query";
 const CompanyView = () => {
   const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(1);
-  const [IC_data, set_IC] = useState();
-
+  const [maxPage, setMaxPage] = useState([1]);
   const [search_string, set_search] = useState("");
-  const navigate = useNavigate();
-
-  const load_companys = () => {
-    if (search_string === "") {
-      axios({
-        method: "get",
-        url: BaseUrl + "/company/list/",
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-        },
-        params: {
-          size: 4,
-          idx: page - 1,
-        },
-      })
-        .then((res) => {
-          if (res.data.message !== "프레임워크 내부적인 오류가 발생했습니다.") {
-            set_IC(res.data);
-            setMaxPage(res.data.totalPages);
-          } else {
-            set_IC({ content: [initialCompany] });
-          }
-        })
-        .catch((err) => {
-          set_IC(initialCompany);
-          setMaxPage(initialCompany.totalPages);
-          console.log(initialCompany);
-        });
-    } else {
-      // axios({
-      //   method: "get",
-      //   url: BaseUrl + "/company/search",
-      //   headers: {
-      //     Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-      //   },
-      //   params: {
-      //     query: search_string,
-      //   },
-      // })
-      //   .then((res) => {
-      //     set_IC(res.data.content);
-      //     setMaxPage(res.data.totalPages);
-      //   })
-      //   .catch(() => {
-      //     navigate(-1);
-      //   });
-    }
-  };
-
+  const { status, data } = useQuery(["data", page], async () => {
+    const { data } = await axios({
+      method: "get",
+      url: BaseUrl + "/company/list/",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+      params: {
+        size: 4,
+        idx: page - 1,
+      },
+    });
+    // const data = initialCompany;
+    return data;
+  });
   useEffect(() => {
-    load_companys();
-  }, [page, search_string]);
+    // const cnt = data.totalPages;
+    const cnt = 4;
+    if (status === "success") {
+      setMaxPage(
+        Array.from({ length: cnt }, (t, i) => {
+          return i + 1;
+        })
+      );
+    }
+  }, [data]);
+  // .then((res) => {
+  //   if (res.data.message !== "프레임워크 내부적인 오류가 발생했습니다.") {
+  //     setIC(res.data.content);
+  //     setMaxPage(getArray(res.data));
+  //     setState({});
+
+  // if (res.data.content[0] === undefined) {
+  //   set_IC(initialCompany.content);
+  //   setMaxPage(getArray(initialCompany));
+  // } else {
+  //   setMaxPage(getArray(res.data));
+  //   set_IC(res.data.content);
+  // }
+  //       } else {
+  //         setIC(initialCompany.content);
+  //         setMaxPage(getArray(initialCompany));
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setIC(initialCompany.content);
+  //       setMaxPage(getArray(initialCompany));
+  //     });
+  // } else {
+  // axios({
+  //   method: "get",
+  //   url: BaseUrl + "/company/search",
+  //   headers: {
+  //     Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+  //   },
+  //   params: {
+  //     query: search_string,
+  //   },
+  // })
+  //   .then((res) => {
+  //     set_IC(res.data.content);
+  //     setMaxPage(res.data.totalPages);
+  //   })
+  //   .catch(() => {
+  //     navigate(-1);
+  //   });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   load_companys();
+  // }, [page, search_string]);
+
+  // const getArray = (res) => {
+  //   return Array.from({ length: Math.ceil(res.totalPages) }, (t, i) => {
+  //     return i + 1;
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   load_companys();
+  // }, [page]);
 
   const Click_page = () => {
-    let list = [];
-    if (page <= 2) {
-      for (let i = 1; i <= 5 && i <= maxPage; i++) {
-        list.push({ id: i, circle: i == page });
-      }
-    } else if (page >= 3 && maxPage - page >= 2) {
-      for (let i = page - 2; i <= page + 2; i++) {
-        list.push({ id: i, circle: i == page });
-      }
-    } else {
-      for (let i = maxPage; i >= 1 && i >= maxPage - 4; i--) {
-        list.push({ id: i, circle: i == page });
-      }
-      list = list.reverse();
-    }
-
-    return list;
+    // let list = [];
+    // if (page <= 2) {
+    //   for (let i = 1; i <= 5 && i <= maxPage; i++) {
+    //     list.push({ id: i, circle: i == page });
+    //   }
+    // } else if (page >= 3 && maxPage - page >= 2) {
+    //   for (let i = page - 2; i <= page + 2; i++) {
+    //     list.push({ id: i, circle: i == page });
+    //   }
+    // } else {
+    //   for (let i = maxPage; i >= 1 && i >= maxPage - 4; i--) {
+    //     list.push({ id: i, circle: i == page });
+    //   }
+    //   list = list.reverse();
+    // }
+    // return list;
   };
 
-  const Search = (props) => {
-    if (props.trim() != "" && search_string != props) {
-      setPage(1);
-      set_search(props);
-    } else if (props.trim() === "") {
-      setPage(1);
-      set_search("");
-    }
-  };
+  // const Search = (props) => {
+  //   if (props.trim() != "" && search_string != props) {
+  //     setPage(1);
+  //     set_search(props);
+  //   } else if (props.trim() === "") {
+  //     setPage(1);
+  //     set_search("");
+  //   }
+  // };
 
   return (
     <>
-      <Sortation id="main">ㅤ</Sortation>
-      <Header
-        title={"회사 정보"}
-        description={"찾으시는 회사의 정보를 확인해 보세요"}
-      />
-      <Out_box>
-        {/* <Search_bar search={Search} width="1050px" /> */}
-        {search_string !== "" && (
-          <Search_message>
-            <span>{search_string}</span>
-            <span>의 검색 결과입니다.</span>
-          </Search_message>
-        )}
-        <Grid_box>
-          {IC_data ? (
-            IC_data.content.map((Data) => (
-              <IC_View IC_data={Data} key={Data.companyId} />
-            ))
-          ) : (
-            <></>
-          )}
-        </Grid_box>
-        {search_string === "" && (
-          <Page_bar>
-            <Page_btn href="#main" onClick={() => setPage(1)}>
-              First Page
-            </Page_btn>
-            <Small_box
-              href="#main"
-              onClick={() => {
-                if (page > 1) setPage(page - 1);
-              }}
-            >
-              <Small_page_left_btn color="#000" top="-5px" />
-            </Small_box>
-            {IC_data ? (
-              Click_page().map((data) => {
-                if (data.circle) {
-                  return (
-                    <Circle_btn
-                      href="#main"
-                      onClick={() => {
-                        setPage(data.id);
-                      }}
-                      key={data.id}
-                    >
-                      {data.id}
-                    </Circle_btn>
-                  );
-                } else {
-                  return (
-                    <UnCircle_btn
-                      href="#main"
-                      onClick={() => {
-                        setPage(data.id);
-                      }}
-                      key={data.id}
-                    >
-                      {data.id}
-                    </UnCircle_btn>
-                  );
-                }
-              })
-            ) : (
-              <></>
+      {status === "loading" ? (
+        <></>
+      ) : status === "error" ? (
+        <></>
+      ) : (
+        <>
+          <Deco src={companyDeco} alt="" />
+          <Sortation id="main">ㅤ</Sortation>
+          <Header
+            title={"기업 목록"}
+            description={"찾으시는 회사의 정보를 확인해 보세요"}
+          />
+          <Out_box>
+            {/* <Search_bar search={Search} width="1050px" /> */}
+            {search_string !== "" && (
+              <Search_message>
+                <span>{search_string}</span>
+                <span>의 검색 결과입니다.</span>
+              </Search_message>
             )}
-            <Small_box
-              href="#main"
-              onClick={() => {
-                if (page < maxPage) setPage(page + 1);
-              }}
-            >
-              <Small_page_right_btn color="#000" top="5px" />
-            </Small_box>
-            <Page_btn
+            <Grid_box>
+              {/* {data.content.slice((page - 1) * 4, page * 4).map((item, i) => (
+                <IC_View IC_data={item} key={i} idx={(page - 1) * 4 + i} />
+              ))} */}
+              {data.content.map((item, i) => (
+                <IC_View IC_data={item} key={i} />
+              ))}
+            </Grid_box>
+            {search_string === "" && (
+              <Page_bar>
+                {/* <Page_btn href="#main" onClick={() => setPage(1)}>
+              First Page
+            </Page_btn> */}
+                <Small_box
+                  href="#main"
+                  onClick={() => {
+                    if (page >= 1) setPage(page - 1);
+                  }}
+                >
+                  <Small_page_left_btn color="#000" top="-5px" />
+                </Small_box>
+                {data ? (
+                  maxPage.map((item, i) => {
+                    // if (data) {
+                    //   return (
+                    //     <Circle_btn
+                    //       href="#main"
+                    //       onClick={() => {
+                    //         setPage(data.id);
+                    //       }}
+                    //       key={data.id}
+                    //     >
+                    //       {data.id}
+                    //     </Circle_btn>
+                    //   );
+                    // } else {
+                    //   return (
+                    //     <UnCircle_btn
+                    //       href="#main"
+                    //       onClick={() => {
+                    //         setPage(data.id);
+                    //       }}
+                    //       key={data.id}
+                    //     >
+                    //       {data.id}
+                    //     </UnCircle_btn>
+                    //   );
+                    // }
+                    return (
+                      <UnCircle_btn
+                        href="#main"
+                        onClick={() => {
+                          setPage(item);
+                        }}
+                        key={item}
+                      >
+                        {item}
+                      </UnCircle_btn>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
+                <Small_box
+                  href="#main"
+                  onClick={() => {
+                    if (page <= maxPage.length) setPage(page + 1);
+                  }}
+                >
+                  <Small_page_right_btn color="#000" top="5px" />
+                </Small_box>
+                {/* <Page_btn
               href="#main"
               onClick={() => {
                 setPage(maxPage);
               }}
             >
               Last Page
-            </Page_btn>
-          </Page_bar>
-        )}
-      </Out_box>
+            </Page_btn> */}
+              </Page_bar>
+            )}
+          </Out_box>
+        </>
+      )}
     </>
   );
 };
 
 export default CompanyView;
 
-const Sortation = styled.div`
+const Deco = styled.img`
+  width: 20%;
   position: absolute;
+  top: 550px;
+  left: 100px;
 `;
 
 const Out_box = styled.div`
@@ -208,6 +258,7 @@ const Grid_box = styled.div`
 `;
 
 const Small_box = styled.a`
+  text-decoration: none;
   width: 60px;
   height: 60px;
   border-radius: 100px;
@@ -301,6 +352,9 @@ const Page_btn = styled.a`
 `;
 
 const UnCircle_btn = styled.a`
+  text-decoration: none;
+  color: #000;
+  transition: 0.4s ease-in;
   width: 60px;
   height: 60px;
   border-radius: 100px;

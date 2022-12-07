@@ -2,10 +2,13 @@ import styled from "styled-components";
 import Logo from "../../../images/Logo2.png";
 const Footer = () => {
   const arr = [
-    { title: "ABOUT", list1: "about text", list2: "about" },
-    { title: "SERVICES", list1: "services text", list2: "services" },
-    { title: "SECTORS", list1: "sectors text", list2: "sectors" },
+    {
+      title: "FrontEnd",
+      list: ["김정현", "김진건", "이동현", "임태곤", "최승우"],
+    },
+    { title: "BackEnd", list: ["김현석", "안진우", "이강혁"] },
   ];
+
   return (
     <>
       <Table>
@@ -15,8 +18,15 @@ const Footer = () => {
             <FooterList>
               <Title>{foot.title}</Title>
               <Ul>
-                <TextList>{foot.list1}</TextList>
-                <TextList>{foot.list2}</TextList>
+                <>
+                  {foot.list.map((list) => (
+                    <>
+                      <>{list}</>
+                      <br />
+                      <hr/>
+                    </>
+                  ))}
+                </>
               </Ul>
             </FooterList>
           ))}
@@ -51,7 +61,7 @@ const FooterTextUl = styled.ul`
 const FooterList = styled.li`
   color: ${(props) => props.theme.colors.white};
   width: 92px;
-  height: 81px;
+  height: 200px;
   font-family: "Roboto", sans-serif;
   list-style: none;
   text-align: center;
@@ -59,14 +69,18 @@ const FooterList = styled.li`
 const Title = styled.div`
   font-weight: 700;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 const Ul = styled.ul`
-  position: relative;
-  left: -40px;
-  right: 0;
-  width: 90px;
-  height: 43px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 60%;
+  margin-left: -40px;
+  hr {
+    opacity: 0;
+    margin: 3px;
+  }
 `;
 const TextList = styled.li`
   list-style: none;

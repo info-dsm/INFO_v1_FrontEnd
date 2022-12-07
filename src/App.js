@@ -85,10 +85,7 @@ function App() {
                 path="/company/manage/user/:teacherId"
                 element={<Applicant />}
               />
-              <Route
-                path="/auth/select"
-                element={<Select/>}
-              />
+              <Route path="/auth/select" element={<Select />} />
             </Routes>
             <Footer />
           </BrowserRouter>
@@ -106,6 +103,15 @@ const GlobalStyle = createGlobalStyle`
     -ms-user-select:none;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+    background-color: ${props => props.theme.colors.mediumGray};
+    width: 10px;    
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #6141cc;
+      border-radius: 3px;
+      width: 10px;
+    }
   }
 
   * {
@@ -114,8 +120,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   
-  .scrollban {
+  /* .scrollban {
     overflow: hidden;
     overflow-y: hidden;
-  }
+  } */
 `;

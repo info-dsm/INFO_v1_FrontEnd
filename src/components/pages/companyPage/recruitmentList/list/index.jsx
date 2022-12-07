@@ -6,39 +6,50 @@ const ResistrationList = ({ data }) => {
   return (
     <>
       <Ul>
-        {data.as.map((user, i) => (
+        {data === [] ? (
+          <></>
+        ) : (
           <>
-            <Li>
-              <Recruitment>
-                <div>
-                  <ImageProps status={data.count[i].approve} />
-                  <Number>{data.count[i].id}</Number>
-                  <Category>
-                    <div>대분류</div>
-                    <Main>{data.ad[i]}</Main>
-                  </Category>
-                  <Category>
-                    <div>소분류</div>
-                    <Sub>{user}</Sub>
-                  </Category>
-                  <Category>
-                    <div>채용인원</div>
-                    <div>{data.count[i].total}명</div>
-                  </Category>
-                </div>
-                <ApplicantList>
-                  <div>{data.count[i].day}</div>
-                  <StyledLink
-                    to={`/company/manage/user/${data.count[i].data.noticeId}`}
-                    state={data.count[i].data}
-                  >
-                    <button>신청자 리스트</button>
-                  </StyledLink>
-                </ApplicantList>
-              </Recruitment>
-            </Li>
+            {data.map((user, i) => (
+              <>
+                <Li>
+                  <Recruitment>
+                    <div>
+                      <ImageProps status={user.approveStatus} />
+                      <Number>{i + 1}</Number>
+                      <Category>
+                        <div>대분류</div>
+                        <Main>
+                          {
+                            user.notice.classificationResponse[0]
+                              .bigClassification.bigClassificationName
+                          }
+                        </Main>
+                      </Category>
+                      <Category>
+                        <div>소분류</div>
+                        <Sub>{user.notice.classificationResponse[0].name}</Sub>
+                      </Category>
+                      <Category>
+                        <div>채용인원</div>
+                        <div>{user.notice.numberOfEmployee}명</div>
+                      </Category>
+                    </div>
+                    <ApplicantList>
+                      <div>{user.notice.noticeOpenPeriod.endDate}</div>
+                      <StyledLink
+                        to={`/company/manage/user/${user.notice.noticeId}`}
+                        state={user.notice}
+                      >
+                        <button>신청자 리스트</button>
+                      </StyledLink>
+                    </ApplicantList>
+                  </Recruitment>
+                </Li>
+              </>
+            ))}
           </>
-        ))}
+        )}
       </Ul>
     </>
   );

@@ -1,15 +1,12 @@
 import styled from "styled-components";
 import { WaitImg } from "../../../../../images";
 import { SuccessImg } from "../../../../../images";
-import { FailImg } from "../../../../../images";
 import { useEffect, useState } from "react";
 const ImageProps = ({ status }) => {
-  const [state, setState] = useState(FailImg);
+  const [state, setState] = useState(WaitImg);
   useEffect(() => {
     console.log(status);
-    if (status === "WAITING") {
-      setState(WaitImg);
-    } else if (status === "APPROVE") {
+    if (status === "APPROVE") {
       setState(SuccessImg);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

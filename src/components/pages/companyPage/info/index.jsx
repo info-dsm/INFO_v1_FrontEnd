@@ -27,18 +27,15 @@ const CompanyInfo = () => {
             <ContainerDiv>
               <Title>
                 <img
-                  src={data.companyIntroduction.companyLogo.fileUrl}
+                  src={data.companyIntroductionResponse.companyLogo?.fileUrl}
                   alt=""
                 />
                 <h2>회사 정보</h2>
-                <CheckInput
-                  type="checkbox"
-                  checked={data.isLeading}
-                ></CheckInput>
-                <span>선도 기업</span>
               </Title>
               <BannerImg
-                src={data.companyIntroduction.companyPhotoList[0].fileUrl}
+                src={
+                  data.companyIntroductionResponse.companyPhotoList[0]?.fileUrl
+                }
                 alt=""
               />
               <ContentDiv>
@@ -51,10 +48,10 @@ const CompanyInfo = () => {
                     등록번호
                   </Category>
                   <InputForm>{data.companyNumber}</InputForm>
-                  <Category>대표자</Category>
+                  {/* <Category>대표자</Category>
                   <InputForm>
-                    {data.companyInformation.representative}
-                  </InputForm>
+                    {data.companyInformation.represntativeName}
+                  </InputForm> */}
                   <Category>근로자 수</Category>
                   <InputForm>{data.companyInformation.workerCount}</InputForm>
                   <Category>설립연도</Category>
@@ -74,15 +71,21 @@ const CompanyInfo = () => {
                         {data.companyInformation.homeAddress.addressNumber}
                       </AddressForm>
                     </div>
-                    <div>
-                      <span>연구소/지점</span>
-                      <AddressForm>
-                        {data.companyInformation.agentAddress.fullAddress}
-                      </AddressForm>
-                      <AddressForm style={{ width: "100px" }}>
-                        {data.companyInformation.agentAddress.addressNumber}
-                      </AddressForm>
-                    </div>
+                    {data.companyInformation?.agentAddress ? (
+                      <>
+                        <div>
+                          <span>연구소/지점</span>
+                          <AddressForm>
+                            {data.companyInformation.agentAddress.fullAddress}
+                          </AddressForm>
+                          <AddressForm style={{ width: "100px" }}>
+                            {data.companyInformation.agentAddress.addressNumber}
+                          </AddressForm>
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </Address>
               </ContentDiv>
@@ -95,13 +98,13 @@ const CompanyInfo = () => {
               <ContentDiv>
                 <GridDiv>
                   <Category>대표자</Category>
-                  <InputForm>{data.companyContact.contactorName}</InputForm>
+                  <InputForm>{data.contactor.name}</InputForm>
                   <Category>소속 부서</Category>
-                  <InputForm>{data.companyContact.contactorRank}</InputForm>
+                  <InputForm>{data.contactor.rank}</InputForm>
                   <Category>전화번호</Category>
-                  <InputForm>{data.companyContact.phoneNumber}</InputForm>
-                  <Category>휴대전화</Category>
-                  <InputForm>{data.companyContact.contactorPhone}</InputForm>
+                  <InputForm>{data.contactor.phoneNumber}</InputForm>
+                  {/* <Category>휴대전화</Category>
+                  <InputForm>{data.contactor.contactorNumber}</InputForm> */}
                 </GridDiv>
               </ContentDiv>
               <hr />
@@ -111,9 +114,9 @@ const CompanyInfo = () => {
                 <h2>사업 분야</h2>
               </Title>
               <InputUl>
-                {data.businessAreaResponseList.map((item, i) => (
+                {data.businessTagged.map((item, i) => (
                   <>
-                    <InputLi>{item.tagName}</InputLi>
+                    <InputLi>{item.id}</InputLi>
                   </>
                 ))}
               </InputUl>
@@ -121,10 +124,12 @@ const CompanyInfo = () => {
             </ContainerDiv>
             <ContainerDiv>
               <Title>
-                <h2>Contect</h2>
+                <h2>회사 설명</h2>
               </Title>
               <ContentDiv />
-              <Description>{data.companyIntroduction.introduction}</Description>
+              <Description>
+                {data.companyIntroductionResponse.introduction}
+              </Description>
             </ContainerDiv>
           </MainDiv>
         </>
@@ -229,14 +234,14 @@ const InputForm = styled.div`
 
 const AddressForm = styled.div`
   border: none;
-  width: 220px;
+  width: max-content;
   height: 50px;
   border-radius: 100px;
   font-size: 20px;
   display: flex;
   align-items: center;
   margin-right: 30px;
-  padding-left: 24px;
+  padding: 0px 20px;
   font-weight: 700;
   background-color: #f3eeff;
 `;
@@ -362,7 +367,8 @@ export const InputLi = styled.li`
   margin-right: 60px;
   list-style: none;
   margin-left: -40px;
-  width: 150px;
+  padding: 0px 20px;
+  width: max-content;
   background-color: #f3eeff;
   border-radius: 100px;
   height: 50px;

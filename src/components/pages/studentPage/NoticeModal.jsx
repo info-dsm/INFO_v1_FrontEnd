@@ -8,6 +8,7 @@ import { BaseUrl } from "../../../export/base";
 import { useEffect } from "react";
 import { initialNoticeDetail } from "../../../export/data";
 import { useState } from "react";
+import downLoadImg from "../../../images/download.png";
 
 const PrtCategory = ({ Title }) => {
   return (
@@ -28,6 +29,8 @@ const NoticeModal = ({ datum, setNoticeID }) => {
 
   const [data, setData] = useState(initialNoticeDetail);
 
+  console.log(datum);
+
   useEffect(() => {
     axios({
       url: BaseUrl + `/notice/${datum.id}`,
@@ -37,6 +40,7 @@ const NoticeModal = ({ datum, setNoticeID }) => {
       },
     })
       .then((res) => {
+        console.log(res.data);
         if (res.data.message === "프레임워크 내부적인 오류가 발생했습니다.") {
           setData(initialNoticeDetail);
         } else setData(res.data);
@@ -46,48 +50,51 @@ const NoticeModal = ({ datum, setNoticeID }) => {
       });
   }, []);
 
+  // setData(initialNoticeDetail);
+
   // if (isLoading) return <div>로딩중..</div>;
   // if (error) return <div>에러가 발생했습니다</div>;
   // if (!data) return <button>불러오기</button>;
   // console.log(data.company.businessAreaResponseList);
 
   const companyInfo = [
-    { title: "사업자 번호", list: datum.company.companyNumber },
-    {
-      title: "대표",
-      list: datum.company.companyInformation.representativeName,
-    },
-    {
-      title: "설립 일자",
-      list: datum.company.companyInformation.establishedAt,
-    },
-    { title: "E-mail", list: datum.company.contactor.email },
-    {
-      title: "근로자 수",
-      list: datum.company.companyInformation.workerCount,
-    },
-    {
-      title: "연 매출액",
-      list: datum.company.companyInformation.annualSales,
-    },
-    { title: "사업 분야", list: datum.company.businessTagged },
-    {
-      title: "본사 주소",
-      list: datum.company.companyInformation.homeAddressInfo.fullAddress,
-    },
-    {
-      title: "지점 주소",
-      list: datum.company.companyInformation.agentAddress.fullAddress,
-    },
+    // { title: "사업자 번호", list: data.companyNumber },
+    // {
+    //   title: "대표",
+    //   list: data.companyInformation.representativeName,
+    // },
+    // {
+    //   title: "설립 일자",
+    //   list: data.companyInformation.establishedAt,
+    // },
+    // { title: "E-mail", list: data.contactor.email },
+    // {
+    //   title: "근로자 수",
+    //   list: data.companyInformation.workerCount,
+    // },
+    // {
+    //   title: "연 매출액",
+    //   list: data.companyInformation.annualSales,
+    // },
+    // { title: "사업 분야", list: data.businessTagged },
+    // {
+    //   title: "본사 주소",
+    //   list: data.companyInformation.homeAddressInfo.fullAddress,
+    // },
+    // {
+    //   title: "지점 주소",
+    //   list: data.companyInformation.agentAddress.fullAddress,
+    // },
   ];
 
   const employmentInfo = [
     {
       title: "대분류",
-      list: data.classificationResponse[0].bigClassification.bigClassification,
+      list: datum.CA_data.classificationResponse[0].bigClassification
+        .bigClassificationName,
     },
-    { title: "소분류", list: data.classificationResponse[0].name },
-    { title: "채용인원", list: data.numberOfEmployee },
+    { title: "소분류", list: datum.CA_data.classificationResponse[0].name },
+    { title: "채용인원", list: datum.CA_data.numberOfEmployee },
   ];
 
   const mealSupport = [
@@ -106,14 +113,18 @@ const NoticeModal = ({ datum, setNoticeID }) => {
 
   return (
     <Background
+      className="background"
+      height={document.documentElement.offsetHeight}
       onClick={(e) => {
-        if (e.target.id === "background") {
+        if (
+          e.target.classList[e.target.classList.length - 1] === "background"
+        ) {
           document.querySelector("html").classList.remove("scrollban");
           setNoticeID({ id: "", company: "" });
         }
       }}
     >
-      <Blur id="background">
+      <Blur className="background">
         <Notice>
           <DelBtn
             onClick={() => {
@@ -128,29 +139,34 @@ const NoticeModal = ({ datum, setNoticeID }) => {
             <RightSlide>{">"}</RightSlide> */}
             <ImageList>
               <CompanyImg
+                // src={
+                //   datum.company.companyIntroductionResponse.companyLogo !==
+                //     {} &&
+                //   datum.company.companyIntroductionResponse.companyLogo !==
+                //     null &&
+                //   datum.company.companyIntroductionResponse.companyLogo !==
+                //     undefined
+                //     ? datum.company.companyIntroductionResponse.companyLogo
+                //         .fileUrl ||
+                //       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                //     : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                // }
                 src={
-                  datum.company.companyIntroductionResponse.companyLogo !==
-                    {} &&
-                  datum.company.companyIntroductionResponse.companyLogo !==
-                    null &&
-                  datum.company.companyIntroductionResponse.companyLogo !==
-                    undefined
-                    ? datum.company.companyIntroductionResponse.companyLogo
-                        .fileUrl ||
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
-                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                  datum.company.companyIntroductionResponse.companyPhotoList[0]
+                    .fileUrl
                 }
                 alt="회사이미지입니다"
               ></CompanyImg>
             </ImageList>
           </SlideBox>
+          <br />
           <Table>
-            <Tr Height="111px">
+            <Tr Height="30px">
               <PText Color="black" Size="36px">
                 {datum.company.companyName}
               </PText>
             </Tr>
-            {companyInfo.map((info) => (
+            {/* {companyInfo.map((info) => (
               <Tr Height="52px">
                 <PText Width="160px" Size="20px">
                   {info.title}
@@ -167,7 +183,7 @@ const NoticeModal = ({ datum, setNoticeID }) => {
                   )}
                 </PText>
               </Tr>
-            ))}
+            ))} */}
           </Table>
           {/*회사정보*/}
           <WorkTitle>
@@ -181,7 +197,7 @@ const NoticeModal = ({ datum, setNoticeID }) => {
           </WorkTitle>
           {/*업무내용*/}
           <WorkInfo>
-            <Info>{data.detailBusinessDescription || ""}</Info>
+            <Info>{datum.CA_data.detailBusinessDescription}</Info>
           </WorkInfo>
           {/*업무내용*/}
           <PrtCategory Title="채용직무" />
@@ -193,34 +209,54 @@ const NoticeModal = ({ datum, setNoticeID }) => {
                   <Td>{info.list}</Td>
                 </Tbr>
               ))}
-              <Tbr>
-                <PText Width="160px">성적</PText>
-                <Td>{data.gradeCutLine}%이내</Td>
-              </Tbr>
-              <Tor>
-                <PText>필요언어</PText>
-                <TagList>
-                  {data.languageList.map((info) => (
-                    <Tag>{info.languageName}</Tag>
-                  ))}
-                </TagList>
-              </Tor>
-              <Tor>
-                <PText>기타기술</PText>
-                <TagList>
-                  {data.technologyList.map((info) => (
-                    <Tag>{info.technologyName}</Tag>
-                  ))}
-                </TagList>
-              </Tor>
-              <Tor>
+              <div
+                style={{
+                  display: "inline-flex",
+                  width: "70%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Tbr>
+                  <PText Width="160px">성적</PText>
+                  <Td>{datum.CA_data.gradeCutLine}%이내</Td>
+                </Tbr>
+                <Tbr>
+                  <PText>필요언어</PText>
+                  <TagList>
+                    {data.languageList.length !== 0 ? (
+                      <>
+                        {data.languageList.map((info) => (
+                          <Tag>{info.languageName}</Tag>
+                        ))}
+                      </>
+                    ) : (
+                      <>무관</>
+                    )}
+                  </TagList>
+                </Tbr>
+                <Tbr>
+                  <PText>기타기술</PText>
+                  <TagList>
+                    {data.technologyList.length !== 0 ? (
+                      <>
+                        {data.technologyList.map((info) => (
+                          <Tag>{info.technologyName}</Tag>
+                        ))}
+                      </>
+                    ) : (
+                      <>무관</>
+                    )}
+                  </TagList>
+                </Tbr>
+                {/* <Tor>
                 <PText>자격증</PText>
                 <TagList>
                   {data.certificteList.map((info) => (
                     <Tag>{info.certificateName}</Tag>
                   ))}
                 </TagList>
-              </Tor>
+              </Tor> */}
+              </div>
             </EmploymentBox>
           </Employment>
           {/* <PrtCategory Title="지원자격" /> */}
@@ -229,57 +265,71 @@ const NoticeModal = ({ datum, setNoticeID }) => {
             <ED>
               <ET>식사</ET>
               <p>
-                {mealSupport.map((item) => (
+                {Object.values(data.mealSupport).includes(true) ? (
                   <>
-                    {data.mealSupport[item.title] === true ? (
-                      <ED>
-                        • {item.str} <br />
-                        <br />
-                      </ED>
-                    ) : (
-                      ""
-                    )}
+                    {mealSupport.map((item) => (
+                      <>
+                        {data.mealSupport[item.title] === true ? (
+                          <ED>
+                            • {item.str} <br />
+                            <br />
+                          </ED>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    ))}
                   </>
-                ))}
+                ) : (
+                  <>없음</>
+                )}
               </p>
             </ED>
             <ED>
               <ET>복리후생</ET>
               <p>
-                {welfare.map((item) => (
+                {Object.values(data.welfare).includes(true) ? (
                   <>
-                    {data.welfare[item.title] === true ? (
-                      <ED>
-                        • {item.str} <br />
-                        <br />
-                      </ED>
-                    ) : (
-                      ""
-                    )}
+                    {welfare.map((item) => (
+                      <>
+                        {data.welfare[item.title] === true ? (
+                          <ED>
+                            • {item.str} <br />
+                            <br />
+                          </ED>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    ))}
                   </>
-                ))}
+                ) : (
+                  <>없음</>
+                )}
               </p>
             </ED>
             <ED>
-              <ET>기타</ET>
-              <EI>• {data.otherFeatures}</EI>
+              {data.otherFeatures !== "" ? (
+                <>
+                  <ET>기타</ET>
+                  <EI>• {data.otherFeatures}</EI>
+                </>
+              ) : (
+                <></>
+              )}
             </ED>
           </EnterTime>
-          {/* <PrtCategory Title="출•퇴근시간" />
+          <PrtCategory Title="출•퇴근시간" />
           <EnterTime>
             <ED>
               <ET>출근시간</ET>
-              <EI>8시</EI>
+              <EI>{data.workTime.commuteStartTime}시</EI>
             </ED>
             <ED>
               <ET>퇴근시간</ET>
-              <EI>18시</EI>
+              <EI>{data.workTime.commuteEndTime}시</EI>
             </ED>
-            <ED>
-              <ET>근무시간 (주)</ET>
-              <EI>18시간</EI>
-            </ED>
-          </EnterTime> */}
+          </EnterTime>
           <PrtCategory Title="전형절차" />
           <EnterTime>
             <ED>
@@ -297,12 +347,15 @@ const NoticeModal = ({ datum, setNoticeID }) => {
           <PrtCategory Title="제출서류" />
           <Document>
             {data.attachmentFileList.map((info) => (
-              <File>
-                <FileImg src={info.fileUrl} alt="파일아이콘입니다"></FileImg>
-                <FileName href={info.extension} download>
-                  {info.fileName}
-                </FileName>
-              </File>
+              <div>
+                <File>
+                  <FileImg src={downLoadImg} alt="icon" />
+                  <FileName href={info.extension} download>
+                    {info.fileName}
+                  </FileName>
+                </File>
+                <br />
+              </div>
             ))}
           </Document>
           <PrtCategory Title="근무지" />
@@ -506,7 +559,6 @@ const Applicant = styled.div`
 const Td = styled.td`
   font-weight: 400;
   font-size: 16px;
-  margin-top: 20px;
 `; // 회사 세부정보
 const Tr = styled.div`
   display: flex;
@@ -522,12 +574,11 @@ const PText = styled.p`
 `; // text
 const Table = styled.div`
   width: 936px;
-  height: 527px;
 `; // 회사 정보 div
 const CompanyImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 10px;
   background-color: #fff;
 `; // 이미지
@@ -594,11 +645,9 @@ const Blur = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  overflow-y: scroll;
 `; // 모달 뒤 블러
 const Background = styled.div`
-  height: 400vh;
+  height: ${(props) => props.height}px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;

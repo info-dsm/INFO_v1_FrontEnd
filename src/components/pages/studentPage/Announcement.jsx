@@ -4,11 +4,10 @@ import { Page_moving_btn, Image } from "./styled.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BaseUrl } from "../../../export/base.js";
-import { initialCompanyDetail } from "../../../export/data.js";
-const CA_View = ({ CA_data, setNoticeID, detail }) => {
+import { initialCompany, initialCompanyDetail } from "../../../export/data.js";
+const CA_View = ({ CA_data, setNoticeID, detail, height }) => {
   const navigate = useNavigate();
-  const [companyInfo, setCompanyInfo] = useState({});
-  console.log(CA_data);
+  const [companyInfo, setCompanyInfo] = useState(initialCompany.content[0]);
 
   useEffect(() => {
     axios({
@@ -31,14 +30,19 @@ const CA_View = ({ CA_data, setNoticeID, detail }) => {
   return (
     <>
       {companyInfo.companyName ? (
-        <CA_box>
+        <CA_box height={height}>
           <CA_title>{companyInfo.companyName}</CA_title>
           <CA_sub_title>{companyInfo.companyNumber}</CA_sub_title>
           <Image
-            // src="https://papago.naver.com/static/img/papago_og.png"
             src={
-              companyInfo.companyIntroductionResponse.companyLogo !== {}
-                ? companyInfo.companyIntroductionResponse.companyLogo.fileUrl
+              companyInfo.companyIntroductionResponse.companyPhotoList[0] !==
+                {} &&
+              companyInfo.companyIntroductionResponse.companyPhotoList[0] !==
+                undefined &&
+              companyInfo.companyIntroductionResponse.companyPhotoList[0] !==
+                null
+                ? companyInfo.companyIntroductionResponse.companyPhotoList[0]
+                    .fileUrl
                 : ""
             }
             width="600px"
@@ -47,7 +51,7 @@ const CA_View = ({ CA_data, setNoticeID, detail }) => {
           />
           <Tag_box>
             {companyInfo.businessTagged.map((data) => (
-              <Tag>{data.name}</Tag>
+              <Tag>{data.id}</Tag>
             ))}
           </Tag_box>
           <Work_title_box>
@@ -86,8 +90,11 @@ const CA_View = ({ CA_data, setNoticeID, detail }) => {
             <Page_moving_btn
               href="#main"
               onClick={() => {
-                document.querySelector("html").classList.add("scrollban");
-                setNoticeID({ id: CA_data.noticeId, company: companyInfo });
+                setNoticeID({
+                  id: CA_data.noticeId,
+                  company: companyInfo,
+                  CA_data: CA_data,
+                });
               }}
             >
               자세히 알아보기
@@ -107,7 +114,7 @@ export default CA_View;
 
 const CA_box = styled.div`
   width: 700px;
-  height: 900px;
+  height: ${(props) => props.height};
   position: relative;
   background: linear-gradient(
     180deg,
@@ -121,7 +128,7 @@ const CA_box = styled.div`
   font-style: normal;
   display: flex;
   flex-direction: column;
-  padding: 50px;
+  padding: 60px 50px;
   margin-bottom: 100px;
   img {
     object-fit: contain;
@@ -160,7 +167,6 @@ const Tag_box = styled.div`
 `;
 
 const Tag = styled.span`
-  height: 40px;
   background: #e5dcff;
   border-radius: 100px;
   display: flex;
@@ -204,6 +210,7 @@ const Work_title_sub_box = styled.div`
 
 const Work_box = styled.div`
   width: 600px;
+  white-space: pre-line;
   height: auto;
   padding: 20px;
   background: ${(props) => props.theme.colors.white};

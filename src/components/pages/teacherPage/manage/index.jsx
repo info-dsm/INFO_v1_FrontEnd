@@ -50,12 +50,12 @@ const RequstManage = () => {
                 <s.UlContent>
                   <s.LiContent width={212}>
                     {
-                      data.classificationResponse.bigClassification
+                      data.classificationResponse[0].bigClassification
                         .bigClassificationName
                     }
                   </s.LiContent>
                   <s.LiContent width={167}>
-                    {data.classificationResponse.name}
+                    {data.classificationResponse[0].name}
                   </s.LiContent>
                   <s.LiContent width={191}>{data.numberOfEmployee}</s.LiContent>
                   <s.LiContent width={566}>
@@ -78,7 +78,7 @@ const RequstManage = () => {
                     <s.GradesUl>
                       <s.AsdfProps>성적(커트라인)</s.AsdfProps>
                       <s.GradesLi>
-                        상위 {data.gradeCutLine}
+                        상위 {data?.gradeCutLine}
                         %이내
                       </s.GradesLi>
                     </s.GradesUl>
@@ -162,7 +162,7 @@ const RequstManage = () => {
             <BokLi meal={data.mealSupport.mealSupportPay} />
             <BokliAfter wel={data.welfare} />
             <s.Ring top={50} />
-            <s.Titlet>출•퇴근시간</s.Titlet>
+            <s.Titlet>근무시간</s.Titlet>
             <s.UlWork>
               <ClockWork data={data.workTime} />
             </s.UlWork>
@@ -190,13 +190,13 @@ const RequstManage = () => {
             <s.Ring top={50} />
             <s.Titlet>전형절차</s.Titlet>
             <s.UlAddmision>
-              {data.interviewProcessList.map((user, i) => (
+              {Object.values(data.interviewProcessList).map((user, i) => (
                 <>
                   <s.InputLi>
-                    <s.ClockText>{i + 1}차전형일</s.ClockText>
+                    <s.ClockText>{i + 1}차전형</s.ClockText>
                   </s.InputLi>
                   <s.InputLi>
-                    <s.JunText>{user[`${i + 1}`]}</s.JunText>
+                    <s.JunText>{user}</s.JunText>
                   </s.InputLi>
                 </>
               ))}
@@ -251,6 +251,7 @@ const RequstManage = () => {
                           item.method,
                           item.path,
                           data.noticeId,
+                          data.company.companyNumber,
                           item.message
                         )
                       }

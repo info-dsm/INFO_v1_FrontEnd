@@ -58,15 +58,33 @@ const LogoImg = styled.img`
   height: 43px;
 `;
 const MenuProps = styled.ul`
-  width: 509px;
+  width: 609px;
   height: 18px;
   display: flex;
-  justify-content: space-between;
+  margin-left: 500px;
+  gap: 20px;
 `;
-const Menu = styled.li`
+const Menu = styled.div`
+  width: 80px;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-size: 0% 100%;
+  background-image: linear-gradient(
+    transparent calc(100% - 3px),
+    ${(props) => props.theme.colors.white} 3px
+  );
+  background-repeat: no-repeat;
+  transition: background-size 0.3s;
+  &:hover {
+    background-size: 100% 100%;
+  }
   font-family: "Nanum Gothic", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 17px;
   line-height: 16px;
   list-style: none;
   position: relative;

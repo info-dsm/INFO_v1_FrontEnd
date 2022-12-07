@@ -21,6 +21,7 @@ export const theme = {
 };
 export const StyledLink = styled(Link)`
   text-decoration: none;
+  cursor: pointer;
   &:focus,
   &:hover,
   &:visited,

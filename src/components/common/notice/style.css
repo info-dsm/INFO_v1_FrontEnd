@@ -21,8 +21,6 @@
   top: 20px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
   background-color: #fff;
-  border-radius: 4px;
-  border: 3px solid transparent;
 
   background-origin: border-box;
   background-clip: content-box, border-box;
@@ -40,24 +38,26 @@
 
 .NoticeSuccessMain {
   background-image: linear-gradient(#fff, #fff),
-    linear-gradient(to right, #d0f398 0%, #61bf61 100%);
+    linear-gradient(to right, #52d752 0%, #52d752 100%);
 }
 .NoticeSuccessMain > span {
-  background-image: linear-gradient(to right, #d0f398 0%, #61bf61 100%);
+  background-image: linear-gradient(to right, #52d752 0%, #52d752 100%);
 }
 
 .NoticeErrorMain {
   background-image: linear-gradient(#fff, #fff),
-    linear-gradient(to right, #ff9baf 0%, #f00000 100%);
+    linear-gradient(to right, #ee2020 0%, #ee2020 100%);
 }
 .NoticeErrorMain > span {
-  background-image: linear-gradient(to right, #ff9baf 0%, #f00000 100%);
+  background-image: linear-gradient(to right, #ee2020 0%, #ee2020 100%);
 }
 
 .NoticeLogo {
-  width: 87px;
-  height: 100%;
-  clip-path: polygon(0% 0%, 65% 0, 65% 34%, 80% 50%, 65% 64%, 65% 100%, 0 100%);
+  width: 45px;
+  border-radius: 50%;
+  height: 45px;
+  margin-right: 10px;
+  margin-left: 6px;
   border: 5px solid transparent;
   background-origin: border-box;
   background-clip: content-box, border-box;
@@ -66,10 +66,10 @@
 }
 
 .NoticeIcon {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background-color: #fff;
-  margin-left: 11px;
+  margin-left: 8px;
   clip-path: polygon(
     30% 8%,
     9% 28%,
@@ -119,9 +119,9 @@
 }
 
 .NoticeSuccessBar {
-  background-color: #89d275;
+  background-color: #52d752;
 }
 
 .NoticeErrorBar {
-  background-color: #f63a42;
+  background-color: #ee2020;
 }

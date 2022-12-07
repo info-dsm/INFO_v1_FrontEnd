@@ -33,8 +33,8 @@ const SelectComplete = ({ Data, func, write, num }) => {
       <DataList state={state}>
         <ul>
           {Data.map((user) => (
-            <li onMouseDown={() => AddValuePropsFunc(user.skill)}>
-              {user.skill}
+            <li onMouseDown={() => AddValuePropsFunc(user.meaning)}>
+              {user.meaning}
             </li>
           ))}
         </ul>

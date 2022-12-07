@@ -87,11 +87,9 @@ const SelectModal = () => {
           arr2.push(SkillRef.current[i].value);
         }
       }
-      if (certState) {
-        for (let i = 0; i < CertRef.current.length; i++) {
-          if (CertRef.current[i].value !== "") {
-            arr3.push(CertRef.current[i].value);
-          }
+      for (let i = 0; i < CertRef.current.length; i++) {
+        if (CertRef.current[i].value !== "") {
+          arr3.push(CertRef.current[i].value);
         }
       }
       let num = 0;
@@ -279,6 +277,7 @@ const SelectModal = () => {
                       <s.LiProps>
                         <s.AchiveInput
                           type="text"
+                          readOnly={!gradeState}
                           onInput={(e) => {
                             e.target.value = e.target.value.replace(
                               /[^0-9]/g,

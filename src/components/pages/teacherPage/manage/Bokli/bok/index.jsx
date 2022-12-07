@@ -16,22 +16,15 @@ const BokliAfter = ({ wel }) => {
   if (wel.alternativeMilitaryPlan) {
     ad.push("병특신청");
   }
-  if (wel.elseSupport !== null) {
-    wel.elseSupport.map((item) => ad.push(item));
-  }
   return (
     <>
       <s.Subdd>복리후생</s.Subdd>
       <s.UlLineBreak>
-        {ad.map((user) => (
-          <>
-            <s.EssentialLi>
-              <s.ButtonProps width={101} left={20}>
-                {user}
-              </s.ButtonProps>
-            </s.EssentialLi>
-          </>
-        ))}
+        <s.EssentialLi>
+          <s.ButtonProps width={101} left={20}>
+            {wel.elseSupport}
+          </s.ButtonProps>
+        </s.EssentialLi>
       </s.UlLineBreak>
     </>
   );

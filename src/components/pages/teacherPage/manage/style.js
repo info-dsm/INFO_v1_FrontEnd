@@ -24,6 +24,7 @@ export const Title = styled.h1`
   height: 46px;
   left: 0px;
   margin-top: 100px;
+  margin-bottom: 70px;
   font-family: "NanumGothic", sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -179,7 +180,7 @@ export const Titlet = styled.h1`
 `;
 export const Subdd = styled.div`
   position: relative;
-  width: 101px;
+  width: max-content;
   height: 28px;
   font-family: "NanumGothic", sans-serif;
   font-style: normal;
