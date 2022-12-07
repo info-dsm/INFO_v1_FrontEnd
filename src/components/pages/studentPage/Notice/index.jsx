@@ -3,19 +3,17 @@ import styled, { keyframes } from "styled-components";
 import axios from "axios";
 import CA_View from "../Announcement.jsx";
 import { BaseUrl } from "../../../../export/base.js";
-import { Page_moving_btn, Image } from "../styled.jsx";
+import { Page_moving_btn, Image, Sortation } from "../styled.jsx";
 import Header from "../../../common/header/index.jsx";
 import { StyledLink } from "../../../../style/theme.js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import NoticeModal from "../NoticeModal.jsx";
 import { initialNotice } from "../../../../export/data.js";
+import noticePageDeco from "../../../../images/loginPageDeco.png";
 
 const NoticeView = () => {
-  const [inputState, setInputState] = useState("");
-  const accessToken = sessionStorage.getItem("accessToken");
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [arr, setArr] = useState([]);
-  const queryClient = useQueryClient();
   const [noticeID, setNoticeID] = useState({
     id: "",
     company: "",
@@ -23,70 +21,97 @@ const NoticeView = () => {
   const { status, data } = useQuery(["studentNoticeList", count], () =>
     getNotices()
   );
+  const [info, setInfo] = useState(data);
 
-  useEffect(() => {
-    if (data?.totalPages > 5) {
-      if (data.totalPages % 5 !== 0) {
-        if (parseInt(count / 5) === parseInt(data.totalPages / 5)) {
-          const asd = parseInt(data.totalPages % 5);
-          let aq = new Array(asd).fill(0);
-          for (let i = 0; i < asd; i++) {
-            aq[i] = 5 * (asd + 1) + 1 + i;
-          }
-          setArr(aq);
-        }
-      }
-      if (count % 5 === 0 && count / 5 < data.totalPages / 5 - 1) {
-        setArr([count + 1, count + 2, count + 3, count + 4, count + 5]);
-      } else if (count % 5 === 4) {
-        setArr([count - 3, count - 2, count - 1, count, count + 1]);
-      }
-    } else if (data?.totalPages) {
-      console.log(data.totalPages);
-      let ad = new Array(data?.totalPages).fill(0);
-      for (let i = 0; i < data.totalPages; i++) {
-        ad[i] = i + 1;
-      }
-      setArr(ad);
-    }
-  }, [count, data]);
-  useEffect(() => {
-    if (data?.last && data.totalPages - 1 > count) {
-      queryClient.prefetchQuery(["list", count + 1], () =>
-        getNotices(count + 1)
-      );
-    }
-  }, [data, count, queryClient]);
-  const Click = useCallback((e) => {
-    setCount(e);
-  }, []);
+  // useEffect(() => {
+  //   if (data?.totalPages > 5) {
+  //     if (data.totalPages % 5 !== 0) {
+  //       if (parseInt(count / 5) === parseInt(data.totalPages / 5)) {
+  //         const asd = parseInt(data.totalPages % 5);
+  //         let aq = new Array(asd).fill(0);
+  //         for (let i = 0; i < asd; i++) {
+  //           aq[i] = 5 * (asd + 1) + 1 + i;
+  //         }
+  //         setArr(aq);
+  //       }
+  //     }
+  //     if (count % 5 === 0 && count / 5 < data.totalPages / 5 - 1) {
+  //       setArr([count + 1, count + 2, count + 3, count + 4, count + 5]);
+  //     } else if (count % 5 === 4) {
+  //       setArr([count - 3, count - 2, count - 1, count, count + 1]);
+  //     }
+  //   } else if (data?.totalPages) {
+  //     console.log(data.totalPages);
+  //     let ad = new Array(data?.totalPages).fill(0);
+  //     for (let i = 0; i < data.totalPages; i++) {
+  //       ad[i] = i + 1;
+  //     }
+  //     setArr(ad);
+  //   }
+  // }, [count, data]);
+  // useEffect(() => {
+  //   if (data?.last && data.totalPages - 1 > count) {
+  //     queryClient.prefetchQuery(["list", count + 1], () =>
+  //       getNotices(count + 1)
+  //     );
+  //   }
+  // }, [data, count, queryClient]);
+  // const Click = useCallback((e) => {
+  //   setCount(e);
+  // }, []);
 
   const getNotices = async () => {
     await axios({
       method: "get",
       url: BaseUrl + "/notice/list/on",
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
       params: {
         size: 4,
-        idx: count,
+        idx: count - 1,
         status: "APPROVE",
       },
     })
       .then((res) => {
+        console.log(res);
         if (res.data.message === "프레임워크 내부적인 오류가 발생했습니다.") {
-          return { content: [initialNotice] };
+          setInfo(initialNotice);
+          return initialNotice;
         } else {
-          if (res.data.content[0] === undefined)
-            return { content: [initialNotice] };
-          else return res.data;
+          if (res.data.content[0] === undefined) {
+            setInfo(initialNotice);
+            setArr(
+              Array.from({ length: initialNotice.totalPages }, (t, i) => {
+                return i + 1;
+              })
+            );
+            return initialNotice;
+          } else {
+            setInfo(res.data);
+            setArr(
+              Array.from({ length: res.data.totalPages }, (t, i) => {
+                return i + 1;
+              })
+            );
+            return res.data;
+          }
         }
       })
       .catch(() => {
-        return { content: [initialNotice] };
+        setInfo(initialNotice);
+        return initialNotice;
       });
-    return { content: [initialNotice] };
+    // setArr(
+    //   Array.from(
+    //     { length: Math.ceil(initialNotice.content.length / 3) - 1 },
+    //     (t, i) => {
+    //       return i + 1;
+    //     }
+    //   )
+    // );
+
+    return initialNotice;
   };
 
   //   const Search = (props) => {
@@ -107,6 +132,7 @@ const NoticeView = () => {
         <></>
       ) : (
         <>
+          <Deco src={noticePageDeco} alt="" />
           <Sortation id="main">ㅤ</Sortation>
           {noticeID.id !== "" ? (
             <NoticeModal datum={noticeID} setNoticeID={setNoticeID} />
@@ -128,65 +154,80 @@ const NoticeView = () => {
               </StyledLink>
             </SearchDiv>
           </Location> */}
-          <Location2>
-            {data.content.map((item) => (
+          <div>
+            <Location2>
+              {info !== "" ? (
+                <>
+                  {info.content.map((item, i) => (
+                    <>
+                      <CA_View
+                        CA_data={item}
+                        setNoticeID={setNoticeID}
+                        detail={true}
+                        idx={(count - 1) * 3 + i}
+                      />
+                    </>
+                  ))}
+                </>
+              ) : (
+                <></>
+              )}
+            </Location2>
+            <Ul top={0}>
               <>
-                <CA_View
-                  CA_data={item}
-                  setNoticeID={setNoticeID}
-                  detail={true}
-                />
-              </>
-            ))}
-          </Location2>
-          <Ul top={0}>
-            {data.content.length === 1 ? (
-              <>
-                <Li>
-                  <Button onClick={() => setCount(0)}>First Page</Button>
-                </Li>
-                <Li>
-                  <Text
-                    onClick={() => {
-                      if (count > 4) {
-                        setCount((parseInt(count / 5) - 1) * 5 + 4);
-                      }
-                    }}
-                  >
-                    &lt;
-                  </Text>
-                </Li>
-                {arr.map((item) => (
-                  <Li id={item} onClick={() => Click(item - 1)}>
-                    <Text state={item === count + 1}>{item}</Text>
+                {/* <Li>
+                <Button onClick={() => setCount(0)}>First Page</Button>
+              </Li> */}
+                <a
+                  onClick={() => {
+                    if (count > 1) {
+                      // setCount((parseInt(count / 5) - 1) * 5 + 4);
+                      setCount(count - 1);
+                    }
+                  }}
+                >
+                  <Li>
+                    <Text>&lt;</Text>
                   </Li>
-                ))}
-                <Li>
-                  <Text
+                </a>
+                {arr.map((item) => (
+                  <a
                     onClick={() => {
-                      if (
-                        data.totalPages % 5 === 0
-                          ? data.totalPages / 5 + 1 !== parseInt(count / 5) + 1
-                          : parseInt(data.totalPages / 5) + 1 !==
-                            parseInt(count / 5) + 1
-                      ) {
-                        setCount((parseInt(count / 5) + 1) * 5);
-                      }
+                      setCount(item);
                     }}
                   >
-                    &gt;
-                  </Text>
-                </Li>
-                <Li>
-                  <Button onClick={() => setCount(data.totalPages - 1)}>
-                    Last Page
-                  </Button>
-                </Li>
+                    <Li id={item}>
+                      <Text>{item}</Text>
+                    </Li>
+                  </a>
+                ))}
+                <a
+                  onClick={() => {
+                    // if (
+                    //   data.totalPages % 5 === 0
+                    //     ? data.totalPages / 5 + 1 !== parseInt(count / 5) + 1
+                    //     : parseInt(data.totalPages / 5) + 1 !==
+                    //       parseInt(count / 5) + 1
+                    // ) {
+                    //   setCount((parseInt(count / 5) + 1) * 5);
+                    // }
+                    if (count < arr.length - 1) {
+                      setCount(count + 1);
+                    }
+                  }}
+                >
+                  <Li>
+                    <Text>&gt;</Text>
+                  </Li>
+                </a>
+                {/* <Li>
+                <Button onClick={() => setCount(data.totalPages - 1)}>
+                  Last Page
+                </Button>
+              </Li> */}
               </>
-            ) : (
-              <></>
-            )}
-          </Ul>
+            </Ul>
+          </div>
         </>
       )}
     </>
@@ -195,9 +236,11 @@ const NoticeView = () => {
 
 export default NoticeView;
 
-const Sortation = styled.div`
+const Deco = styled.img`
+  width: 100%;
   position: absolute;
-  top: 0;
+  top: 700px;
+  left: 100px;
 `;
 
 const Location = styled.div`
@@ -239,10 +282,11 @@ const Search = styled.input`
   font: 400 normal 20px "NanumGothic", sans-serif;
 `;
 
-const Li = styled.li`
+const Li = styled.div`
   margin-left: -40px;
 `;
 const Text = styled.div`
+  text-decoration: none;
   position: relative;
   font: 700 normal 23px "Roboto";
   color: ${(props) =>
@@ -250,6 +294,7 @@ const Text = styled.div`
   width: 60px;
   height: 60px;
   padding-top: 15px;
+  transition: 0.4s ease-in;
   text-align: center;
   background-color: ${(props) =>
     props.state ? props.theme.colors.blue : props.theme.colors.white};
@@ -272,6 +317,9 @@ const Button = styled.div`
   cursor: pointer;
 `;
 const Ul = styled.ul`
+  a {
+    text-decoration: none;
+  }
   position: relative;
   top: ${(props) => props.top}px;
   width: 836px;

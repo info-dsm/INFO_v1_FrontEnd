@@ -19,9 +19,9 @@ const CompanySignIn = () => {
   const str = [
     {
       name: "사업자번호",
-      additionalElm: "기업 조회",
+      additionalElm: "",
       placeholder: "ex) 000-00-00000",
-      check: "inquiry",
+      check: "",
       func: () => {
         getPasswordHint();
       },
@@ -37,9 +37,7 @@ const CompanySignIn = () => {
     },
   ];
 
-  const [success, setSuccess] = useState({
-    inquiry: "",
-  });
+  const [success, setSuccess] = useState({});
 
   const changeInput = (e, props) => {
     setData({ ...data, [props]: e.target.value });

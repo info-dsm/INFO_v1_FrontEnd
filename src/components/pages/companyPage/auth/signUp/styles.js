@@ -95,6 +95,9 @@ export const Description = styled.textarea`
   font-size: 20px;
   padding: 20px;
   font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
 `;
 
 export const ContainerDiv = styled.div`
