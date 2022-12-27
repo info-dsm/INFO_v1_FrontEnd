@@ -55,6 +55,7 @@ const SearchProps = () => {
       }
       setArr(ad);
     }
+    window.scrollTo(0, 300);
   }, [count, data]);
   useEffect(() => {
     if (data?.last && data.totalPages - 1 > count) {
@@ -136,7 +137,7 @@ const SearchProps = () => {
               </Libox>
             ))}
           </Ulbox>
-          <Ul top={100 * (8 - data.content.length) + 50}>
+          <Ul top={-100}>
             <Li>
               <Button onClick={() => setCount(0)}>First Page</Button>
             </Li>

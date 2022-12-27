@@ -1,24 +1,36 @@
 import HeaderImage from "../../../images/Header.png";
 import LogoImage from "../../../images/Logo.png";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 const Header = (props) => {
   const { title, description } = props;
+  const location = useLocation();
   const navigate = useNavigate();
-  const menu = [
-    { menu: "메인페이지", url: "/student" },
-    { menu: "모집공고", url: "/student/notice" },
-    { menu: "기업 목록", url: "/student/company" },
-    // { menu: "로그인", url: "/student/login" },
-    // { menu: "회원가입", url: "/student/signup" },
-  ];
+  const menu =
+    location.pathname.slice(0, 8) === "/student"
+      ? [
+          { menu: "메인페이지", url: "/student" },
+          { menu: "모집공고", url: "/student/notice" },
+          { menu: "기업 목록", url: "/student/company" },
+          // { menu: "로그인", url: "/student/login" },
+          // { menu: "회원가입", url: "/student/signup" },
+        ]
+      : [];
+  const Gohome =
+    location.pathname.slice(0, 8) === "/student"
+      ? "/student"
+      : location.pathname.slice(0, 8) === "/company"
+      ? "/company/list"
+      : location.pathname.slice(0, 8) === "/teacher"
+      ? "/teacher"
+      : "/";
   return (
     <>
       <HeaderImg>
         <Nav>
           <LogoImg
             onClick={() => {
-              navigate("/");
+              navigate(`${Gohome}`);
             }}
             src={LogoImage}
             alt="로고이미지입니다."

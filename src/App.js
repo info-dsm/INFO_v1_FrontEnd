@@ -104,7 +104,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     scroll-behavior: smooth;
     &::-webkit-scrollbar {
-    background-color: ${props => props.theme.colors.mediumGray};
+    background-color: ${(props) => props.theme.colors.mediumGray};
     width: 10px;    
     }
     &::-webkit-scrollbar-thumb {

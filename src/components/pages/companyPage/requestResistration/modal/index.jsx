@@ -119,6 +119,7 @@ const SelectModal = () => {
       } else {
         Notice({ state: "success", message: "정상적으로 처리되었습니다." });
         dispatch(value(props));
+        window.scrollTo(0, 300);
         dispatch(stateModal(false));
       }
     }
