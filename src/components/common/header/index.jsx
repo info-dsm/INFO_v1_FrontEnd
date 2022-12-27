@@ -9,8 +9,8 @@ const Header = (props) => {
     { menu: "메인페이지", url: "/student" },
     { menu: "모집공고", url: "/student/notice" },
     { menu: "기업 목록", url: "/student/company" },
-    { menu: "로그인", url: "/student/login" },
-    { menu: "회원가입", url: "/student/signup" },
+    // { menu: "로그인", url: "/student/login" },
+    // { menu: "회원가입", url: "/student/signup" },
   ];
   return (
     <>
@@ -61,8 +61,8 @@ const MenuProps = styled.ul`
   width: 609px;
   height: 18px;
   display: flex;
-  margin-left: 500px;
-  gap: 20px;
+  margin-left: 700px;
+  gap: 50px;
 `;
 const Menu = styled.div`
   width: 80px;

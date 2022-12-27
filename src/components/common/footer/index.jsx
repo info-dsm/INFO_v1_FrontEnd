@@ -4,9 +4,9 @@ const Footer = () => {
   const arr = [
     {
       title: "FrontEnd",
-      list: ["김정현", "김진건", "이동현", "임태곤", "최승우"],
+      list: ["김진건", "이동현"],
     },
-    { title: "BackEnd", list: ["김현석", "안진우", "이강혁"] },
+    { title: "BackEnd", list: ["안진우"] },
   ];
 
   return (
@@ -23,7 +23,7 @@ const Footer = () => {
                     <>
                       <>{list}</>
                       <br />
-                      <hr/>
+                      <hr />
                     </>
                   ))}
                 </>

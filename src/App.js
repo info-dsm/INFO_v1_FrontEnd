@@ -32,7 +32,7 @@ function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={true} />
+      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <BrowserRouter>
