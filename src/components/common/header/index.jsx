@@ -73,8 +73,8 @@ const MenuProps = styled.ul`
   width: 609px;
   height: 18px;
   display: flex;
-  margin-left: 500px;
-  gap: 20px;
+  margin-left: 700px;
+  gap: 50px;
 `;
 const Menu = styled.div`
   width: 80px;

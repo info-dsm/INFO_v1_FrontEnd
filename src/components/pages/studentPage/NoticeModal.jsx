@@ -5,10 +5,11 @@ import axios from "axios";
 // import {useAsync} from 'react-async';
 import { useQuery } from "@tanstack/react-query";
 import { BaseUrl } from "../../../export/base";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { initialNoticeDetail } from "../../../export/data";
 import { useState } from "react";
 import downLoadImg from "../../../images/download.png";
+import upLoadImg from "../../../images/upload.png";
 
 const PrtCategory = ({ Title }) => {
   return (
@@ -111,6 +112,23 @@ const NoticeModal = ({ datum, setNoticeID }) => {
     { title: "alternativeMilitaryPla", str: "병역특례" },
   ];
 
+  const [active, setActive] = useState(false);
+
+  const form = useRef(null);
+
+  const noticeSupport = () => {
+    const formData = new FormData(form.current);
+    axios({
+      url: BaseUrl + `/applies/${datum.id}`,
+      method: "POST",
+      header: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+      data: formData,
+    });
+  };
+
   return (
     <Background
       className="background"
@@ -185,6 +203,29 @@ const NoticeModal = ({ datum, setNoticeID }) => {
               </Tr>
             ))} */}
           </Table>
+          <Support ref={form}>
+            <label
+              for="resume"
+              style={
+                active
+                  ? {
+                      backgroundColor: `#3200c9`,
+                    }
+                  : {}
+              }
+            >
+              레주메 파일 제출
+              <img src={upLoadImg} alt="" />
+            </label>
+            <input
+              onChange={() => setActive(true)}
+              id="resume"
+              name="resume"
+              type="file"
+              accept=".pdf, .doc, .docx, .hwp"
+            />
+            <button onClick={() => noticeSupport()}>지원하기</button>
+          </Support>
           {/*회사정보*/}
           <WorkTitle>
             <PText Weight="700" Size="20px">
@@ -369,6 +410,36 @@ const NoticeModal = ({ datum, setNoticeID }) => {
 };
 
 export default NoticeModal;
+
+const Support = styled.form`
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  label,
+  button {
+    cursor: pointer;
+    padding: 10px;
+    font-weight: 700;
+    border-radius: 6px;
+    margin-top: 5px;
+    color: #fff;
+    background-color: ${(props) => props.theme.colors.blue};
+    display: flex;
+    align-items: center;
+    border: none;
+    img {
+      margin-left: 5px;
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+      filter: invert(100%);
+    }
+  }
+  input {
+    display: none;
+  }
+`;
 
 const DelBtn = styled.div`
   position: absolute;
