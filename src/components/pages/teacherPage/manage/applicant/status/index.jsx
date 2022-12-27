@@ -198,20 +198,19 @@ const StatusManageComponent = ({ props }) => {
       {status === "loading" ? (
         <>
           <Table>
-            <Ulbox></Ulbox>
+            <Ulbox>지원자가 없습니다.</Ulbox>
           </Table>
         </>
       ) : status === "error" ? (
         <>
           <Table>
-            <Ulbox></Ulbox>
+            <Ulbox>지원자가 없습니다.</Ulbox>
           </Table>
         </>
       ) : (
         <>
           <Table>
             <Ulbox>
-              {data === [] ? <></> : <></>}
               {data.map((user, i) => (
                 <Libox>
                   <Box>

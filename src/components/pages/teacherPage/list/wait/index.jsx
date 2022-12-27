@@ -148,7 +148,7 @@ const Wait = ({ path }) => {
               )}
             </Ulbox>
           </TableProps>
-          <Ul top={-300}>
+          <Ul top={-280}>
             <Li>
               <Button onClick={() => setCount(0)}>First Page</Button>
             </Li>
