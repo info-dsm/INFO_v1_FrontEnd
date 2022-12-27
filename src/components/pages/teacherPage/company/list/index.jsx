@@ -47,6 +47,7 @@ const ShowCompany = () => {
       }
       setArr(ad);
     }
+    window.scrollTo(0, 300);
   }, [count, data]);
   useEffect(() => {
     if (data?.last && data.totalPages - 1 > count) {
@@ -91,7 +92,7 @@ const ShowCompany = () => {
               {data.content.map((user, i) => (
                 <Libox onMouseDown={() => PreFetching(user.companyNumber)}>
                   <Box>
-                    <Title>{count * 5 + (i + 1)}</Title>
+                    <Title>{count * 8 + (i + 1)}</Title>
                     <ImgDiv>
                       <Img
                         src={
@@ -101,10 +102,9 @@ const ShowCompany = () => {
                         style={{ width: "50px", height: "50px" }}
                       />
                     </ImgDiv>
-                    <Category>
+                    <Category2>
                       <div>{user.companyName}</div>
-                      <div>회사명</div>
-                    </Category>
+                    </Category2>
                     <Category>
                       <div>email</div>
                       <div>{user.contactorEmail}</div>
@@ -302,10 +302,24 @@ const Category = styled.div`
     }
   }
 `;
+const Category2 = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  margin-right: 50px;
+  div {
+    width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font: 700 normal 24px "NanumGothic", sans-serif;
+    color: ${(props) => props.theme.colors.blue};
+  }
+`;
 const ButtonProps = styled.div`
   position: relative;
   border-radius: 100px;
-  left: 300px;
+  left: 200px;
   text-align: center;
   cursor: pointer;
   background-color: ${(props) => props.theme.colors.blue};
